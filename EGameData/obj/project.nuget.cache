@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kgx4ih7qus34WMhE84CqrDLSG26SCIeAq3nxJ1ZSW4YAXmtMf1jeJJg5WtC+cjUlTCWftI1HyA/u0LQs+aeWkw==",
+  "dgSpecHash": "AM3EjVqvVHm8X+qkteVxUwF3k9bk1Y2Orj5k1uLg8kvgSO8PsaQfLuX6ZvZQzikCl/I0+KOUuRJLrXuCxy4uXQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj",
   "expectedPackageFiles": [
@@ -14,7 +14,7 @@
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.entityframeworkcore.design\\5.0.0\\microsoft.entityframeworkcore.design.5.0.0.nupkg.sha512",
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.0\\microsoft.entityframeworkcore.relational.5.0.0.nupkg.sha512",
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\5.0.0\\microsoft.entityframeworkcore.sqlserver.5.0.0.nupkg.sha512",
-    "C:\\Users\\personal\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\5.0.0\\microsoft.entityframeworkcore.tools.5.0.0.nupkg.sha512",
+    "C:\\Users\\personal\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\3.1.7\\microsoft.entityframeworkcore.tools.3.1.7.nupkg.sha512",
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.extensions.caching.memory\\5.0.0\\microsoft.extensions.caching.memory.5.0.0.nupkg.sha512",
     "C:\\Users\\personal\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",

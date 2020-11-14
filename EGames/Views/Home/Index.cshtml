@@ -1,8 +1,384 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>E-Games Hub</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="EGameshub, egames, hub, egameshub " />
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<link href="~/assets/homepage/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link rel="stylesheet" href="~/assets/homepage/css/style.css" type="text/css" media="all" />
+		<link href="~/assets/homepage/css/font-awesome.css" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css">
+		<script src="~/assets/homepage/js/jquery-1.11.1.min.js"></script>
+		<script src="~/assets/homepage/js/bootstrap.js"></script>
+		<link rel="stylesheet" href="~/assets/homepage/css/lightbox.css">
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+		</script>
+    </head>
+    <body>
+        <!-- banner -->
+        <div class="banner">
+            <div class="banner-dot">
+                <!-- header-top -->
+                <div class="header-top">
+                    <div class="container">
+                        <div class="header-left">
+                            <h1><a href="index.html">E-GAMES  <span>HUB</span></a></h1>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!-- //header-top -->
+                <!--header-->
+                <div class="header">
+                    <div class="container">
+                        <nav class="navbar navbar-default">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <!--navbar-header-->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="index.html" class="active">Home</a></li>
+                                    <li><a href="#about" class="scroll">About</a></li>
+                                    <li><a href="#services" class="scroll">Services</a></li>
+                                    <li><a href="#gallery" class="scroll">Gallery</a></li>
+                                    <li><a href="#team" class="scroll">Team</a></li>
+                                    <li><a href="#contact" class="scroll">Contact Us</a></li>
+                                </ul>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!--//header-->
+                <!-- banner-info -->
+                <div class="banner-info">
+                    <div class="container">
+                        <div class="w3layouts-text">
+                            <h3>Game Over</h3>
+                            <label></label>
+                            <h2>E-Games Hub</h2>
+                            <button class='btn btn-primary'>Register</button>
+                            <button class='btn btn-secondary'>Login</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- //banner-info -->
+            </div>
+        </div>
+        <!-- //banner -->
+        <!-- welcome -->
+        <div class="welcome" id="about">
+            <div class="container">
+                <div class="col-md-6 agileits_welcome_grid_left">
+                    <h3>About Us!</h3>
+                    <p>E-Games Hub is a platform where users from all over the world can play games and kill boredom anytime of the day. <i>We also have an nice feature where users can earn money from this games.</i></p>
+                </div>
+                <div class="col-md-6 agileits_welcome_grid_right">
+                    <img src="~/assets/homepage/images/1.jpg" alt=" " class="img-responsive" />
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <!-- //welcome -->
+        <!-- services -->
+        <div class="services" id="services">
+            <div class="container">
+                <h3>Services</h3>
+                <div class="agileinfo-services-grids">
+                    <div class="col-md-6 services-grid">
+                        <div class="services-grid1">
+                            <div class="col-md-4 services-grid-right agile-services-grid-right">
+                                <div class="services-grid-right-grid hvr-radial-out">
+                                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 services-grid-left agile-services-grid-left">
+                                <h4>It's for everyone</h4>
+                                <p>We have different games suitable for all ages to play and have fun.</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="services-grid1">
+                            <div class="col-md-4 services-grid-right agile-services-grid-right">
+                                <div class="services-grid-right-grid hvr-radial-out">
+                                    <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 services-grid-left agile-services-grid-left">
+                                <h4>Earn Cash Prizes</h4>
+                                <p>Apart from killing boredom and having fun, we added incentives to make the thrill of playing much more fun.</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 services-grid">
+                        <div class="services-grid1">
+                            <div class="col-md-4 services-grid-right">
+                                <div class="services-grid-right-grid hvr-radial-out">
+                                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 services-grid-left services-grid-left1">
+                                <h4>Games Available</h4>
+                                <p>We keep adding new games each week, and also adding much more difficult yet fun levels and stages.</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="services-grid1">
+                            <div class="col-md-4 services-grid-right">
+                                <div class="services-grid-right-grid hvr-radial-out">
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 services-grid-left services-grid-left1">
+                                <h4>Play The Game</h4>
+                                <p>You can play this games from anywhere and any device, like from the comfort of your house.</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <!-- //services -->
+        <!-- gallery -->
+        <div id="gallery" class="gallery">
+            <div class="container">
+                <h3>E-Games Hub Gallery</h3>
+                <div id="jzBox" class="jzBox">
+                    <div id="jzBoxNextBig"></div>
+                    <div id="jzBoxPrevBig"></div>
+                    <img src="#" id="jzBoxTargetImg" alt="">
+                    <div id="jzBoxBottom">
+                        <div id="jzBoxTitle"></div>
+                        <div id="jzBoxCounter"></div>
+                        <span id="jzBoxMoreItems">
+                            <i class="glyphicon glyphicon-menu-left" id="jzBoxPrev"></i> &nbsp;
+                            <i class="glyphicon glyphicon-menu-right" id="jzBoxNext"></i> &nbsp;
+                        </span>
+                        <i class="glyphicon glyphicon-remove-circle" id="jzBoxClose"></i>
+                    </div>
+                </div>
+                <div class="w3ls-gallery-grids">
+                    <div class="col-sm-4 col-xs-6 gallery-grid">
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g1.jpg" class="jzBoxLink item-hover" title="Protect The Galaxy.">
+                                <img src="~/assets/homepage/images/g1.jpg" class="img-responsive" alt=" " />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g2.jpg" class="jzBoxLink item-hover" title="Tomb Raider.">
+                                <img src="~/assets/homepage/images/g2.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g7.jpg" class="jzBoxLink item-hover" title="Solve That Puzzle (Play % Earn).">
+                                <img src="~/assets/homepage/images/g7.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-6 gallery-grid">
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g3.jpg" class="jzBoxLink item-hover" title="Bingo Game (Play % Earn).">
+                                <img src="~/assets/homepage/images/g3.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g4.jpg" class="jzBoxLink item-hover" title="Assassin Spree.">
+                                <img src="~/assets/homepage/images/g4.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12 gallery-grid">
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g6.jpg" class="jzBoxLink item-hover" title="Catch That Lady.">
+                                <img src="~/assets/homepage/images/g6.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g8.jpg" class="jzBoxLink item-hover" title="Save The Nation.">
+                                <img src="~/assets/homepage/images/g8.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wpf-demo-4">
+                            <a href="~/assets/homepage/images/g5.jpg" class="jzBoxLink item-hover" title="Guessing Game (Guess & Win).">
+                                <img src="~/assets/homepage/images/g5.jpg" alt=" " class="img-responsive" />
+                                <div class="view-caption">
+                                    <p>Click Here</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <script src="~/assets/homepage/js/jzBox.js"></script>
+            </div>
+        </div>
+        <!-- //gallery -->
+        <!-- testimonial -->
+        <div class="testimonial jarallax">
+            <div class="w3-agileits-testimonial">
+                <div class="container">
+                    <h3>Testimonial</h3>
+                    <div class="wthree-testimonial-grid">
+                        <div class="slider">
+                            <div class="callbacks_container">
+                                <ul class="rslides" id="slider3">
+                                    <li>
+                                        <div class="testimonial-top">
+                                            <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                            <p>Ever since I was young, have always wanted to provide a platform where people who are bored can make use of to kill their boredom and have fun and also giving people the chance to earn a little cash while having fun.</p>
+                                            <h5>Don-Fal <span>- Founder</span></h5>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="testimonial-top">
+                                            <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                            <p>Building this app was so exciting, knowing that by the time we are done, we will be able to provide a platfrom where people can play and earn.</p>
+                                            <h5>Eskayo Fina Lorenzo <span>- CEO</span></h5>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <script>
+                                // You can also use "$(window).load(function() {"
+                                $(function () {
+                                    // Slideshow 4
+                                    $("#slider3").responsiveSlides({
+                                        auto: true,
+                                        pager: false,
+                                        nav: true,
+                                        speed: 500,
+                                        namespace: "callbacks",
+                                        before: function () {
+                                            $('.events').append("<li>before event fired.</li>");
+                                        },
+                                        after: function () {
+                                            $('.events').append("<li>after event fired.</li>");
+                                        }
+                                    });
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+                                });
+                            </script>
+                            <!--banner Slider starts Here-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //testimonial -->
+        <!-- team -->
+        <div class="team" id="team">
+            <div class="container">
+                <h3>Our Team</h3>
+                <h4>A group of software engineers, business men, and designers with the aim of providing a platform where everyone can have fun and earn a little cash in the process.</h4>
+            </div>
+        </div>
+        <!-- //team -->
+        <!-- subscribe -->
+        <div class="jarallax  wthree-subscribe">
+            <div class="w3-agileits-testimonial subscribe-bg">
+                <div class="container">
+                    <h3>Subscribe with Us</h3>
+                    <div class="w3-agileits-subscribe-form">
+                        <form action="#" method="post">
+                            <input type="text" placeholder="Email" name="Email" required="">
+                            <button class="btn1">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //subscribe -->
+        <!-- contact -->
+        <div class="contact" id="contact">
+            <div class="container">
+                <h3>Contact Us</h3>
+                <div class="contact-grids">
+                    <div class="col-md-6 w3ls-address">
+                        <h4>Get in touch with us</h4>
+                        <p class="cnt-p">Feel free to contact us with new ideas of games you would love to be added on the platform and also for any complaints that you might have.</p>
+                        <p class="address">Online (E-GAMES HUB)</p>
+                        <p>Email : <a href="mailto:egameshub@gmail.com">egameshub@gmail.com</a></p>
+                    </div>
+                    <div class="col-md-6 w3l-contact-form">
+                        <form action="#" method="post">
+                            <input type="text" name="w3lName" placeholder="Name" required="">
+                            <input type="email" name="w3lSender" placeholder="Email" required="">
+                            <textarea placeholder="Message" name="w3lMessage" required=""></textarea>
+                            <input type="submit" value="SUBMIT">
+                        </form>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <!-- //contact -->
+        <!-- footer -->
+        <div class="agileits-w3layouts-footer">
+            <div class="container">
+                <div class="agile-copyright">
+                    <p>© 2020 E-GAMES HUB. All rights reserved</p>
+                </div>
+            </div>
+        </div>
+        <!-- //footer -->
+
+        <script src="~/assets/homepage/js/jarallax.js"></script>
+        <script type="text/javascript">
+            $('.jarallax').jarallax({
+                speed: 0.5,
+                imgWidth: 1366,
+                imgHeight: 768
+            })
+        </script>
+        <script src="~/assets/homepage/js/responsiveslides.min.js"></script>
+        <script type="text/javascript" src="~/assets/homepage/js/move-top.js"></script>
+        <script type="text/javascript" src="~/assets/homepage/js/easing.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $().UItoTop({ easingType: 'easeOutQuart' });
+            });
+        </script>
+    </body>
+</html>

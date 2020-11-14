@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGames", "EGames\EGames.csproj", "{E5BF5473-E2A6-406C-9230-5CFD8B70E8A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGameServices", "EGameServices\EGameServices.csproj", "{537A88F5-4F03-479E-8BF0-8B4A62006746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGamesServices", "EGameServices\EGamesServices.csproj", "{537A88F5-4F03-479E-8BF0-8B4A62006746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGameData", "EGameData\EGameData.csproj", "{360527FD-57FC-40F9-84AD-CE3400649EEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGamesData", "EGameData\EGamesData.csproj", "{360527FD-57FC-40F9-84AD-CE3400649EEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

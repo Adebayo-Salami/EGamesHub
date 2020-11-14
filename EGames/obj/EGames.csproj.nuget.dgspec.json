@@ -4,14 +4,14 @@
     "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj": {}
   },
   "projects": {
-    "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj": {
+    "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
-        "projectName": "EGames",
-        "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
+        "projectUniqueName": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj",
+        "projectName": "EGamesData",
+        "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj",
         "packagesPath": "C:\\Users\\personal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\obj\\",
+        "outputPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -42,6 +42,147 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj",
+        "projectName": "EGamesServices",
+        "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj",
+        "packagesPath": "C:\\Users\\personal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\personal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
+        "projectName": "EGames",
+        "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
+        "packagesPath": "C:\\Users\\personal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\personal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj": {
+                "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj"
+              },
+              "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj": {
+                "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[3.1.7, )"
@@ -52,17 +193,17 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.7, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.7, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.7, )"
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
