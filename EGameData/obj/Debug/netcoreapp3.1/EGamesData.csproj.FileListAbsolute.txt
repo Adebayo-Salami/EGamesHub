@@ -1,0 +1,8 @@
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\bin\Debug\netcoreapp3.1\EGamesData.deps.json
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\bin\Debug\netcoreapp3.1\EGamesData.dll
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\obj\Debug\netcoreapp3.1\EGamesData.csprojAssemblyReference.cache
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\obj\Debug\netcoreapp3.1\EGamesData.AssemblyInfoInputs.cache
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\obj\Debug\netcoreapp3.1\EGamesData.AssemblyInfo.cs
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\bin\Debug\netcoreapp3.1\EGamesData.runtimeconfig.json
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\bin\Debug\netcoreapp3.1\EGamesData.runtimeconfig.dev.json
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameData\obj\Debug\netcoreapp3.1\EGamesData.genruntimeconfig.cache
