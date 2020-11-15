@@ -1714,6 +1714,9 @@
       "EGamesServices/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "EGamesData": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/EGamesServices.dll": {}
         },
@@ -6235,6 +6238,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
             "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj": {
               "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj"
@@ -6253,6 +6257,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -6295,7 +6300,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

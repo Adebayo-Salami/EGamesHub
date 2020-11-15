@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using EGamesData.Interfaces;
+using EGamesServices;
 
 namespace EGames
 {
@@ -32,7 +34,12 @@ namespace EGames
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
-            services.AddDbContext<EGameData.EGamesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
+            services.AddDbContext<EGamesData.EGamesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
+
+            services.AddSingleton(Configuration);
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBingoService, BingoService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

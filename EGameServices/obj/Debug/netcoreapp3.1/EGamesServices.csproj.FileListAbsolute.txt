@@ -1,9 +1,12 @@
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.deps.json
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.dll
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.pdb
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesData.dll
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesData.pdb
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csprojAssemblyReference.cache
-C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CoreCompileInputs.cache
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.AssemblyInfoInputs.cache
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.AssemblyInfo.cs
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CoreCompileInputs.cache
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CopyComplete
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.dll
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.pdb

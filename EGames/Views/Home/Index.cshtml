@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model EGames.Models.LoginRegisterViewModel 
+
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>E-Games Hub</title>
@@ -24,6 +26,35 @@
 		</script>
     </head>
     <body>
+        @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
+        {
+            <script>
+                $(document).ready(function () {
+                    $("#modalDisplayMessage").modal('show');
+                });
+            </script>
+            <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!--Header-->
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <!--Body-->
+                        <div class="modal-body">
+                            <h3>@Model.DisplayMessage</h3>
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         <!-- banner -->
         <div class="banner">
             <div class="banner-dot">
@@ -31,7 +62,7 @@
                 <div class="header-top">
                     <div class="container">
                         <div class="header-left">
-                            <h1><a href="index.html">E-GAMES  <span>HUB</span></a></h1>
+                            <h1><a asp-area="" asp-controller="Home" asp-action="Index">E-GAMES  <span>HUB</span></a></h1>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -72,8 +103,96 @@
                             <h3>Game Over</h3>
                             <label></label>
                             <h2>E-Games Hub</h2>
-                            <button class='btn btn-primary'>Register</button>
-                            <button class='btn btn-secondary'>Login</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegister">Register</button>
+                            <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <!--Header-->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">Login Form</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <!--Body-->
+                                        <div class="modal-body">
+                                            <form method="post" asp-action="Register" asp-controller="Home">
+                                                <h2 class="sr-only">Registration Form</h2>
+                                                <span class="login100-form-title p-b-51">
+                                                    Register
+                                                </span>
+                                                <div asp-validation-summary="All" class="text-danger"></div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="email" name="email" placeholder="Email" asp-for="Email">
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" placeholder="Bank Name (E.g Firstbank)" name="BankName" asp-for="BankName">
+                                                    <span asp-validation-for="BankName" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" placeholder="Account Number" name="AccountNumber" asp-for="AccountNumber">
+                                                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="password" name="Password" placeholder="Password" asp-for="Password">
+                                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="password" name="ReTypePassword" placeholder="Password (repeat)" asp-for="ReTypePassword">
+                                                    <span asp-validation-for="ReTypePassword" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" asp-for="AgreeToLicense">I agree to the license terms.</label></div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--Footer-->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalLogin">Login</button>
+                            <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <!--Header-->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">Login Form</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <!--Body-->
+                                        <div class="modal-body">
+                                            <form method="post" asp-action="Login" asp-controller="Home">
+                                                <h2 class="sr-only">Login Form</h2>
+                                                <span class="login100-form-title p-b-51">
+                                                    Login
+                                                </span>
+                                                <div asp-validation-summary="All" class="text-danger"></div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="email" name="email" placeholder="Email" asp-for="Email">
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="password" name="password" placeholder="Password" asp-for="Password">
+                                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+                                                @*<a class="forgot" href="#">Forgot your email or password?</a>*@
+                                            </form>
+                                        </div>
+                                        <!--Footer-->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
