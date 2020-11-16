@@ -59,7 +59,8 @@ namespace EGames.Controllers
                 isWithdrawing = loggedUser.IsWithdrawing,
                 SuccessMessage = _successMessage,
                 ErrorMessage = _errorMessage,
-                getAllNotifications = new List<Notification>()
+                getAllNotifications = new List<Notification>(),
+                getAllGameHistories = new List<GameHistory>()
             };
 
             //Fetch all notifications
@@ -75,6 +76,8 @@ namespace EGames.Controllers
             {
                 vm.getAllNotifications = notifications;
             }
+
+            vm.getAllGameHistories = _userService.GetAllUsersGameHistories(loggedUser.Id);
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);

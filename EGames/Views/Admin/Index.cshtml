@@ -473,16 +473,19 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Name</th>
-                                                <th style="width: 60px">Price</th>
+                                                <th>Game Name</th>
+                                                <th style="width: 60px">Prize Won</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="f-500 c-cyan">4555</td>
-                                                <td>Samsung Galaxy Mega</td>
-                                                <td class="f-500 c-cyan">$921</td>
-                                            </tr>
+                                            @foreach (var history in Model.getAllGameHistories)
+                                            {
+                                                <tr>
+                                                    <td class="f-500 c-cyan">@history.Id</td>
+                                                    <td>@history.GameType.ToString()</td>
+                                                    <td class="f-500 c-cyan">@history.AmountWon</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

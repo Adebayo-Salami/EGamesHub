@@ -17,5 +17,6 @@ namespace EGamesData.Interfaces
         bool Withdraw(long userId, out string message);
         bool IsPaid(long userId, out string message);
         List<User> GetAllUsersPendingWIthdrawal();
+        List<GameHistory> GetAllUsersGameHistories(long userId);
     }
 }

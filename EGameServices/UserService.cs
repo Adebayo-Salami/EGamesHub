@@ -413,5 +413,10 @@ namespace EGamesServices
 
             return result;
         }
+
+        public List<GameHistory> GetAllUsersGameHistories(long userId)
+        {
+            return _context.GameHistories.Include(x => x.User).Where(x => x.User.Id == userId).ToList();
+        }
     }
 }
