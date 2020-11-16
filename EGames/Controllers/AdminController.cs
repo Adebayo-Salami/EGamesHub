@@ -387,9 +387,9 @@ namespace EGames.Controllers
                 return RedirectToAction("ColorBingo", "Admin");
             }
 
-            HttpContext.Session.SetString("DisplayMessage", "Color Bingo Game Ended Successfully");
+            HttpContext.Session.SetString("DisplayMessage", "Color Bingo Game Ended Successfully |" + message);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-            HttpContext.Session.SetString("DashboardSuccessMsg", "Color Bingo Game Ended Successfully");
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Color Bingo Game Ended Successfully |" + message);
             return RedirectToAction("ColorBingo", "Admin");
         }
 

@@ -99,13 +99,14 @@ namespace EGamesServices
                 user.BingoProfile.TotalAmountSpent = user.BingoProfile.TotalAmountSpent + amount;
                 user.BingoProfile.TotalAmountWon = !userWon ? user.BingoProfile.TotalAmountWon : ((0.4 * amount) + amount) + user.BingoProfile.TotalAmountWon;
                 user.BingoProfile.SelectedColor = String.Empty;
-                user.TotalGamesPlayed = user.TotalGamesPlayed++;
+                user.TotalGamesPlayed = user.TotalGamesPlayed + 1;
                 user.WithdrawableAmount = !userWon ? user.WithdrawableAmount : ((0.4 * amount) + amount) + user.WithdrawableAmount;
                 _context.GameHistories.Add(gameHistory);
                 _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(user);
                 _context.Bingos.Update(user.BingoProfile);
                 _context.SaveChanges();
+                message = !userWon ? " Sorry, You lost!" : " Congrats!, you just won " + ((0.4 * amount) + amount);
                 result = true;
             }
             catch(Exception error)
