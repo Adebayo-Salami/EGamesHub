@@ -83,3 +83,4 @@ C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\EGames.dll
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\EGames.pdb
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\EGames.genruntimeconfig.cache
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ColorBingo.cshtml.g.cs

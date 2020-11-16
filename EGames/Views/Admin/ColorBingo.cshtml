@@ -1,4 +1,4 @@
-﻿@model EGames.Models.AdminDashboardViewModel
+﻿@model EGames.Models.AdminColorBingoViewModel
 
 <!DOCTYPE html>
 <html class="no-js" lang="">
@@ -264,14 +264,7 @@
                             <div class="website-traffic-ctn">
                                 <h2><span class="counter">@Model.WithdrawableAmount</span> Naira</h2>
                                 <p>Withdrawable Amount</p>
-                                @if (Model.isWithdrawing)
-                                {
-                                    <button class="btn btn-primary" disabled="disabled">Withdrawing...</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-primary">Withdraw</button>
-                                }
+                                <button class="btn btn-primary">Withdraw</button>
                                 <p>Pending Withdrawal: @Model.PendingWithdrawal</p>
                             </div>
                             <div class="sparkline-bar-stats4">2,4,8,4,5,7,4,7,3,5,7,5</div>
@@ -285,53 +278,51 @@
         <div class="sale-statistic-area">
             <div class="container">
                 <div class="row">
+                    <!-- Place Bingo Here-->
                     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
-                        <div class="sale-statistic-inner notika-shadow mg-tb-30">
-                            <div class="curved-inner-pro">
-                                <div class="curved-ctn">
-                                    <h2>User Profile Details</h2>
-                                    <p>Username: @Model.Username</p>
-                                    <p>Password: *******</p>
-                                    <p>Bank Name: @Model.BankName</p>
-                                    <p>Account Number: @Model.AccountNumber</p>
+                        @if (Model.IsPlaying)
+                        {
+                            <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                                <div class="col">
+                                    <div class="form-check">@Html.RadioButtonFor(m => m.Color, ColorBomb.FirstColor) <div style="background-color:@Model.FirstColor; border-radius: 50%; width: 100px; height: 100px">@Model.FirstColor </div></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor) <div style="background-color:@Model.SecondColor; border-radius: 50%; width: 100px; height: 100px">@Model.SecondColor</div></div>
+                                </div>
+                                <br />
+                                <div class="m-b--35 font-bold">Staking Amount</div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Amount" id="amtStake">
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary py-3" onclick="location.href = '@Url.Action("EndColorBingoGame", "AdminPanel", new { amount = "__amtStake__" })'.replace('__amtStake__', document.getElementById('amtStake').value)">Play</button>
                                 </div>
                             </div>
-                            <div id="curved-line-chart" class="flot-chart-sts flot-chart"></div>
-                        </div>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("StartColorBingoGame", "AdminPanel")'">Start Game</button>
+                        }
+
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
                         <div class="statistic-right-area notika-shadow mg-tb-30 sm-res-mg-t-0">
                             <div class="past-day-statis">
-                                <h2>For The Past 30 Days</h2>
-                                <p>Activities Rate on The E-Games Hub Platform.</p>
-                            </div>
-                            <div class="dash-widget-visits"></div>
-                            <div class="past-statistic-an">
-                                <div class="past-statistic-ctn">
-                                    <h3><span class="counter">3,20,000</span></h3>
-                                    <p>Page Views</p>
-                                </div>
-                                <div class="past-statistic-graph">
-                                    <div class="stats-bar"></div>
-                                </div>
-                            </div>
-                            <div class="past-statistic-an">
-                                <div class="past-statistic-ctn">
-                                    <h3><span class="counter">1,03,000</span></h3>
-                                    <p>Total Clicks</p>
-                                </div>
-                                <div class="past-statistic-graph">
-                                    <div class="stats-line"></div>
-                                </div>
-                            </div>
-                            <div class="past-statistic-an">
-                                <div class="past-statistic-ctn">
-                                    <h3><span class="counter">24,00,000</span></h3>
-                                    <p>Site Visitors</p>
-                                </div>
-                                <div class="past-statistic-graph">
-                                    <div class="stats-bar-2"></div>
-                                </div>
+                                <h2>Rules Of The Game</h2>
+                                <ul>
+                                    <li>-Click on Start Game</li>
+                                    <li>-Two colors will appear on your dashboard</li>
+                                    <li>-Select the color you wish to pick</li>
+                                    <li>-Stake an amount, any amount you want</li>
+                                    <li>-Click on play</li>
+                                    <li>-The system pick a lucky color at random</li>
+                                    <li>-If the color picked by the system is the same with yours</li>
+                                    <li>-You get 40% of the amount staked plus the amount staked as a cash prize</li>
+                                    <li>-This cash prize is added to your withdrawable balance</li>
+                                    <li>-You can withdraw anytime</li>
+                                    <li>-Minimum withdrawal is 3,000 Naira</li>
+                                    <li>-You can play as much time as you want</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -339,112 +330,7 @@
             </div>
         </div>
         <!-- End Sale Statistic area-->
-        <!-- Start Email Statistic area-->
-        <div class="notika-email-post-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <div class="email-statis-inner notika-shadow">
-                            <div class="email-ctn-round">
-                                <div class="email-rdn-hd">
-                                    <h2>Game Statistics</h2>
-                                </div>
-                                <div class="email-statis-wrap">
-                                    <div class="email-round-nock">
-                                        <input type="text" class="knob" value="0" data-rel="1" data-linecap="round" data-width="130" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true">
-                                    </div>
-                                    <div class="email-ctn-nock">
-                                        <p>Total Games Available</p>
-                                    </div>
-                                </div>
-                                <div class="email-round-gp">
-                                    <div class="email-round-pro">
-                                        <div class="email-signle-gp">
-                                            <input type="text" class="knob" value="0" data-rel="100" data-linecap="round" data-width="90" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
-                                        </div>
-                                        <div class="email-ctn-nock">
-                                            <p>Color Bingo Game</p>
-                                        </div>
-                                    </div>
-                                    <div class="email-round-pro">
-                                        <div class="email-signle-gp">
-                                            <input type="text" class="knob" value="0" data-rel="0" data-linecap="round" data-width="90" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
-                                        </div>
-                                        <div class="email-ctn-nock">
-                                            <p>Guessing Game</p>
-                                        </div>
-                                    </div>
-                                    <div class="email-round-pro sm-res-ds-n lg-res-mg-bl">
-                                        <div class="email-signle-gp">
-                                            <input type="text" class="knob" value="0" data-rel="0" data-linecap="round" data-width="90" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
-                                        </div>
-                                        <div class="email-ctn-nock">
-                                            <p>Puzzle Game</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
-                            <div class="recent-post-ctn">
-                                <div class="recent-post-title">
-                                    <h2>Notifications</h2>
-                                </div>
-                            </div>
-                            <div class="recent-post-items">
-                                <div class="recent-post-signle rct-pt-mg-wp">
-                                    @foreach (var item in Model.Notifications)
-                                     {
-                                        <div class="recent-post-flex">
-                                            <div class="recent-post-img">
-                                                <img src="~/assets/admin/img/post/2.jpg" alt="" />
-                                            </div>
-                                            <div class="recent-post-it-ctn">
-                                                <h2>Admin</h2>
-                                                <p>@item.Value</p>
-                                            </div>
-                                        </div>
-                                     }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <div class="recent-items-wp notika-shadow sm-res-mg-t-30">
-                            <div class="rc-it-ltd">
-                                <div class="recent-items-ctn">
-                                    <div class="recent-items-title">
-                                        <h2>Game History</h2>
-                                    </div>
-                                </div>
-                                <div class="recent-items-inn">
-                                    <table class="table table-inner table-vmiddle">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th style="width: 60px">Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="f-500 c-cyan">4555</td>
-                                                <td>Samsung Galaxy Mega</td>
-                                                <td class="f-500 c-cyan">$921</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div id="recent-items-chart" class="flot-chart-items flot-chart vt-ct-it tb-rc-it-res"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Email Statistic area-->
+
         <!-- Start Footer area-->
         <div class="footer-copyright-area">
             <div class="container">

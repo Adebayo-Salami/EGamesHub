@@ -25,14 +25,61 @@ namespace EGamesServices
             _configuration = configuration;
         }
 
-        public bool EndGame(long bingoId, string selectedColors, out string message)
+        public bool EndGame(long bingoId, double amount, string selectedColor, out string message)
         {
             throw new NotImplementedException();
         }
 
         public bool StartGame(long bingoId, out string message)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            message = String.Empty;
+            List<string> selectedColors = new List<string>();
+
+            try
+            {
+                if(bingoId <= 0)
+                {
+                    message = "Invalid ID";
+                    return false;
+                }
+
+                Bingo bingoProfile = _context.Bingos.FirstOrDefault(x => x.Id == bingoId);
+                if(bingoProfile == null)
+                {
+                    message = "Bingo Profile Does not exist";
+                    return false;
+                }
+
+                Random rnd = new Random();
+                List<string> colorsToPickFrom = new List<string>()
+                {
+                    "red",
+                    "green",
+                    "yellow",
+                    "white",
+                    "pink",
+                    "violet",
+                    "lightblue",
+                    "purple",
+                    "orange",
+                    "black"
+                };
+
+                selectedColors = colorsToPickFrom.OrderBy(x => rnd.Next()).Take(2).ToList();
+                bingoProfile.IsPlaying = true;
+                bingoProfile.AvailableOptions = string.Join(";", selectedColors);
+                _context.Bingos.Update(bingoProfile);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception err)
+            {
+                message = err.Message;
+                result = false;
+            }
+
+            return result;
         }
     }
 }
