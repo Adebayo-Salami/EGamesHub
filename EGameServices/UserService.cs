@@ -100,7 +100,6 @@ namespace EGamesServices
                     BankName = bankName,
                     BingoProfile = new Bingo()
                     {
-                        AmountSpentToday = 0,
                         TotalAmountSpent = 0,
                     },
                 };
@@ -303,7 +302,8 @@ namespace EGamesServices
                     UserFunded = userFunded,
                     FundedBy = fundedBy,
                     AmountFunded = amount,
-                    DateFunded = DateTime.Now
+                    DateFunded = DateTime.Now,
+                    Narration = "Funding User " + userFunded.EmailAddress + " with " + amount + " by " + fundedBy.EmailAddress
                 };
                 _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(userFunded);
@@ -313,6 +313,101 @@ namespace EGamesServices
             catch(Exception err)
             {
                 message = err.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool Withdraw(long userId, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if(userId <= 0)
+                {
+                    message = "Invalid ID";
+                    return false;
+                }
+
+                User user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.Id == userId);
+                if(user == null)
+                {
+                    message = "User does not exist";
+                    return false;
+                }
+
+                if(user.WithdrawableAmount <= 3000)
+                {
+                    message = "Minimum amount that can be withdrawn at a time is 3,000 Naira";
+                    return false;
+                }
+
+                if(user.PendingWithdrawalAmount > 0)
+                {
+                    message = "User currently has a pending withdrawal";
+                    return false;
+                }
+
+                user.PendingWithdrawalAmount = user.WithdrawableAmount;
+                user.WithdrawableAmount = 0;
+                user.IsWithdrawing = true;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch(Exception error)
+            {
+                message = error.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public List<User> GetAllUsersPendingWIthdrawal()
+        {
+            return _context.Users.Include(x => x.BingoProfile).Where(x => x.IsWithdrawing == true).ToList();
+        }
+
+        public bool IsPaid(long userId, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if(userId <= 0)
+                {
+                    message = "Invalid User ID";
+                    return false;
+                }
+
+                User user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.Id == userId);
+                if(user == null)
+                {
+                    message = "User does not exist";
+                    return false;
+                }
+
+                if(user.PendingWithdrawalAmount <= 0)
+                {
+                    message = "Invalid Pending withdrawal amount, Requires investigation.";
+                    return false;
+                }
+
+                user.TotalAmountWon = user.TotalAmountWon + user.PendingWithdrawalAmount;
+                user.PendingWithdrawalAmount = 0;
+                user.IsWithdrawing = false;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch(Exception error)
+            {
+                message = error.Message;
                 result = false;
             }
 

@@ -4,14 +4,16 @@ using EGamesData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EGamesData.Migrations
 {
     [DbContext(typeof(EGamesContext))]
-    partial class EGamesContextModelSnapshot : ModelSnapshot
+    [Migration("20201116161101_renew")]
+    partial class renew
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,15 +70,10 @@ namespace EGamesData.Migrations
                     b.Property<string>("SelectedValues")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("WinningValues")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("GameHistories");
                 });
@@ -189,15 +186,6 @@ namespace EGamesData.Migrations
                     b.HasIndex("BingoProfileId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EGamesData.Models.GameHistory", b =>
-                {
-                    b.HasOne("EGamesData.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EGamesData.Models.TransactionHistory", b =>

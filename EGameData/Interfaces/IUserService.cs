@@ -14,5 +14,8 @@ namespace EGamesData.Interfaces
         bool CheckUserAuthentication(long userId, string authenticationToken, out User loggedUser);
         bool LogoutUser(User user, out string message);
         bool FundUserAccount(User fundedBy, User userFunded, double amount, out string message);
+        bool Withdraw(long userId, out string message);
+        bool IsPaid(long userId, out string message);
+        List<User> GetAllUsersPendingWIthdrawal();
     }
 }

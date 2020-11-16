@@ -6,7 +6,7 @@ namespace EGamesData.Models
 {
     public enum GameType
     {
-        Bingo,
+        ColorBingo,
         GuessingGame
     }
 }

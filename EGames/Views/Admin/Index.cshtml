@@ -30,34 +30,35 @@
 
     <body>
         @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
-         {
+        {
             <script type="text/javascript">
                 $(window).on('load', function () {
                     $('#modalDisplayMessage').modal('show');
                 });
+                alert(@Model.DisplayMessage)
             </script>
-         }
+        }
         <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <!--Header-->
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Alert</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <!--Body-->
-                        <div class="modal-body">
-                            <h3>@Model.DisplayMessage</h3>
-                        </div>
-                        <!--Footer-->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                        </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <h3>@Model.DisplayMessage</h3>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+        </div>
         <div class="header-top-area">
             <div class="container">
                 <div class="row">
@@ -118,6 +119,7 @@
                                             <a data-toggle="collapse" data-target="#Charts" href="#">Admin</a>
                                             <ul class="collapse dropdown-header-top">
                                                 <li><a data-toggle="modal" data-target="#modalFundWallet">Fund Wallet</a></li>
+                                                <li><a data-toggle="modal" data-target="#modalAddNotification">Add Notification</a></li>
                                             </ul>
                                         </li>
                                     }
@@ -174,6 +176,35 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalAddNotification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Add Notification</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form method="post" asp-action="AddNotification" asp-controller="Admin">
+                            <h2 class="sr-only">Add New Notification</h2>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="Message" placeholder="Message" asp-for="Message">
+                                <span asp-validation-for="Message" class="text-danger"></span>
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Add Notification</button></div>
+                        </form>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Mobile Menu end -->
         <!-- Main Menu area start-->
         <div class="main-menu-area mg-tb-40">
@@ -182,11 +213,11 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                             @if (Model.IsAdmin)
-                             {
+                            {
                                 <li>
                                     <a data-toggle="tab" href="#admin"><i class="notika-icon notika-mail"></i> Admin</a>
                                 </li>
-                             }
+                            }
                             <li class="active">
                                 <a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i> Home</a>
                             </li>
@@ -197,12 +228,11 @@
                         <div class="tab-content custom-menu-content">
                             <div id="admin" class="tab-pane notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
-                                    <li>
-                                        @if (Model.IsAdmin)
-                                        {
-                                            <a data-toggle="modal" data-target="#modalFundWallet">Fund Wallet</a>
-                                        }
-                                    </li>
+                                    @if (Model.IsAdmin)
+                                    {
+                                        <li><a data-toggle="modal" data-target="#modalFundWallet">Fund Wallet</a></li>
+                                        <li><a data-toggle="modal" data-target="#modalAddNotification">Add Notification</a></li>
+                                    }
                                 </ul>
                             </div>
                             <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
@@ -270,7 +300,7 @@
                                 }
                                 else
                                 {
-                                    <button class="btn btn-primary">Withdraw</button>
+                                    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Withdraw", "Admin")'">Withdraw</button>
                                 }
                                 <p>Pending Withdrawal: @Model.PendingWithdrawal</p>
                             </div>
@@ -284,6 +314,8 @@
         <!-- Start Sale Statistic area-->
         <div class="sale-statistic-area">
             <div class="container">
+                <h3 style="color:red; font-size:medium">@Model.ErrorMessage</h3>
+                <h3 style="color:green; font-size:medium">@Model.SuccessMessage</h3>
                 <div class="row">
                     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
                         <div class="sale-statistic-inner notika-shadow mg-tb-30">
@@ -395,18 +427,35 @@
                             </div>
                             <div class="recent-post-items">
                                 <div class="recent-post-signle rct-pt-mg-wp">
-                                    @foreach (var item in Model.Notifications)
-                                     {
-                                        <div class="recent-post-flex">
-                                            <div class="recent-post-img">
-                                                <img src="~/assets/admin/img/post/2.jpg" alt="" />
-                                            </div>
-                                            <div class="recent-post-it-ctn">
-                                                <h2>Admin</h2>
-                                                <p>@item.Value</p>
-                                            </div>
-                                        </div>
-                                     }
+                                    <div class="body table-responsive">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date Posted</th>
+                                                    <th>Message</th>
+                                                    <th>Posted By</th>
+                                                    @if (Model.IsAdmin)
+                                                    {
+                                                        <th></th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var notification in Model.getAllNotifications)
+                                                {
+                                                    <tr>
+                                                        <td>@notification.DatePosted</td>
+                                                        <td>@notification.Message</td>
+                                                        <td>Admin</td>
+                                                        @if (Model.IsAdmin)
+                                                        {
+                                                            <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveNotification", "Admin", new { notificationID = notification.Id })'" /></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

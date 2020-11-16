@@ -13,7 +13,7 @@ namespace EGames.Models
         public double TotalAmountWon { get; set; }
         public double WithdrawableAmount { get; set; }
         public double PendingWithdrawal { get; set; }
-        public Dictionary<DateTime, string> Notifications { get; set; }
+        public Dictionary<long, string> Notifications { get; set; }
         public string BankName { get; set; }
         public string AccountNumber { get; set; }
         public bool IsAdmin { get; set; }
@@ -21,5 +21,9 @@ namespace EGames.Models
         public double Amount { get; set; }
         public string DisplayMessage { get; set; }
         public bool isWithdrawing { get; set; }
+        public string SuccessMessage { get; set; }
+        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
+        public List<EGamesData.Models.Notification> getAllNotifications { get; set; }
     }
 }

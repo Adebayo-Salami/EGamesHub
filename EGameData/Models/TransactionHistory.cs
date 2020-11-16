@@ -11,5 +11,6 @@ namespace EGamesData.Models
         public User UserFunded { get; set; }
         public double AmountFunded { get; set; }
         public DateTime DateFunded { get; set; }
+        public string Narration { get; set; }
     }
 }
