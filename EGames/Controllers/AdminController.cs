@@ -163,7 +163,7 @@ namespace EGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult StartColorBingoGame(bool isUltimate)
+        public IActionResult StartColorBingoGame()
         {
             //Check Authentication
             string Id = HttpContext.Session.GetString("UserID");
