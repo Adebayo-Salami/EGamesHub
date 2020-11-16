@@ -226,7 +226,7 @@
                             </li>
                         </ul>
                         <div class="tab-content custom-menu-content">
-                            <div id="admin" class="tab-pane in active notika-tab-menu-bg animated flipInX">
+                            <div id="admin" class="tab-pane notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     @if (Model.IsAdmin)
                                     {
@@ -245,7 +245,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div id="mailbox" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <div id="mailbox" class="tab-pane in active notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li>
                                         <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
@@ -321,30 +321,37 @@
                     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
                         @if (Model.IsPlaying)
                         {
-                            <div class="sale-statistic-inner notika-shadow mg-tb-30">
-                                <div class="col">
-                                    <div class="form-check">
-                                        @*@Html.RadioButtonFor(m => m.Color, ColorBomb.FirstColor)*@
-                                        <input type="radio" id="colorFirst" name="color" value="@Model.FirstColor">
-                                        <div style="background-color:@Model.FirstColor; border-radius: 50%; width: 100px; height: 100px">@Model.FirstColor </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-check">
-                                        @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
-                                        <input type="radio" id="colorSecond" name="color" value="@Model.SecondColor">
-                                        <div style="background-color:@Model.SecondColor; border-radius: 50%; width: 100px; height: 100px">@Model.SecondColor</div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="m-b--35 font-bold">Staking Amount</div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Amount" id="amtStake">
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary py-3" onclick="location.href = '@Url.Action("EndColorBingoGame", "Admin", new { amount = "__amtStake__", firstColorCheckBox = "__firstColor__", secondColorCheckBox = "__secondColor__" })'.replace('__amtStake__', document.getElementById('amtStake').value).replace('__firstColor__', document.getElementById('colorFirst').checked).replace('__secondColor__', document.getElementById('colorSecond').checked)">Play</button>
+                        <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                            <div class="col">
+                                <div class="form-check">
+                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.FirstColor)*@
+                                    <input type="radio" id="colorFirst" name="color" value="@Model.FirstColor">
+                                    <div style="background-color:@Model.FirstColor; border-radius: 50%; width: 100px; height: 100px">@Model.FirstColor </div>
                                 </div>
                             </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
+                                    <input type="radio" id="colorSecond" name="color" value="@Model.SecondColor">
+                                    <div style="background-color:@Model.SecondColor; border-radius: 50%; width: 100px; height: 100px">@Model.SecondColor</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
+                                    <input type="radio" id="colorThird" name="color" value="@Model.ThirdColor">
+                                    <div style="background-color:@Model.ThirdColor; border-radius: 50%; width: 100px; height: 100px">@Model.ThirdColor</div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="m-b--35 font-bold">Staking Amount</div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Amount" id="amtStake">
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary py-3" onclick="location.href = '@Url.Action("EndColorBingoGame", "Admin", new { amount = "__amtStake__", firstColorCheckBox = "__firstColor__", secondColorCheckBox = "__secondColor__", thirdColorCheckBox = "__thirdColor__" })'.replace('__amtStake__', document.getElementById('amtStake').value).replace('__firstColor__', document.getElementById('colorFirst').checked).replace('__secondColor__', document.getElementById('colorSecond').checked).replace('__thirdColor__', document.getElementById('colorThird').checked)">Play</button>
+                            </div>
+                        </div>
                         }
                         else
                         {

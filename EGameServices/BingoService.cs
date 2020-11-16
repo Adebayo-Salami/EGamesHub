@@ -159,7 +159,7 @@ namespace EGamesServices
                     "black"
                 };
 
-                selectedColors = colorsToPickFrom.OrderBy(x => rnd.Next()).Take(2).ToList();
+                selectedColors = colorsToPickFrom.OrderBy(x => rnd.Next()).Take(3).ToList();
                 bingoProfile.IsPlaying = true;
                 bingoProfile.AvailableOptions = string.Join(";", selectedColors);
                 _context.Bingos.Update(bingoProfile);

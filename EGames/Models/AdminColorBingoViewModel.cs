@@ -23,6 +23,7 @@ namespace EGames.Models
         public string FirstColor { get; set; }
         public string Message { get; set; }
         public string SecondColor { get; set; }
+        public string ThirdColor { get; set; }
         public bool IsPlaying { get; set; }
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
@@ -31,6 +32,7 @@ namespace EGames.Models
     public enum ColorBomb
     {
         FirstColor,
-        SecondColor
+        SecondColor,
+        ThirdColor
     }
 }
