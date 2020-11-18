@@ -61,7 +61,7 @@
         </div>
         <div class="header-top-area">
             <div class="container">
-                <div class="row">
+                @*<div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="logo-area">
                             <a asp-area="" asp-controller="Admin" asp-action="Index"><img src="~/assets/admin/img/logo/logo_new.png" alt="" width="30" height="30" /></a>
@@ -101,7 +101,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
         <!-- End Header Top Area -->
@@ -134,6 +134,7 @@
                                         <a data-toggle="collapse" data-target="#demoevent" href="#">Games</a>
                                         <ul id="demoevent" class="collapse dropdown-header-top">
                                             <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
+                                            <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -249,6 +250,9 @@
                                 <ul class="notika-main-menu-dropdown">
                                     <li>
                                         <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
                                     </li>
                                 </ul>
                             </div>

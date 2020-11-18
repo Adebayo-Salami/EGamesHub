@@ -46,6 +46,32 @@ namespace EGamesData.Migrations
                     b.ToTable("Bingos");
                 });
 
+            modelBuilder.Entity("EGamesData.Models.BrainGameQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("AddedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Answers")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BrainGameCategory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedById");
+
+                    b.ToTable("BrainGameQuestions");
+                });
+
             modelBuilder.Entity("EGamesData.Models.GameHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -140,6 +166,9 @@ namespace EGamesData.Migrations
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("AmtUsedToPlayBrainGame")
+                        .HasColumnType("float");
+
                     b.Property<string>("AuthenticationToken")
                         .HasColumnType("nvarchar(max)");
 
@@ -189,6 +218,15 @@ namespace EGamesData.Migrations
                     b.HasIndex("BingoProfileId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EGamesData.Models.BrainGameQuestion", b =>
+                {
+                    b.HasOne("EGamesData.Models.User", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("AddedById");
+
+                    b.Navigation("AddedBy");
                 });
 
             modelBuilder.Entity("EGamesData.Models.GameHistory", b =>

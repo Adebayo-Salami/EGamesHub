@@ -12,5 +12,6 @@ namespace EGamesData
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<TransactionHistory> TransactionHistories { get; set; }
         public DbSet<GameHistory> GameHistories { get; set; }
+        public DbSet<BrainGameQuestion> BrainGameQuestions { get; set; }
     }
 }

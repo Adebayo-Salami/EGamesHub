@@ -147,6 +147,40 @@ namespace EGames.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        public IActionResult BrainGame(bool isPlaying = false, double stakeAmt = 0)
+        {
+            string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
+            string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
+            string _successMessage = HttpContext.Session.GetString("DashboardSuccessMsg");
+
+            //Check Authentication
+            string userId = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(userId), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            AdminBrainGameViewModel vm = new AdminBrainGameViewModel()
+            {
+                IsAdmin = loggedUser.isAdmin,
+                DisplayMessage = _displayMessage,
+                IsPlaying = isPlaying,
+                SuccessMessage = _successMessage,
+                ErrorMessage = _errorMessage
+            };
+
+            //Continue from here
+            //Set up the UI for Brain Game (Stake amount, game category,End Game)
+
+            HttpContext.Session.SetString("DisplayMessage", String.Empty);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            return View(vm);
+        }
+
         public IActionResult ColorBingo()
         {
             string _displayMessage = HttpContext.Session.GetString("DisplayMessage");

@@ -7,6 +7,14 @@ namespace EGamesData.Models
     public enum GameType
     {
         ColorBingo,
-        GuessingGame
+        GuessingGame,
+        BrainGame
+    }
+
+    public enum BrainGameCategory
+    {
+        Music,
+        Football,
+        Movies
     }
 }

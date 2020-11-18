@@ -27,5 +27,6 @@ namespace EGamesData.Models
         public double WithdrawableAmount { get; set; }
         public bool IsWithdrawing { get; set; }
         public Bingo BingoProfile { get; set; }
+        public double AmtUsedToPlayBrainGame { get; set; }
     }
 }

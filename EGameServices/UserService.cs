@@ -90,6 +90,12 @@ namespace EGamesServices
                     return false;
                 }
 
+                if (CheckIfEmailExists(email))
+                {
+                    message = "User with this Email already exists";
+                    return false;
+                }
+
                 User userRegistering = new User()
                 {
                     EmailAddress = email,
@@ -416,7 +422,7 @@ namespace EGamesServices
 
         public List<GameHistory> GetAllUsersGameHistories(long userId)
         {
-            return _context.GameHistories.Include(x => x.User).Where(x => x.User.Id == userId).ToList();
+            return _context.GameHistories.Include(x => x.User).Where(x => x.User.Id == userId).OrderByDescending(x => x.Id).ToList();
         }
     }
 }
