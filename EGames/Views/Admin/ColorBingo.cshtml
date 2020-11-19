@@ -60,49 +60,6 @@
             </div>
         </div>
         <div class="header-top-area">
-            @*<div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="logo-area">
-                            <a asp-area="" asp-controller="Admin" asp-action="Index"><img src="~/assets/admin/img/logo/logo_new.png" alt="" width="30" height="30" /></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <div class="header-top-menu">
-                            <ul class="nav navbar-nav notika-top-nav">
-                                <li class="nav-item nc-al">
-                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-alarm"></i></span><div class="spinner4 spinner-4"></div><div class="ntd-ctn"><span>@Model.Notifications.Count</span></div></a>
-                                    <div role="menu" class="dropdown-menu message-dd notification-dd animated zoomIn">
-                                        <div class="hd-mg-tt">
-                                            <h2>Notification(s)</h2>
-                                        </div>
-                                        <div class="hd-message-info">
-                                            @foreach (var item in Model.Notifications)
-                                            {
-                                                <div class="hd-message-sn">
-                                                    <div class="hd-message-img">
-                                                        <img src="~/assets/admin/img/post/1.jpg" alt="" />
-                                                    </div>
-                                                    <div class="hd-mg-ctn">
-                                                        <h3>Admin</h3>
-                                                        <p>@item.Value</p>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    Hi @Model.Username!
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Admin" asp-action="Logout" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="fa fa-sign-out"></i></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
         </div>
         <!-- End Header Top Area -->
         <!-- Mobile Menu start -->
@@ -118,8 +75,7 @@
                                         <li>
                                             <a data-toggle="collapse" data-target="#Charts" href="#">Admin</a>
                                             <ul class="collapse dropdown-header-top">
-                                                <li><a data-toggle="modal" data-target="#modalFundWallet">Fund Wallet</a></li>
-                                                <li><a data-toggle="modal" data-target="#modalAddNotification">Add Notification</a></li>
+                                                <li><a asp-area="" asp-controller="Admin" asp-action="AdminPanel">Admin Panel</a></li>
                                             </ul>
                                         </li>
                                     }
@@ -134,6 +90,7 @@
                                         <a data-toggle="collapse" data-target="#demoevent" href="#">Games</a>
                                         <ul id="demoevent" class="collapse dropdown-header-top">
                                             <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
+                                            <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -143,68 +100,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modalFundWallet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <!--Header-->
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Fund User Account</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <!--Body-->
-                    <div class="modal-body">
-                        <form method="post" asp-action="FundWalletManually" asp-controller="Admin">
-                            <h2 class="sr-only">Fund Wallet Manually</h2>
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="emailaddress" placeholder="Email Address" asp-for="EmailAddress">
-                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="amount" placeholder="Amount" asp-for="Amount">
-                                <span asp-validation-for="Amount" class="text-danger"></span>
-                            </div>
-                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Fund User Account</button></div>
-                        </form>
-                    </div>
-                    <!--Footer-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modalAddNotification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <!--Header-->
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Add Notification</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <!--Body-->
-                    <div class="modal-body">
-                        <form method="post" asp-action="AddNotification" asp-controller="Admin">
-                            <h2 class="sr-only">Add New Notification</h2>
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="Message" placeholder="Message" asp-for="Message">
-                                <span asp-validation-for="Message" class="text-danger"></span>
-                            </div>
-                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Add Notification</button></div>
-                        </form>
-                    </div>
-                    <!--Footer-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Mobile Menu end -->
         <!-- Main Menu area start-->
         <div class="main-menu-area mg-tb-40">
@@ -230,8 +126,7 @@
                                 <ul class="notika-main-menu-dropdown">
                                     @if (Model.IsAdmin)
                                     {
-                                        <li><a data-toggle="modal" data-target="#modalFundWallet">Fund Wallet</a></li>
-                                        <li><a data-toggle="modal" data-target="#modalAddNotification">Add Notification</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="AdminPanel">Admin Panel</a></li>
                                     }
                                 </ul>
                             </div>
@@ -249,6 +144,9 @@
                                 <ul class="notika-main-menu-dropdown">
                                     <li>
                                         <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
                                     </li>
                                 </ul>
                             </div>
@@ -321,37 +219,37 @@
                     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
                         @if (Model.IsPlaying)
                         {
-                        <div class="sale-statistic-inner notika-shadow mg-tb-30">
-                            <div class="col">
-                                <div class="form-check">
-                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.FirstColor)*@
-                                    <input type="radio" id="colorFirst" name="color" value="@Model.FirstColor">
-                                    <div style="background-color:@Model.FirstColor; border-radius: 50%; width: 100px; height: 100px">@Model.FirstColor </div>
+                            <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                                <div class="col">
+                                    <div class="form-check">
+                                        @*@Html.RadioButtonFor(m => m.Color, ColorBomb.FirstColor)*@
+                                        <input type="radio" id="colorFirst" name="color" value="@Model.FirstColor">
+                                        <div style="background-color:@Model.FirstColor; border-radius: 50%; width: 100px; height: 100px">@Model.FirstColor </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
+                                        <input type="radio" id="colorSecond" name="color" value="@Model.SecondColor">
+                                        <div style="background-color:@Model.SecondColor; border-radius: 50%; width: 100px; height: 100px">@Model.SecondColor</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
+                                        <input type="radio" id="colorThird" name="color" value="@Model.ThirdColor">
+                                        <div style="background-color:@Model.ThirdColor; border-radius: 50%; width: 100px; height: 100px">@Model.ThirdColor</div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="m-b--35 font-bold">Staking Amount</div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Amount" id="amtStake">
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary py-3" onclick="location.href = '@Url.Action("EndColorBingoGame", "Admin", new { amount = "__amtStake__", firstColorCheckBox = "__firstColor__", secondColorCheckBox = "__secondColor__", thirdColorCheckBox = "__thirdColor__" })'.replace('__amtStake__', document.getElementById('amtStake').value).replace('__firstColor__', document.getElementById('colorFirst').checked).replace('__secondColor__', document.getElementById('colorSecond').checked).replace('__thirdColor__', document.getElementById('colorThird').checked)">Play</button>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-check">
-                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
-                                    <input type="radio" id="colorSecond" name="color" value="@Model.SecondColor">
-                                    <div style="background-color:@Model.SecondColor; border-radius: 50%; width: 100px; height: 100px">@Model.SecondColor</div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check">
-                                    @*@Html.RadioButtonFor(m => m.Color, ColorBomb.SecondColor)*@
-                                    <input type="radio" id="colorThird" name="color" value="@Model.ThirdColor">
-                                    <div style="background-color:@Model.ThirdColor; border-radius: 50%; width: 100px; height: 100px">@Model.ThirdColor</div>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="m-b--35 font-bold">Staking Amount</div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Amount" id="amtStake">
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary py-3" onclick="location.href = '@Url.Action("EndColorBingoGame", "Admin", new { amount = "__amtStake__", firstColorCheckBox = "__firstColor__", secondColorCheckBox = "__secondColor__", thirdColorCheckBox = "__thirdColor__" })'.replace('__amtStake__', document.getElementById('amtStake').value).replace('__firstColor__', document.getElementById('colorFirst').checked).replace('__secondColor__', document.getElementById('colorSecond').checked).replace('__thirdColor__', document.getElementById('colorThird').checked)">Play</button>
-                            </div>
-                        </div>
                         }
                         else
                         {

@@ -207,7 +207,7 @@ namespace EGamesServices
 
         public List<BrainGameQuestion> GetAllBrainGameQuestions()
         {
-            return _context.BrainGameQuestions.ToList();
+            return _context.BrainGameQuestions.Include(x => x.AddedBy).ToList();
         }
 
         public List<BrainGameQuestion> StartGame(long userId, double stakeAmount, BrainGameCategory category, out string message)
