@@ -205,14 +205,14 @@
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                         @if (Model.IsAdmin)
                         {
-                            <li>
+                            <li class="active">
                                 <a data-toggle="tab" href="#admin"><i class="notika-icon notika-mail"></i> Admin</a>
                             </li>
                         }
                         <li>
                             <a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i> Home</a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> Games</a>
                         </li>
                     </ul>
@@ -268,6 +268,10 @@
                     <div class="sale-statistic-inner notika-shadow mg-tb-30">
                         <div class="col">
                             <div class="form-check">
+                                <p>Total Users Registered: @Model.TotalUsersRegistered</p>
+                            </div>
+                            <br />
+                            <div class="form-check">
                                 <button id="btnFundWallet" class="btn btn-info" type="button" onclick="GetFundWalletPartial()">Fund Account</button>
                             </div>
                             <br />
@@ -301,46 +305,44 @@
     <div class="notika-email-post-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
-                        <div class="recent-post-ctn">
-                            <div class="recent-post-title">
-                                <h2>Brain Game Questions</h2>
-                            </div>
+                <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
+                    <div class="recent-post-ctn">
+                        <div class="recent-post-title">
+                            <h2>Brain Game Questions</h2>
                         </div>
-                        <div class="recent-post-items">
-                            <div class="recent-post-signle rct-pt-mg-wp">
-                                <div class="body table-responsive">
-                                    <table class="table table-condensed">
-                                        <thead>
+                    </div>
+                    <div class="recent-post-items">
+                        <div class="recent-post-signle rct-pt-mg-wp">
+                            <div class="body table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Added By</th>
+                                            <th>Question</th>
+                                            <th>Answers</th>
+                                            <th>Game Category</th>
+                                            @if (Model.IsAdmin)
+                                            {
+                                                <th></th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var brainGameQuestion in Model.AvailableBrainGameQuestions)
+                                        {
                                             <tr>
-                                                <th>Added By</th>
-                                                <th>Question</th>
-                                                <th>Answers</th>
-                                                <th>Game Category</th>
+                                                <td>@brainGameQuestion.AddedBy.EmailAddress</td>
+                                                <td>@brainGameQuestion.Question</td>
+                                                <td>@brainGameQuestion.Answers</td>
+                                                <td>@brainGameQuestion.BrainGameCategory.ToString()</td>
                                                 @if (Model.IsAdmin)
                                                 {
-                                                    <th></th>
+                                                    <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
                                                 }
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var brainGameQuestion in Model.AvailableBrainGameQuestions)
-                                            {
-                                                <tr>
-                                                    <td>@brainGameQuestion.AddedBy.EmailAddress</td>
-                                                    <td>@brainGameQuestion.Question</td>
-                                                    <td>@brainGameQuestion.Answers</td>
-                                                    <td>@brainGameQuestion.BrainGameCategory.ToString()</td>
-                                                    @if (Model.IsAdmin)
-                                                    {
-                                                        <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
-                                                    }
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

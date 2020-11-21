@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UserService.cs~RF1d8d7bcb.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EGameData\EGamesData.csproj" />
   </ItemGroup>
 

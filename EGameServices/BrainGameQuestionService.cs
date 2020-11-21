@@ -210,6 +210,39 @@ namespace EGamesServices
             return _context.BrainGameQuestions.Include(x => x.AddedBy).ToList();
         }
 
+        public bool RemoveBrainGameQuestion(long brainGameQuestionId, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if (brainGameQuestionId <= 0)
+                {
+                    message = "Invalid Brain Game Question ID";
+                    return false;
+                }
+
+                BrainGameQuestion brainGameQuestion = _context.BrainGameQuestions.FirstOrDefault(x => x.Id == brainGameQuestionId);
+                if (brainGameQuestion == null)
+                {
+                    message = "Brain Game Question does not exists";
+                    return false;
+                }
+
+                _context.BrainGameQuestions.Remove(brainGameQuestion);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception err)
+            {
+                message = err.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
         public List<BrainGameQuestion> StartGame(long userId, double stakeAmount, BrainGameCategory category, out string message)
         {
             List<BrainGameQuestion> result = new List<BrainGameQuestion>();

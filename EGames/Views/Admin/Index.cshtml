@@ -102,7 +102,44 @@
                 </div>
             </div>
         </div>
-        
+        <div class="modal fade" id="modalFundAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Fund Your Account</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+                                <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                                    <div class="col">
+                                        <label>Fund By Crypto: </label>
+                                        <div><a class="btn btn-info" type="button" href="https://commerce.coinbase.com/checkout/deb74f1a-0454-490e-8d05-6deeb18342f2" target="_blank">Make Payment Using Crypto</a></div>
+                                    </div>
+                                    <div class="col">
+                                        <label>Fund By Representative</label>
+                                        <ul>
+                                            <li>Nigerain Rep1: <a class="btn btn-info" type="button" href="https://wa.link/8upgm4" target="_blank">Chat Nigerian Rep1</a></li>
+                                            <li>Nigerain Rep2: <a class="btn btn-info" type="button" href="https://wa.link/x9k4bz" target="_blank">Chat Nigerain Rep2</a></li>
+                                        </ul>
+                                        <p><b>Click on link, tell the rep you wish to fund your E-games HUB Account.</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Mobile Menu end -->
         <!-- Main Menu area start-->
         <div class="main-menu-area mg-tb-40">
@@ -167,6 +204,7 @@
                             <div class="website-traffic-ctn">
                                 <h2><span class="counter">@Model.Balance</span> Naira</h2>
                                 <p>Balance</p>
+                                <button id="btnFundAccount" class="btn btn-info" type="button" onclick="GetFundAccountPartial()">Fund Account</button>
                             </div>
                             <div class="sparkline-bar-stats1">9,4,8,6,5,6,4,8,3,5,9,5</div>
                         </div>
@@ -409,6 +447,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            function GetFundAccountPartial() {
+                $("#modalFundAccount").modal("show");
+            }
+        </script>
         <!-- End Footer area-->
         <script src="~/assets/admin/js/vendor/jquery-1.12.4.min.js"></script>
         <script src="~/assets/admin/js/bootstrap.min.js"></script>

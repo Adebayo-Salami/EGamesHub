@@ -424,5 +424,18 @@ namespace EGamesServices
         {
             return _context.GameHistories.Include(x => x.User).Where(x => x.User.Id == userId).OrderByDescending(x => x.Id).ToList();
         }
+
+        public int TotalUserRegistered()
+        {
+            int result = 0;
+
+            try
+            {
+                return _context.Users.Count();
+            }
+            catch { }
+
+            return result;
+        }
     }
 }

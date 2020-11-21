@@ -247,7 +247,8 @@ namespace EGames.Controllers
                 DisplayMessage = _displayMessage,
                 SuccessMessage = _successMessage,
                 ErrorMessage = _errorMessage,
-                AvailableBrainGameQuestions = _brainGameQuestionService.GetAllBrainGameQuestions()
+                AvailableBrainGameQuestions = _brainGameQuestionService.GetAllBrainGameQuestions(),
+                TotalUsersRegistered = _userService.TotalUserRegistered()
             };
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
@@ -336,13 +337,13 @@ namespace EGames.Controllers
                 HttpContext.Session.SetString("DisplayMessage", message);
                 HttpContext.Session.SetString("DashboardErrMsg", message);
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
-                return RedirectToAction("ColorBingo", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
 
             HttpContext.Session.SetString("DisplayMessage", "Withdrawal made successfully");
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Withdrawal made successfully");
-            return RedirectToAction("ColorBingo", "Admin");
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpPost]
@@ -465,19 +466,19 @@ namespace EGames.Controllers
             }
             else
             {
-                //bool isBrainGameQuestionRemoved = _brainGameQuestionService.re
-                //if (isNotificationRemoved)
-                //{
-                //    HttpContext.Session.SetString("DisplayMessage", "Notification Removed Successfully.");
-                //    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-                //    HttpContext.Session.SetString("DashboardSuccessMsg", "Notification Removed Successfully.");
-                //}
-                //else
-                //{
-                //    HttpContext.Session.SetString("DisplayMessage", message);
-                //    HttpContext.Session.SetString("DashboardErrMsg", message);
-                //    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
-                //}
+                bool isBrainGameQuestionRemoved = _brainGameQuestionService.RemoveBrainGameQuestion(brainGameQuestionId, out string message);
+                if (isBrainGameQuestionRemoved)
+                {
+                    HttpContext.Session.SetString("DisplayMessage", "Brain Game Question Removed Successfully.");
+                    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Game Question Removed Successfully.");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("DisplayMessage", message);
+                    HttpContext.Session.SetString("DashboardErrMsg", message);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                }
             }
 
             return RedirectToAction("AdminPanel", "Admin");
@@ -549,6 +550,35 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Color Bingo Game Started Successfully");
             return RedirectToAction("ColorBingo", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult EndBrainGame(BrainGameQuestion question1 = null, string answer1 = null, BrainGameQuestion question2 = null, string answer2 = null, BrainGameQuestion question3 = null, string answer3 = null, BrainGameQuestion question4 = null, string answer4 = null, BrainGameQuestion question5 = null, string answer5 = null)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isGameEnded = _brainGameQuestionService.EndGame(loggedUser.Id, question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5, out string message);
+            if (!isGameEnded)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("BrainGame", "Admin");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Brain Question Game Ended Successfully |" + message);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Question Game Ended Successfully |" + message);
+            return RedirectToAction("BrainGame", "Admin");
         }
 
         [HttpGet]

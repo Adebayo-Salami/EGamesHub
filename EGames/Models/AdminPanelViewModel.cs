@@ -18,5 +18,6 @@ namespace EGames.Models
         public string Answer { get; set; }
         public EGamesData.Models.BrainGameCategory BrainGameCategory { get; set; }
         public List<EGamesData.Models.BrainGameQuestion> AvailableBrainGameQuestions { get; set; }
+        public int TotalUsersRegistered { get; set; }
     }
 }
