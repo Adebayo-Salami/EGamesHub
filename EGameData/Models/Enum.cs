@@ -15,6 +15,7 @@ namespace EGamesData.Models
     {
         Music,
         Football,
-        Movies
+        MarvelMovies,
+        DCMovies
     }
 }

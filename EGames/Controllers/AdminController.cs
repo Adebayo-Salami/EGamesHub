@@ -149,7 +149,7 @@ namespace EGames.Controllers
             return RedirectToAction("AdminPanel", "Admin");
         }
 
-        public IActionResult BrainGame(bool isPlaying = false, string stakeAmt = null, bool movieChk = false, bool footballChk = false, bool musicChk = false)
+        public IActionResult BrainGame(bool isPlaying = false, string stakeAmt = null, bool movieChk = false, bool footballChk = false, bool musicChk = false, bool marvelMovieChk = false)
         {
             string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
             string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
@@ -176,7 +176,7 @@ namespace EGames.Controllers
             //Continue from here
             if (isPlaying)
             {
-                if(!movieChk && !footballChk && !musicChk)
+                if(!movieChk && !footballChk && !musicChk && !marvelMovieChk)
                 {
                     vm.ErrorMessage = "Error, No Game Category has been selected.";
                     vm.DisplayMessage = "Error, No Game Category has been selected.";
@@ -202,7 +202,7 @@ namespace EGames.Controllers
                     return View(vm);
                 }
 
-                BrainGameCategory gameCategory = movieChk ? BrainGameCategory.Movies : footballChk ? BrainGameCategory.Football : BrainGameCategory.Music;
+                BrainGameCategory gameCategory = movieChk ? BrainGameCategory.DCMovies : footballChk ? BrainGameCategory.Football : musicChk ? BrainGameCategory.Music : BrainGameCategory.MarvelMovies;
                 List<BrainGameQuestion> brainGameStarted = _brainGameQuestionService.StartGame(loggedUser.Id, amountStaked, gameCategory, out string message);
                 if(brainGameStarted.Count <= 0)
                 {
@@ -384,14 +384,6 @@ namespace EGames.Controllers
             {
                 HttpContext.Session.SetString("DisplayMessage", "Answer to question Is Required");
                 HttpContext.Session.SetString("DashboardErrMsg", "Answer to question Is Required");
-                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
-                return RedirectToAction("AdminPanel", "Admin");
-            }
-
-            if(data.BrainGameCategory == null)
-            {
-                HttpContext.Session.SetString("DisplayMessage", "Brain Game Category Is Required");
-                HttpContext.Session.SetString("DashboardErrMsg", "Brain Game Category Is Required");
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
                 return RedirectToAction("AdminPanel", "Admin");
             }

@@ -121,7 +121,7 @@ namespace EGamesServices
                     List<string> correctAnswers = question1.Answers.Split(';').ToList();
                     foreach(string answer in correctAnswers)
                     {
-                        if (answer1.ToLower().Contains(answer.ToLower()))
+                        if (answer1.ToLower().Trim().Contains(answer.ToLower().Trim()))
                         {
                             correctPoints = correctPoints + 1;
                             break;
@@ -135,7 +135,7 @@ namespace EGamesServices
                     List<string> correctAnswers = question2.Answers.Split(';').ToList();
                     foreach (string answer in correctAnswers)
                     {
-                        if (answer2.ToLower().Contains(answer.ToLower()))
+                        if (answer2.ToLower().Trim().Contains(answer.ToLower().Trim()))
                         {
                             correctPoints = correctPoints + 1;
                             break;
@@ -149,7 +149,7 @@ namespace EGamesServices
                     List<string> correctAnswers = question3.Answers.Split(';').ToList();
                     foreach (string answer in correctAnswers)
                     {
-                        if (answer3.ToLower().Contains(answer.ToLower()))
+                        if (answer3.ToLower().Trim().Contains(answer.ToLower().Trim()))
                         {
                             correctPoints = correctPoints + 1;
                             break;
@@ -177,7 +177,7 @@ namespace EGamesServices
                     List<string> correctAnswers = question5.Answers.Split(';').ToList();
                     foreach (string answer in correctAnswers)
                     {
-                        if (answer5.ToLower().Contains(answer.ToLower()))
+                        if (answer5.ToLower().Trim().Contains(answer.ToLower().Trim()))
                         {
                             correctPoints = correctPoints + 1;
                             break;

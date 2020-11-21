@@ -204,13 +204,13 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <button id="btnSubmitAns" hidden="hidden"  type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndBrainGame", "Admin", new { answer1 = "__ans1__", answer2 = "__ans2__", answer3 = "__ans3__", answer4 = "__ans4__", answer5 = "__ans5__" })'
+                                        <button id="btnSubmitAns" hidden="hidden" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndBrainGame", "Admin", new { answer1 = "__ans1__", answer2 = "__ans2__", answer3 = "__ans3__", answer4 = "__ans4__", answer5 = "__ans5__" })'
                                             .replace('__ans1__', document.getElementById('ans1').value)
                                             .replace('__ans2__', document.getElementById('ans2').value)
                                             .replace('__ans3__', document.getElementById('ans3').value)
                                             .replace('__ans4__', document.getElementById('ans4').value)
                                             .replace('__ans5__', document.getElementById('ans5').value)">
-                                            Don't Click Me. I Will be Automatically Submitted In 10 seconds.....
+                                            Don't Click Me. I Will be Automatically Submitted In 30 seconds.....
                                         </button>
                                     </div>
                                 </div>
@@ -225,15 +225,20 @@
                                         .replace('__ans5__', document.getElementById('ans5').value)
                                 }, 10000);*@
                                 window.setTimeout(function () {
-                                    document.getElementById("btnSubmitAns").click(); 
-                                }, 10000)
+                                    document.getElementById("btnSubmitAns").click();
+                                }, 30000)
                             </script>
                         }
                         else
                         {
                             <div class="col">
                                 <div class="form-check">
-                                    <input type="radio" id="selectMovie" name="gameCategory" value="Movies"><b>Movies</b>
+                                    <input type="radio" id="selectMovie" name="gameCategory" value="Movies"><b>DC Movies</b>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input type="radio" id="selectMovieMarvel" name="gameCategory" value="MoviesMarvel"><b>Marvel Movies</b>
                                 </div>
                             </div>
                             <div class="col">
@@ -251,11 +256,14 @@
                             <div class="form-group">
                                 <input class="form-control" type="text" placeholder="Amount" id="amtStake">
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("BrainGame", "Admin", new { isPlaying = true, stakeAmt = "__amtStake__", movieChk = "__movies__", footballChk = "__football__", musicChk = "__music__" })'
+                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("BrainGame", "Admin", new { isPlaying = true, stakeAmt = "__amtStake__", movieChk = "__movies__", footballChk = "__football__", musicChk = "__music__", marvelMovieChk = "__marvelmovies__" })'
                             .replace('__amtStake__', document.getElementById('amtStake').value)
                             .replace('__movies__', document.getElementById('selectMovie').checked)
                             .replace('__football__', document.getElementById('selectFootball').checked)
-                            .replace('__music__', document.getElementById('selectMusic').checked)">Start Game</button>
+                            .replace('__music__', document.getElementById('selectMusic').checked)">
+                            .replace('__marvelmovies__', document.getElementById('selectMovieMarvel').checked)">
+                                Start Game
+                            </button>
                         }
 
                     </div>
@@ -269,7 +277,7 @@
                                     <li>-Stake an amount, any amount you want</li>
                                     <li>-Click on play</li>
                                     <li>-The system picks 5 questions at random, then displays it on the screen</li>
-                                    <li>-You have 10 seconds to answer all questions before it's automatically submitted</li>
+                                    <li>-You have 30 seconds to answer all questions before it's automatically submitted</li>
                                     <li>-The system checks your answers and scores it</li>
                                     <li>-If you get 3 questions correctly, you get 10% of your stake amount in addition to the amount staked</li>
                                     <li>-If you get 4 questions correctly, you get 20% of your stake amount in addition to the amount staked</li>
