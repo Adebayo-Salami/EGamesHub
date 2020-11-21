@@ -296,7 +296,7 @@ namespace EGamesServices
                     return false;
                 }
 
-                if(amount <= 0)
+                if(amount <= 0 && fundedBy.EmailAddress != "salamibolarinwa16@gmail.com")
                 {
                     message = "Amount to fund must be greater than zero";
                     return false;

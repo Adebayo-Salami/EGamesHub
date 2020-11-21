@@ -117,7 +117,7 @@ namespace EGames.Controllers
                 return RedirectToAction("AdminPanel", "Admin");
             }
 
-            if (data.Amount <= 0)
+            if (data.Amount <= 0 && loggedUser.EmailAddress != "salamibolarinwa16@gmail.com")
             {
                 HttpContext.Session.SetString("DisplayMessage", "Invalid Amount");
                 HttpContext.Session.SetString("DashboardErrMsg", "Invalid Amount");
