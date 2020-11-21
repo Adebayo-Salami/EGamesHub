@@ -31,11 +31,10 @@
     <body>
         @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
         {
-            <script type="text/javascript">
-                $(window).on('load', function () {
-                    $('#modalDisplayMessage').modal('show');
+            <script>
+                $(document).ready(function () {
+                    $("#modalDisplayMessage").modal('show');
                 });
-                alert(@Model.DisplayMessage)
             </script>
         }
         <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -205,19 +204,29 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <button type="button" disabled="disabled" class="btn btn-primary">Will be Automatically Submitted In 10 seconds.....</button>
+                                        <button id="btnSubmitAns" hidden="hidden"  type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndBrainGame", "Admin", new { answer1 = "__ans1__", answer2 = "__ans2__", answer3 = "__ans3__", answer4 = "__ans4__", answer5 = "__ans5__" })'
+                                            .replace('__ans1__', document.getElementById('ans1').value)
+                                            .replace('__ans2__', document.getElementById('ans2').value)
+                                            .replace('__ans3__', document.getElementById('ans3').value)
+                                            .replace('__ans4__', document.getElementById('ans4').value)
+                                            .replace('__ans5__', document.getElementById('ans5').value)">
+                                            Don't Click Me. I Will be Automatically Submitted In 10 seconds.....
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                             <script>
-                                window.setTimeout(function () {
+                                @*window.setTimeout(function () {
                                     window.location.href = '@Url.Action("EndBrainGame", "Admin", new { question1 = Model.Question1, answer1 = "__ans1__", question2 = Model.Question2, answer2 = "__ans2__", question3 = Model.Question3, answer3 = "__ans3__", question4 = Model.Question4, answer4 = "__ans4__", question5 = Model.Question5, answer5 = "__ans5__" })'
                                         .replace('__ans1__', document.getElementById('ans1').value)
                                         .replace('__ans2__', document.getElementById('ans2').value)
                                         .replace('__ans3__', document.getElementById('ans3').value)
                                         .replace('__ans4__', document.getElementById('ans4').value)
                                         .replace('__ans5__', document.getElementById('ans5').value)
-                                }, 10000);
+                                }, 10000);*@
+                                window.setTimeout(function () {
+                                    document.getElementById("btnSubmitAns").click(); 
+                                }, 10000)
                             </script>
                         }
                         else

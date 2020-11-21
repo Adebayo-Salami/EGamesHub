@@ -216,6 +216,9 @@ namespace EGames.Controllers
                 vm.Question4 = brainGameStarted[3];
                 vm.Question5 = brainGameStarted[4];
                 vm.IsPlaying = true;
+
+                //Store Brain Game Questions
+                HttpContext.Session.SetString("BrainQuestionIDs", vm.Question1.Id + ";" + vm.Question2.Id + ";" + vm.Question3.Id + ";" + vm.Question4.Id + ";" + vm.Question5.Id);
             }
             //Set up the UI for Brain Game (Stake amount, game category,End Game)
 
@@ -248,7 +251,8 @@ namespace EGames.Controllers
                 SuccessMessage = _successMessage,
                 ErrorMessage = _errorMessage,
                 AvailableBrainGameQuestions = _brainGameQuestionService.GetAllBrainGameQuestions(),
-                TotalUsersRegistered = _userService.TotalUserRegistered()
+                TotalUsersRegistered = _userService.TotalUserRegistered(),
+                UsersPendingPayout = _userService.GetAllUsersPendingWIthdrawal()
             };
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
@@ -445,6 +449,45 @@ namespace EGames.Controllers
             return RedirectToAction("AdminPanel", "Admin");
         }
 
+        public IActionResult UserPaid(long userId)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (userId <= 0)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Brain Game Question ID.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Brain Game Question ID.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
+            else
+            {
+                bool isUserPaid = _userService.IsPaid(userId, out string message);
+                if (isUserPaid)
+                {
+                    HttpContext.Session.SetString("DisplayMessage", "User updated to paid.");
+                    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", "User updated to paid.");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("DisplayMessage", message);
+                    HttpContext.Session.SetString("DashboardErrMsg", message);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                }
+            }
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
         public IActionResult RemoveBrainGameQuestion(long brainGameQuestionId)
         {
             //Check Authentication
@@ -553,11 +596,12 @@ namespace EGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult EndBrainGame(BrainGameQuestion question1 = null, string answer1 = null, BrainGameQuestion question2 = null, string answer2 = null, BrainGameQuestion question3 = null, string answer3 = null, BrainGameQuestion question4 = null, string answer4 = null, BrainGameQuestion question5 = null, string answer5 = null)
+        public IActionResult EndBrainGame(string answer1 = null, string answer2 = null, string answer3 = null, string answer4 = null, string answer5 = null)
         {
             //Check Authentication
             string Id = HttpContext.Session.GetString("UserID");
             string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+            string brainQuestionsIds = HttpContext.Session.GetString("BrainQuestionIDs");
 
             bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
             if (!userLogged)
@@ -566,17 +610,27 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isGameEnded = _brainGameQuestionService.EndGame(loggedUser.Id, question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5, out string message);
+            if (String.IsNullOrWhiteSpace(brainQuestionsIds))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Error, Unable to retrieve questions set. Please retry!, don't worry you were not debited.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Error, Unable to retrieve questions set. Please retry!, don't worry you were not debited.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("BrainGame", "Admin");
+            }
+
+            bool isGameEnded = _brainGameQuestionService.EndGame(loggedUser.Id, brainQuestionsIds, answer1, answer2, answer3, answer4, answer5, out string message);
             if (!isGameEnded)
             {
                 HttpContext.Session.SetString("DisplayMessage", message);
                 HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("BrainQuestionIDs", String.Empty);
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
                 return RedirectToAction("BrainGame", "Admin");
             }
 
             HttpContext.Session.SetString("DisplayMessage", "Brain Question Game Ended Successfully |" + message);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("BrainQuestionIDs", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Question Game Ended Successfully |" + message);
             return RedirectToAction("BrainGame", "Admin");
         }

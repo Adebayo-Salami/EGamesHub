@@ -31,11 +31,10 @@
     <body>
         @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
         {
-            <script type="text/javascript">
-                $(window).on('load', function () {
-                    $('#modalDisplayMessage').modal('show');
+            <script>
+                $(document).ready(function () {
+                    $("#modalDisplayMessage").modal('show');
                 });
-                alert(@Model.DisplayMessage)
             </script>
         }
         <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -123,9 +122,18 @@
                                     </div>
                                     <div class="col">
                                         <label>Fund By Representative</label>
-                                        <ul>
+                                        <select id="reps" name="reps" onchange="showReps(this)">
+                                            <option value="0">Select Country</option>
+                                            <option value="1">Nigeria</option>
+                                            <option value="2">USA</option>
+                                        </select>
+                                        <ul id="nigeriaReps" hidden="hidden">
                                             <li>Nigerain Rep1: <a class="btn btn-info" type="button" href="https://wa.link/8upgm4" target="_blank">Chat Nigerian Rep1</a></li>
+                                            <li></li>
                                             <li>Nigerain Rep2: <a class="btn btn-info" type="button" href="https://wa.link/x9k4bz" target="_blank">Chat Nigerain Rep2</a></li>
+                                        </ul>
+                                        <ul id="usaReps" hidden="hidden">
+                                            <li>USA Rep1: <a class="btn btn-info" type="button" href="https://wa.link/ehmea5" target="_blank">Chat USA Rep1</a></li>
                                         </ul>
                                         <p><b>Click on link, tell the rep you wish to fund your E-games HUB Account.</b></p>
                                     </div>
@@ -450,6 +458,17 @@
         <script>
             function GetFundAccountPartial() {
                 $("#modalFundAccount").modal("show");
+            }
+
+            function showReps(control) {
+                if (control.value == 1) {
+                    $("#nigeriaReps").show();
+                    $("#usaReps").hide();
+                }
+                else if (control.value == 2) {
+                    $("#nigeriaReps").hide();
+                    $("#usaReps").show();
+                }
             }
         </script>
         <!-- End Footer area-->

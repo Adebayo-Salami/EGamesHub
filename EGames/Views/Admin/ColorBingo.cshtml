@@ -31,11 +31,10 @@
     <body>
         @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
         {
-            <script type="text/javascript">
-                $(window).on('load', function () {
-                    $('#modalDisplayMessage').modal('show');
+            <script>
+                $(document).ready(function () {
+                    $("#modalDisplayMessage").modal('show');
                 });
-                alert(@Model.DisplayMessage)
             </script>
         }
         <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

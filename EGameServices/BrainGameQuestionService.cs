@@ -64,7 +64,7 @@ namespace EGamesServices
             return result;
         }
 
-        public bool EndGame(long userId, BrainGameQuestion question1, string answer1, BrainGameQuestion question2, string answer2, BrainGameQuestion question3, string answer3, BrainGameQuestion question4, string answer4, BrainGameQuestion question5, string answer5, out string message)
+        public bool EndGame(long userId, string questionsIDs, string answer1, string answer2, string answer3, string answer4, string answer5, out string message)
         {
             bool result = false;
             message = String.Empty;
@@ -77,9 +77,27 @@ namespace EGamesServices
                     return false;
                 }
 
-                if(question1 == null || question2 == null || question3 == null || question4 == null || question5 == null)
+                if(String.IsNullOrWhiteSpace(questionsIDs))
+                {
+                    message = "Error, Questions set were not provided.";
+                    return false;
+                }
+
+                List<string> questionIdList = questionsIDs.Split(';').ToList();
+                if (questionIdList.Count() < 5)
                 {
                     message = "Error, Each round must have a minimum of 5 questions";
+                    return false;
+                }
+                BrainGameQuestion question1 = _context.BrainGameQuestions.Include(x => x.AddedBy).FirstOrDefault(x => x.Id == Convert.ToInt64(questionIdList[0]));
+                BrainGameQuestion question2 = _context.BrainGameQuestions.Include(x => x.AddedBy).FirstOrDefault(x => x.Id == Convert.ToInt64(questionIdList[1]));
+                BrainGameQuestion question3 = _context.BrainGameQuestions.Include(x => x.AddedBy).FirstOrDefault(x => x.Id == Convert.ToInt64(questionIdList[2]));
+                BrainGameQuestion question4 = _context.BrainGameQuestions.Include(x => x.AddedBy).FirstOrDefault(x => x.Id == Convert.ToInt64(questionIdList[3]));
+                BrainGameQuestion question5 = _context.BrainGameQuestions.Include(x => x.AddedBy).FirstOrDefault(x => x.Id == Convert.ToInt64(questionIdList[4]));
+
+                if(question1 == null || question2 == null || question3 == null || question4 == null || question5 == null)
+                {
+                    message = "Error, One or more of the questions passed does not exists.";
                     return false;
                 }
 
