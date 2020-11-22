@@ -189,7 +189,7 @@ namespace EGamesServices
                 double amountWon = 0;
                 if(correctPoints >= 3)
                 {
-                    double percentWon = (correctPoints == 3) ? 10 : (correctPoints == 4) ? 20 : 30;
+                    double percentWon = (correctPoints == 3) ? 10 : 20;
                     percentWon = percentWon / 100;
                     amountWon = amountWon + (user.AmtUsedToPlayBrainGame * percentWon) + user.AmtUsedToPlayBrainGame;
                 }
@@ -205,9 +205,11 @@ namespace EGamesServices
                     WinningValues = "Not to be disclosed."
                 };
 
+                double halfAmtUsedToStake = user.AmtUsedToPlayBrainGame * 0.5;
                 user.AmtUsedToPlayBrainGame = 0;
                 user.WithdrawableAmount = user.WithdrawableAmount + amountWon;
                 user.TotalGamesPlayed = user.TotalGamesPlayed + 1;
+                user.Balance = (amountWon > 0) ? user.Balance : user.Balance + halfAmtUsedToStake;
                 _context.Users.Update(user);
                 _context.GameHistories.Add(gameHistory);
                 _context.SaveChanges();
