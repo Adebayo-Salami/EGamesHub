@@ -32,10 +32,10 @@
     @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
     {
         <script>
-                $(document).ready(function () {
-                    $("#modalDisplayMessage").modal('show');
-                });
-            </script>
+            $(document).ready(function () {
+                $("#modalDisplayMessage").modal('show');
+            });
+        </script>
     }
     <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -195,6 +195,35 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalCheckWalletBalance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Check Wallet Balance</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form method="post" asp-action="CheckUserAccountDetails" asp-controller="Admin">
+                        <h2 class="sr-only">Add New Notification</h2>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="EmailAddress" placeholder="Email Address" asp-for="EmailAddress">
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Check Balance</button></div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Mobile Menu end -->
     <!-- Main Menu area start-->
     <div class="main-menu-area mg-tb-40">
@@ -271,15 +300,19 @@
                             </div>
                             <br />
                             <div class="form-check">
+                                <button id="btnCheckUserBalance" class="btn btn-info" type="button" onclick="GetCheckWalletBalancePartial()">Check User Balance</button>
+                            </div>
+                            <br />
+                            <div class="form-check">
                                 <button id="btnFundWallet" class="btn btn-info" type="button" onclick="GetFundWalletPartial()">Fund Account</button>
                             </div>
                             <br />
                             <div class="form-check">
-                                <button id="btnFundWallet" class="btn btn-info" type="button" onclick="GetAddNotificationPartial()">Add Notification</button>
+                                <button id="btnAddNotification" class="btn btn-info" type="button" onclick="GetAddNotificationPartial()">Add Notification</button>
                             </div>
                             <br />
                             <div class="form-check">
-                                <button id="btnFundWallet" class="btn btn-info" type="button" onclick="GetAddBrainQuestionPartial()">Add Brain Question</button>
+                                <button id="btnAddBrainQuestion" class="btn btn-info" type="button" onclick="GetAddBrainQuestionPartial()">Add Brain Question</button>
                             </div>
                             <br />
                             <div class="form-check">
@@ -453,6 +486,10 @@
             else {
                 $("#rowBrainQuestions").hide();
             }
+        }
+
+        function GetCheckWalletBalancePartial() {
+            $("#modalCheckWalletBalance").modal("show");
         }
     </script>
     <!-- End Footer area-->

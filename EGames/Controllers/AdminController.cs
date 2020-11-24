@@ -411,6 +411,37 @@ namespace EGames.Controllers
         }
 
         [HttpPost]
+        public IActionResult CheckUserAccountDetails(AdminDashboardViewModel data)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isChecked = _userService.GetUserAccountDetails(data.EmailAddress, out string message);
+            if (isChecked)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "User Balance Check Passed | Results: " + message);
+                HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", "User Balance Check Passed | Results: " + message);
+            }
+            else
+            {
+                HttpContext.Session.SetString("DisplayMessage", "User Balance Check failed for " + data.EmailAddress + " with error message: " + message);
+                HttpContext.Session.SetString("DashboardErrMsg", "User Balance Check failed for " + data.EmailAddress + " with error message: " + message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        [HttpPost]
         public IActionResult AddNotification(AdminDashboardViewModel data)
         {
             //Check Authentication

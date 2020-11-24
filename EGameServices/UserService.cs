@@ -437,5 +437,37 @@ namespace EGamesServices
 
             return result;
         }
+
+        public bool GetUserAccountDetails(string emailAddress, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if (String.IsNullOrWhiteSpace(emailAddress))
+                {
+                    message = "Email Address Is Required";
+                    return false;
+                }
+
+                User user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.EmailAddress == emailAddress);
+                if(user == null)
+                {
+                    message = "No user with this email address exists on the system [ " + emailAddress + " ]";
+                    return false;
+                }
+
+                message = "Balance: " + user.Balance + " | AccountNumber: " + user.AccountNumber + " | BankName: " + user.BankName;
+                result = true;
+            }
+            catch(Exception error)
+            {
+                message = error.Message;
+                result = false;
+            }
+
+            return result;
+        }
     }
 }

@@ -19,5 +19,6 @@ namespace EGamesData.Interfaces
         List<User> GetAllUsersPendingWIthdrawal();
         List<GameHistory> GetAllUsersGameHistories(long userId);
         int TotalUserRegistered();
+        bool GetUserAccountDetails(string emailAddress, out string message);
     }
 }
