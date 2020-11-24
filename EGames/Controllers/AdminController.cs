@@ -344,9 +344,9 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Admin");
             }
 
-            HttpContext.Session.SetString("DisplayMessage", "Withdrawal made successfully");
+            HttpContext.Session.SetString("DisplayMessage", "Withdrawal made successfully (Please note there is a 50 naira fee for each withdrawal).");
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-            HttpContext.Session.SetString("DashboardSuccessMsg", "Withdrawal made successfully");
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Withdrawal made successfully (Please note there is a 50 naira fee for each withdrawal).");
             return RedirectToAction("Index", "Admin");
         }
 
