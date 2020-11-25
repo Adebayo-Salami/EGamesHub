@@ -189,7 +189,7 @@ namespace EGamesServices
                 double amountWon = 0;
                 if(correctPoints >= 2)
                 {
-                    double percentWon = (correctPoints == 3 || correctPoints == 2) ? 10 : 20;
+                    double percentWon = (correctPoints == 2) ? 10 : (correctPoints == 3 || correctPoints == 4) ? 20 : 50;
                     percentWon = percentWon / 100;
                     amountWon = amountWon + (user.AmtUsedToPlayBrainGame * percentWon) + user.AmtUsedToPlayBrainGame;
                 }

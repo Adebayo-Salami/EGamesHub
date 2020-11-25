@@ -89,7 +89,7 @@ namespace EGamesServices
                     GameType = GameType.ColorBingo,
                     DatePlayed = DateTime.Now,
                     AmountSpent = amount,
-                    AmountWon = !userWon ? 0 : ((0.4 * amount) + amount),
+                    AmountWon = !userWon ? 0 : ((0.3 * amount) + amount),
                     SelectedValues = selectedColor,
                     WinningValues = winingColor
                 };
@@ -97,16 +97,16 @@ namespace EGamesServices
                 user.BingoProfile.IsPlaying = false;
                 user.BingoProfile.AvailableOptions = String.Empty;
                 user.BingoProfile.TotalAmountSpent = user.BingoProfile.TotalAmountSpent + amount;
-                user.BingoProfile.TotalAmountWon = !userWon ? user.BingoProfile.TotalAmountWon : ((0.4 * amount) + amount) + user.BingoProfile.TotalAmountWon;
+                user.BingoProfile.TotalAmountWon = !userWon ? user.BingoProfile.TotalAmountWon : ((0.3 * amount) + amount) + user.BingoProfile.TotalAmountWon;
                 user.BingoProfile.SelectedColor = String.Empty;
                 user.TotalGamesPlayed = user.TotalGamesPlayed + 1;
-                user.WithdrawableAmount = !userWon ? user.WithdrawableAmount : ((0.4 * amount) + amount) + user.WithdrawableAmount;
+                user.WithdrawableAmount = !userWon ? user.WithdrawableAmount : ((0.3 * amount) + amount) + user.WithdrawableAmount;
                 _context.GameHistories.Add(gameHistory);
                 _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(user);
                 _context.Bingos.Update(user.BingoProfile);
                 _context.SaveChanges();
-                message = !userWon ? " Sorry, You lost!" : " Congrats!, you just won " + ((0.4 * amount) + amount);
+                message = !userWon ? " Sorry, You lost!" : " Congrats!, you just won " + ((0.3 * amount) + amount);
                 result = true;
             }
             catch(Exception error)
@@ -159,7 +159,7 @@ namespace EGamesServices
                     "black"
                 };
 
-                selectedColors = colorsToPickFrom.OrderBy(x => rnd.Next()).Take(3).ToList();
+                selectedColors = colorsToPickFrom.OrderBy(x => rnd.Next()).Take(2).ToList();
                 bingoProfile.IsPlaying = true;
                 bingoProfile.AvailableOptions = string.Join(";", selectedColors);
                 _context.Bingos.Update(bingoProfile);

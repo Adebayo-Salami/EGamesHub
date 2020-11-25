@@ -311,7 +311,7 @@ namespace EGames.Controllers
                 {
                     vm.FirstColor = availableOptions[0];
                     vm.SecondColor = availableOptions[1];
-                    vm.ThirdColor = availableOptions[2];
+                    //vm.ThirdColor = availableOptions[2];
                 }
             }
 
@@ -659,7 +659,7 @@ namespace EGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult EndColorBingoGame(string amount, bool firstColorCheckBox, bool secondColorCheckBox, bool thirdColorCheckBox)
+        public IActionResult EndColorBingoGame(string amount, bool firstColorCheckBox, bool secondColorCheckBox)
         {
             //Check Authentication
             string Id = HttpContext.Session.GetString("UserID");
@@ -680,7 +680,7 @@ namespace EGames.Controllers
                 return RedirectToAction("ColorBingo", "Admin");
             }
 
-            if(!firstColorCheckBox && !secondColorCheckBox && !thirdColorCheckBox)
+            if(!firstColorCheckBox && !secondColorCheckBox)
             {
                 HttpContext.Session.SetString("DisplayMessage", "Select a color");
                 HttpContext.Session.SetString("DashboardErrMsg", "Select a color");
@@ -701,7 +701,7 @@ namespace EGames.Controllers
                 return RedirectToAction("ColorBingo", "Admin");
             }
 
-            int key = firstColorCheckBox ? 0 : secondColorCheckBox ? 1 : 2;
+            int key = firstColorCheckBox ? 0 : 1;
             bool isEnded = _bingoService.EndGame(loggedUser.Id, amt, key, out string message);
             if (!isEnded)
             {
