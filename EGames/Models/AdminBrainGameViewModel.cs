@@ -26,5 +26,6 @@ namespace EGames.Models
         public string Answer3 { get; set; }
         public string Answer4 { get; set; }
         public string Answer5 { get; set; }
+        public int Timer { get; set; }
     }
 }

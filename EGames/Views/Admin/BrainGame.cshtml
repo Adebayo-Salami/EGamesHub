@@ -210,7 +210,7 @@
                                             .replace('__ans3__', document.getElementById('ans3').value)
                                             .replace('__ans4__', document.getElementById('ans4').value)
                                             .replace('__ans5__', document.getElementById('ans5').value)">
-                                            Don't Click Me. I Will be Automatically Submitted In 30 seconds.....
+                                            Automatic Submission (Don't click me)
                                         </button>
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@
                                 }, 10000);*@
                                 window.setTimeout(function () {
                                     document.getElementById("btnSubmitAns").click();
-                                }, 30000)
+                                }, @Model.Timer)
                             </script>
                         }
                         else
@@ -251,17 +251,31 @@
                                     <input type="radio" id="selectMusic" name="gameCategory" value="Music"><b>Music</b>
                                 </div>
                             </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <label for="timer">Select Timer(Interest Percentage Calculates):</label>
+                                    <select name="timer" id="timer" onchange="displayValue()">
+                                        <option value="0">---Pick Timer---</option>
+                                        <option value="100">30 secs</option>
+                                        <option value="50">1 minute</option>
+                                        <option value="25">1 min 30 secs</option>
+                                        <option value="10">2 minutes</option>
+                                    </select>
+                                    <div id="message">0% Interest</div>
+                                </div>
+                            </div>
                             <br />
                             <div class="m-b--35 font-bold">Staking Amount</div>
                             <div class="form-group">
                                 <input class="form-control" type="text" placeholder="Amount" id="amtStake">
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("BrainGame", "Admin", new { isPlaying = true, stakeAmt = "__amtStake__", movieChk = "__movies__", footballChk = "__football__", musicChk = "__music__", marvelMovieChk = "__marvelmovies__" })'
+                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("BrainGame", "Admin", new { isPlaying = true, stakeAmt = "__amtStake__", movieChk = "__movies__", footballChk = "__football__", musicChk = "__music__", marvelMovieChk = "__marvelmovies__", percentage = "__percentage__" })'
                             .replace('__amtStake__', document.getElementById('amtStake').value)
                             .replace('__movies__', document.getElementById('selectMovie').checked)
                             .replace('__football__', document.getElementById('selectFootball').checked)
                             .replace('__music__', document.getElementById('selectMusic').checked)
-                            .replace('__marvelmovies__', document.getElementById('selectMovieMarvel').checked)">
+                            .replace('__marvelmovies__', document.getElementById('selectMovieMarvel').checked)
+                            .replace('__percentage__', document.getElementById('timer').value)">
                                 Start Game
                             </button>
                         }
@@ -277,14 +291,10 @@
                                     <li>-Stake an amount, any amount you want</li>
                                     <li>-Click on play</li>
                                     <li>-The system picks 5 questions at random, then displays it on the screen</li>
-                                    <li>-You have 30 seconds to answer all questions before it's automatically submitted</li>
+                                    <li>-Depending on the timer selected, the system times you to answer all questions before it's automatically submitted.</li>
+                                    <li>-Yout interest is calculated based on the timer picked, the lower the time, the higher the interest percentage.</li>
+                                    <li>-If you get all questions correctly, you get your interest amount in addition to the amount staked</li>
                                     <li>-The system checks your answers and scores it</li>
-                                    <li>-If you got only 2 questions correctly, you get 10% of your stake amount in addition to the amount staked</li>
-                                    <li>-If you got 3 or 4 questions correctly, you get 20% of your stake amount in addition to the amount staked</li>
-                                    <li>-If you got all questions correctly, you get 30% of your stake amount in addition to the amount staked</li>
-                                    <li>Ongoing Promo - Get all questions correctly, you get 50% (Limited Time)</li>
-                                    <li>-If you got only 1 question correctly, you lose 50%  the amount staked</li>
-                                    <li>-If you got none of the questions correctly, you lose all the amount staked</li>
                                     <li>-You can withdraw anytime</li>
                                     <li>-Minimum withdrawal is 3,000 Naira</li>
                                     <li>-You can play as much time as you want</li>
@@ -309,6 +319,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            function displayValue() {
+                document.getElementById("message").innerHTML = $("#timer :selected").val() + "% Interest";
+            }
+        </script>
         <!-- End Footer area-->
         <script src="~/assets/admin/js/vendor/jquery-1.12.4.min.js"></script>
         <script src="~/assets/admin/js/bootstrap.min.js"></script>

@@ -149,7 +149,7 @@ namespace EGames.Controllers
             return RedirectToAction("AdminPanel", "Admin");
         }
 
-        public IActionResult BrainGame(bool isPlaying = false, string stakeAmt = null, bool movieChk = false, bool footballChk = false, bool musicChk = false, bool marvelMovieChk = false)
+        public IActionResult BrainGame(bool isPlaying = false, string stakeAmt = null, bool movieChk = false, bool footballChk = false, bool musicChk = false, bool marvelMovieChk = false, int percentage = 0)
         {
             string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
             string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
@@ -170,7 +170,8 @@ namespace EGames.Controllers
                 IsAdmin = loggedUser.isAdmin,
                 DisplayMessage = _displayMessage,
                 SuccessMessage = _successMessage,
-                ErrorMessage = _errorMessage
+                ErrorMessage = _errorMessage,
+                Timer = 1000
             };
 
             //Continue from here
@@ -187,6 +188,13 @@ namespace EGames.Controllers
                 {
                     vm.ErrorMessage = "Error, No Amount has been staked.";
                     vm.DisplayMessage = "Error, No Amount has been staked.";
+                    return View(vm);
+                }
+
+                if(percentage < 10)
+                {
+                    vm.ErrorMessage = "Error, Please select your time range which will determine your percentage interest (The shorter the time, the higher the percentage).";
+                    vm.DisplayMessage = "Error, Please select your time range which will determine your percentage interest (The shorter the time, the higher the percentage).";
                     return View(vm);
                 }
 
@@ -216,9 +224,28 @@ namespace EGames.Controllers
                 vm.Question4 = brainGameStarted[3];
                 vm.Question5 = brainGameStarted[4];
                 vm.IsPlaying = true;
+                switch (percentage)
+                {
+                    case 10:
+                        vm.Timer = 120000;
+                        break;
+                    case 25:
+                        vm.Timer = 90000;
+                        break;
+                    case 50:
+                        vm.Timer = 60000;
+                        break;
+                    case 100:
+                        vm.Timer = 30000;
+                        break;
+                    default:
+                        vm.Timer = 1000;
+                        break;
+                }
 
                 //Store Brain Game Questions
                 HttpContext.Session.SetString("BrainQuestionIDs", vm.Question1.Id + ";" + vm.Question2.Id + ";" + vm.Question3.Id + ";" + vm.Question4.Id + ";" + vm.Question5.Id);
+                HttpContext.Session.SetString("TimerPercentage", percentage.ToString());
             }
             //Set up the UI for Brain Game (Stake amount, game category,End Game)
 
@@ -625,6 +652,7 @@ namespace EGames.Controllers
             string Id = HttpContext.Session.GetString("UserID");
             string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
             string brainQuestionsIds = HttpContext.Session.GetString("BrainQuestionIDs");
+            int timerPercentage = Convert.ToInt32(HttpContext.Session.GetString("TimerPercentage"));
 
             bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
             if (!userLogged)
@@ -641,7 +669,7 @@ namespace EGames.Controllers
                 return RedirectToAction("BrainGame", "Admin");
             }
 
-            bool isGameEnded = _brainGameQuestionService.EndGame(loggedUser.Id, brainQuestionsIds, answer1, answer2, answer3, answer4, answer5, out string message);
+            bool isGameEnded = _brainGameQuestionService.EndGame(loggedUser.Id, brainQuestionsIds, timerPercentage, answer1, answer2, answer3, answer4, answer5, out string message);
             if (!isGameEnded)
             {
                 HttpContext.Session.SetString("DisplayMessage", message);
@@ -654,6 +682,7 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("DisplayMessage", "Brain Question Game Ended Successfully |" + message);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("BrainQuestionIDs", String.Empty);
+            HttpContext.Session.SetString("TimerPercentage", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Question Game Ended Successfully |" + message);
             return RedirectToAction("BrainGame", "Admin");
         }

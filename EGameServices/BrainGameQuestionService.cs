@@ -64,7 +64,7 @@ namespace EGamesServices
             return result;
         }
 
-        public bool EndGame(long userId, string questionsIDs, string answer1, string answer2, string answer3, string answer4, string answer5, out string message)
+        public bool EndGame(long userId, string questionsIDs, double percentage, string answer1, string answer2, string answer3, string answer4, string answer5, out string message)
         {
             bool result = false;
             message = String.Empty;
@@ -187,16 +187,21 @@ namespace EGamesServices
                 }
 
                 double amountWon = 0;
-                if(correctPoints >= 2)
+                //if(correctPoints >= 2)
+                //{
+                //    double percentWon = (correctPoints == 2) ? 10 : (correctPoints == 3 || correctPoints == 4) ? 20 : 50;
+                //    percentWon = percentWon / 100;
+                //    amountWon = amountWon + (user.AmtUsedToPlayBrainGame * percentWon) + user.AmtUsedToPlayBrainGame;
+                //}
+                //else
+                //{
+                //    double halfAmtUsedToStake = user.AmtUsedToPlayBrainGame * 0.5;
+                //    user.Balance = (correctPoints == 1) ? (user.Balance + halfAmtUsedToStake) : user.Balance;
+                //}
+                if(correctPoints >= 5)
                 {
-                    double percentWon = (correctPoints == 2) ? 10 : (correctPoints == 3 || correctPoints == 4) ? 20 : 50;
-                    percentWon = percentWon / 100;
-                    amountWon = amountWon + (user.AmtUsedToPlayBrainGame * percentWon) + user.AmtUsedToPlayBrainGame;
-                }
-                else
-                {
-                    double halfAmtUsedToStake = user.AmtUsedToPlayBrainGame * 0.5;
-                    user.Balance = (correctPoints == 1) ? (user.Balance + halfAmtUsedToStake) : user.Balance;
+                    percentage = percentage / 100;
+                    amountWon = amountWon + (user.AmtUsedToPlayBrainGame * percentage) + user.AmtUsedToPlayBrainGame;
                 }
 
                 GameHistory gameHistory = new GameHistory()
