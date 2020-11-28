@@ -26,5 +26,8 @@ namespace EGames.Models
         public string Message { get; set; }
         public List<EGamesData.Models.Notification> getAllNotifications { get; set; }
         public List<EGamesData.Models.GameHistory> getAllGameHistories { get; set; }
+        public bool IsAgent { get; set; }
+        public int TotalUsersReferredByAgent { get; set; }
+        public string AgentCode { get; set; }
     }
 }

@@ -62,7 +62,8 @@ namespace EGames.Controllers
                 SuccessMessage = _successMessage,
                 ErrorMessage = _errorMessage,
                 getAllNotifications = new List<Notification>(),
-                getAllGameHistories = new List<GameHistory>()
+                getAllGameHistories = new List<GameHistory>(),
+                AgentCode = String.Empty
             };
 
             //Fetch all notifications
@@ -80,6 +81,13 @@ namespace EGames.Controllers
             }
 
             vm.getAllGameHistories = _userService.GetAllUsersGameHistories(loggedUser.Id);
+
+            if (!String.IsNullOrWhiteSpace(loggedUser.AgentCode))
+            {
+                vm.IsAgent = true;
+                vm.TotalUsersReferredByAgent = _userService.GetTotalUsersReferred(loggedUser.AgentCode);
+                vm.AgentCode = loggedUser.AgentCode;
+            }
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
@@ -279,8 +287,19 @@ namespace EGames.Controllers
                 ErrorMessage = _errorMessage,
                 AvailableBrainGameQuestions = _brainGameQuestionService.GetAllBrainGameQuestions(),
                 TotalUsersRegistered = _userService.TotalUserRegistered(),
-                UsersPendingPayout = _userService.GetAllUsersPendingWIthdrawal()
+                UsersPendingPayout = _userService.GetAllUsersPendingWIthdrawal(),
+                AgentList = new Dictionary<User, int>()
             };
+
+            List<User> agents = _userService.GetAgentsDetails();
+            if(agents.Count > 0)
+            {
+                foreach(var agent in agents)
+                {
+                    int usersReferred = _userService.GetTotalUsersReferred(agent.AgentCode);
+                    vm.AgentList.Add(agent, usersReferred);
+                }
+            }
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
@@ -462,6 +481,37 @@ namespace EGames.Controllers
             {
                 HttpContext.Session.SetString("DisplayMessage", "User Balance Check failed for " + data.EmailAddress + " with error message: " + message);
                 HttpContext.Session.SetString("DashboardErrMsg", "User Balance Check failed for " + data.EmailAddress + " with error message: " + message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        [HttpPost]
+        public IActionResult MakeAgent(AdminDashboardViewModel data)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isNowAgent = _userService.MakeUserAnAgent(data.EmailAddress, out string message);
+            if (isNowAgent)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Operation Successful: User " + data.EmailAddress + " is now an agent.");
+                HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", "Operation Successful: User " + data.EmailAddress + " is now an agent.");
+            }
+            else
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Operation failed for " + data.EmailAddress + " with error message: " + message);
+                HttpContext.Session.SetString("DashboardErrMsg", "Operation failed for " + data.EmailAddress + " with error message: " + message);
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
             }
 

@@ -20,5 +20,6 @@ namespace EGames.Models
         public List<EGamesData.Models.BrainGameQuestion> AvailableBrainGameQuestions { get; set; }
         public int TotalUsersRegistered { get; set; }
         public List<EGamesData.Models.User> UsersPendingPayout { get; set; }
+        public Dictionary<EGamesData.Models.User, int> AgentList { get; set; }
     }
 }

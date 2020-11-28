@@ -7,7 +7,7 @@ namespace EGamesData.Interfaces
 {
     public interface IUserService
     {
-        bool Register(string email, string password, string bankName, string accountNumber, out string message);
+        bool Register(string email, string password, string bankName, string accountNumber, string refCode, out string message);
         User Login(string email, string password, out string message);
         User GetUserByEmail(string email, out string message);
         User GetUserByID(long userId, out string message);
@@ -20,5 +20,8 @@ namespace EGamesData.Interfaces
         List<GameHistory> GetAllUsersGameHistories(long userId);
         int TotalUserRegistered();
         bool GetUserAccountDetails(string emailAddress, out string message);
+        int GetTotalUsersReferred(string agentCode);
+        List<User> GetAgentsDetails();
+        bool MakeUserAnAgent(string emailAddress, out string message);
     }
 }

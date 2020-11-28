@@ -12,5 +12,6 @@ namespace EGames.Models
         public string AccountNumber { get; set; }
         public string ReTypePassword { get; set; }
         public bool AgreeToLicense { get; set; }
+        public string ReferralCode { get; set; }
     }
 }

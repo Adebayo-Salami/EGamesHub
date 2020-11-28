@@ -121,7 +121,7 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isRegistered = _userService.Register(data.Email, data.Password, data.BankName, data.AccountNumber, out string message);
+            bool isRegistered = _userService.Register(data.Email, data.Password, data.BankName, data.AccountNumber, data.ReferralCode, out string message);
             if (!isRegistered)
             {
                 HttpContext.Session.SetString("DisplayMessage", message);

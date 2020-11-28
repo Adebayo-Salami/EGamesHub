@@ -272,9 +272,23 @@
                                     <p>Password: *******</p>
                                     <p>Bank Name: @Model.BankName</p>
                                     <p>Account Number: @Model.AccountNumber</p>
+                                    <br />
+                                    <div class="form-check">
+                                        <label class="switch">
+                                            <input type="checkbox" onchange="showGameHistoryList(this)">
+                                            <span class="slider round"></span>Show Game History List
+                                        </label>
+                                    </div>
+                                    <br />
+                                    @if (Model.IsAgent)
+                                    {
+                                        <h2>Congrats! Your An Agent</h2>
+                                        <h3>Total Users Referred: @Model.TotalUsersReferredByAgent</h3>
+                                        <h3>Agent Unique Code: @Model.AgentCode</h3>
+                                    }
                                 </div>
                             </div>
-                            <div id="curved-line-chart" class="flot-chart-sts flot-chart"></div>
+                            @*<div id="curved-line-chart" class="flot-chart-sts flot-chart"></div>*@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
@@ -406,7 +420,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="rowGameHistory" hidden="hidden">
                         <div class="recent-items-wp notika-shadow sm-res-mg-t-30">
                             <div class="rc-it-ltd">
                                 <div class="recent-items-ctn">
@@ -468,6 +482,15 @@
                 else if (control.value == 2) {
                     $("#nigeriaReps").hide();
                     $("#usaReps").show();
+                }
+            }
+
+            function showGameHistoryList(control) {
+                if (control.checked == true) {
+                    $("#rowGameHistory").show();
+                }
+                else {
+                    $("#rowGameHistory").hide();
                 }
             }
         </script>

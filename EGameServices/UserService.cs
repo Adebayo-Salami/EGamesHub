@@ -59,7 +59,7 @@ namespace EGamesServices
             return loggedUser;
         }
 
-        public bool Register(string email, string password, string bankName, string accountNumber, out string message)
+        public bool Register(string email, string password, string bankName, string accountNumber, string refCode, out string message)
         {
             message = String.Empty;
             bool result = false;
@@ -107,8 +107,20 @@ namespace EGamesServices
                     BingoProfile = new Bingo()
                     {
                         TotalAmountSpent = 0,
-                    },
+                    }
                 };
+
+                if (!String.IsNullOrWhiteSpace(refCode))
+                {
+                    //Confirm Ref Code is Valid
+                    User user = _context.Users.FirstOrDefault(x => x.AgentCode == refCode);
+                    if (user == null)
+                    {
+                        message = "Agent Ref Code Is Invalid, You can register without any agent code by leaving the field blank.";
+                        return false;
+                    }
+                    userRegistering.ReferralCode = refCode;
+                }
 
                 _context.Users.Add(userRegistering);
                 _context.SaveChanges();
@@ -468,6 +480,87 @@ namespace EGamesServices
             }
 
             return result;
+        }
+
+        public int GetTotalUsersReferred(string agentCode)
+        {
+            int result = 0;
+
+            try
+            {
+                if (String.IsNullOrWhiteSpace(agentCode))
+                {
+                    return result;
+                }
+
+                result = _context.Users.Where(x => x.ReferralCode == agentCode).Count();
+
+            } catch { }
+
+            return result;
+        }
+
+        public List<User> GetAgentsDetails()
+        {
+            return _context.Users.Where(x => x.AgentCode != null && x.AgentCode != "").ToList();
+        }
+
+        public bool MakeUserAnAgent(string emailAddress, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if (String.IsNullOrWhiteSpace(emailAddress))
+                {
+                    message = "Email Address Is Required";
+                    return false;
+                }
+
+                User user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.EmailAddress == emailAddress);
+                if (user == null)
+                {
+                    message = "No user with this email address exists on the system [ " + emailAddress + " ]";
+                    return false;
+                }
+
+                if (!String.IsNullOrWhiteSpace(user.AgentCode))
+                {
+                    message = "User Is already an agent with agent code " + user.AgentCode;
+                    return false;
+                }
+
+                string agentCode;
+                do
+                {
+                    agentCode = Random("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+                }
+                while (_context.Users.FirstOrDefault(x => x.AgentCode == agentCode) != null);
+
+                user.AgentCode = agentCode;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception error)
+            {
+                message = error.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public string Random(string chars, int length = 8)
+        {
+            var randomString = new StringBuilder();
+            var random = new Random();
+
+            for (int i = 0; i < length; i++)
+                randomString.Append(chars[random.Next(chars.Length)]);
+
+            return randomString.ToString();
         }
     }
 }
