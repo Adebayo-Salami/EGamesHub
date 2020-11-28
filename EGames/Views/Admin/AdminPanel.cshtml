@@ -90,6 +90,7 @@
                                     <ul id="demoevent" class="collapse dropdown-header-top">
                                         <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
                                         <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -253,6 +254,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalAddWordPuzzleQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Add Word Puzzle Question</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form method="post" asp-action="AddWordPuzzleQuestion" asp-controller="Admin">
+                        <h2 class="sr-only">Add New Notification</h2>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="Question" placeholder="Question" asp-for="Question">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="Answer" placeholder="Answer (Multiple answers can be separated by using ';')" asp-for="Answer">
+                        </div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Add Question</button></div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Mobile Menu end -->
     <!-- Main Menu area start-->
     <div class="main-menu-area mg-tb-40">
@@ -300,6 +332,9 @@
                                 <li>
                                     <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
                                 </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -346,6 +381,10 @@
                             <br />
                             <div class="form-check">
                                 <button id="btnAddBrainQuestion" class="btn btn-info" type="button" onclick="GetAddBrainQuestionPartial()">Add Brain Question</button>
+                            </div>
+                            <br />
+                            <div class="form-check">
+                                <button id="btnAddWordPuzzleQuestion" class="btn btn-info" type="button" onclick="GetAddWordPuzzleQuestionPartial()">Add Word Puzzle Question</button>
                             </div>
                             <br />
                             <div class="form-check">
@@ -408,23 +447,23 @@
                                             <th>Amount</th>
                                             @if (Model.IsAdmin)
                                             {
-                                                <th></th>
+                                            <th></th>
                                             }
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var user in Model.UsersPendingPayout)
                                         {
-                                            <tr>
-                                                <td>@user.EmailAddress</td>
-                                                <td>@user.AccountNumber</td>
-                                                <td>@user.BankName</td>
-                                                <td>@user.PendingWithdrawalAmount</td>
-                                                @if (Model.IsAdmin)
+                                        <tr>
+                                            <td>@user.EmailAddress</td>
+                                            <td>@user.AccountNumber</td>
+                                            <td>@user.BankName</td>
+                                            <td>@user.PendingWithdrawalAmount</td>
+                                            @if (Model.IsAdmin)
                                                 {
-                                                    <td><input type="button" value="Paid" onclick="location.href='@Url.Action("UserPaid", "Admin", new { userId = user.Id })'" /></td>
+                                            <td><input type="button" value="Paid" onclick="location.href='@Url.Action("UserPaid", "Admin", new { userId = user.Id })'" /></td>
                                                 }
-                                            </tr>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -456,23 +495,23 @@
                                             <th>Game Category</th>
                                             @if (Model.IsAdmin)
                                             {
-                                                <th></th>
+                                            <th></th>
                                             }
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var brainGameQuestion in Model.AvailableBrainGameQuestions)
                                         {
-                                            <tr>
-                                                <td>@brainGameQuestion.AddedBy.EmailAddress</td>
-                                                <td>@brainGameQuestion.Question</td>
-                                                <td>@brainGameQuestion.Answers</td>
-                                                <td>@brainGameQuestion.BrainGameCategory.ToString()</td>
-                                                @if (Model.IsAdmin)
-                                                {
-                                                    <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
-                                                }
-                                            </tr>
+                                        <tr>
+                                            <td>@brainGameQuestion.AddedBy.EmailAddress</td>
+                                            <td>@brainGameQuestion.Question</td>
+                                            <td>@brainGameQuestion.Answers</td>
+                                            <td>@brainGameQuestion.BrainGameCategory.ToString()</td>
+                                            @if (Model.IsAdmin)
+                                            {
+                                                <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
+                                            }
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -500,25 +539,61 @@
                                             <th>Agent Code</th>
                                             <th>Total Users Referred</th>
                                             @*@if (Model.IsAdmin)
-                                                {
-                                                    <th></th>
-                                                }*@
+                                        {
+                                            <th></th>
+                                        }*@
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var agent in Model.AgentList)
                                         {
-                                            <tr>
-                                                <td>@agent.Key.EmailAddress</td>
-                                                <td>@agent.Key.AccountNumber</td>
-                                                <td>@agent.Key.BankName</td>
-                                                <td>@agent.Key.AgentCode</td>
-                                                <td>@agent.Value.ToString()</td>
-                                                @*@if (Model.IsAdmin)
-                                                    {
-                                                        <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
-                                                    }*@
-                                            </tr>
+                                        <tr>
+                                            <td>@agent.Key.EmailAddress</td>
+                                            <td>@agent.Key.AccountNumber</td>
+                                            <td>@agent.Key.BankName</td>
+                                            <td>@agent.Key.AgentCode</td>
+                                            <td>@agent.Value.ToString()</td>
+                                            @*@if (Model.IsAdmin)
+                                        {
+                                            <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveBrainGameQuestion", "Admin", new { brainGameQuestionId = brainGameQuestion.Id })'" /></td>
+                                        }*@
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="rowWordPuzzleQuestionList" hidden="hidden">
+                <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
+                    <div class="recent-post-ctn">
+                        <div class="recent-post-title">
+                            <h2>Word Puzzle Question List</h2>
+                        </div>
+                    </div>
+                    <div class="recent-post-items">
+                        <div class="recent-post-signle rct-pt-mg-wp">
+                            <div class="body table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Added By</th>
+                                            <th>Explanation</th>
+                                            <th>Answer(s)</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var wordPuzzleQuestion in Model.AvailableWordPuzzleQuestions)
+                                        {
+                                        <tr>
+                                            <td>@wordPuzzleQuestion.AddedBy.EmailAddress</td>
+                                            <td>@wordPuzzleQuestion.Explanation</td>
+                                            <td>@wordPuzzleQuestion.Answers</td>
+                                            <td><input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveWordPuzzleQuestion", "Admin", new { wordPuzzleQuestionId = wordPuzzleQuestion.Id })'" /></td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -553,6 +628,10 @@
 
         function GetAddBrainQuestionPartial() {
             $("#modalAddBrainQuestion").modal("show");
+        }
+
+        function GetAddWordPuzzleQuestionPartial() {
+            $("#modalAddWordPuzzleQuestion").modal("show");
         }
 
         function showPendingPayoutList(control) {

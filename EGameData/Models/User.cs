@@ -28,6 +28,7 @@ namespace EGamesData.Models
         public bool IsWithdrawing { get; set; }
         public Bingo BingoProfile { get; set; }
         public double AmtUsedToPlayBrainGame { get; set; }
+        public double AmtUsedToPlayWordPuzzle { get; set; }
         public string ReferralCode { get; set; }
         public string AgentCode { get; set; }
     }

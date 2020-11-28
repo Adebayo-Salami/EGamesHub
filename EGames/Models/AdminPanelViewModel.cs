@@ -21,5 +21,6 @@ namespace EGames.Models
         public int TotalUsersRegistered { get; set; }
         public List<EGamesData.Models.User> UsersPendingPayout { get; set; }
         public Dictionary<EGamesData.Models.User, int> AgentList { get; set; }
+        public List<EGamesData.Models.WordPuzzle> AvailableWordPuzzleQuestions { get; set; }
     }
 }

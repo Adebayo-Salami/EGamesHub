@@ -1,0 +1,281 @@
+﻿@model EGames.Models.AdminWordPuzzleViewModel
+
+<!DOCTYPE html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Dashboard - Index</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/assets/admin/css/owl.theme.css">
+    <link rel="stylesheet" href="~/assets/admin/css/owl.transitions.css">
+    <link rel="stylesheet" href="~/assets/admin/css/meanmenu/meanmenu.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/animate.css">
+    <link rel="stylesheet" href="~/assets/admin/css/normalize.css">
+    <link rel="stylesheet" href="~/assets/admin/css/scrollbar/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/jvectormap/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" href="~/assets/admin/notika-custom-icon.css">
+    <link rel="stylesheet" href="~/assets/admin/css/wave/waves.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/main.css">
+    <link rel="stylesheet" href="~/assets/admin/css/style.css">
+    <link rel="stylesheet" href="~/assets/admin/css/responsive.css">
+    <script src="~/assets/admin/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    @if (!String.IsNullOrWhiteSpace(Model.DisplayMessage))
+    {
+        <script>
+                $(document).ready(function () {
+                    $("#modalDisplayMessage").modal('show');
+                });
+        </script>
+    }
+    <div class="modal fade" id="modalDisplayMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <h3>@Model.DisplayMessage</h3>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-top-area">
+    </div>
+    <!-- End Header Top Area -->
+    <!-- Mobile Menu start -->
+    <div class="mobile-menu-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="mobile-menu">
+                        <nav id="dropdown">
+                            <ul class="mobile-menu-nav">
+                                @if (Model.IsAdmin)
+                                {
+                                    <li>
+                                        <a data-toggle="collapse" data-target="#Charts" href="#">Admin</a>
+                                        <ul class="collapse dropdown-header-top">
+                                            <li><a asp-area="" asp-controller="Admin" asp-action="AdminPanel">Admin Panel</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                <li>
+                                    <a data-toggle="collapse" data-target="#Charts" href="#">Home</a>
+                                    <ul class="collapse dropdown-header-top">
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">View Profile</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a data-toggle="collapse" data-target="#demoevent" href="#">Games</a>
+                                    <ul id="demoevent" class="collapse dropdown-header-top">
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu end -->
+    <!-- Main Menu area start-->
+    <div class="main-menu-area mg-tb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
+                        @if (Model.IsAdmin)
+                        {
+                            <li>
+                                <a data-toggle="tab" href="#admin"><i class="notika-icon notika-mail"></i> Admin</a>
+                            </li>
+                        }
+                        <li>
+                            <a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i> Home</a>
+                        </li>
+                        <li class="active">
+                            <a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> Games</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content custom-menu-content">
+                        <div id="admin" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                @if (Model.IsAdmin)
+                                {
+                                    <li><a asp-area="" asp-controller="Admin" asp-action="AdminPanel">Admin Panel</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="Home" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Index">View Profile</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Logout">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="mailbox" class="tab-pane in active notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Menu area End-->
+    <!-- Start Status area -->
+    <div class="notika-status-area">
+        <div class="container">
+        </div>
+    </div>
+    <!-- End Status area-->
+    <!-- Start Sale Statistic area-->
+    <div class="sale-statistic-area">
+        <div class="container">
+            <h3 style="color:red; font-size:medium">@Model.ErrorMessage</h3>
+            <h3 style="color:green; font-size:medium">@Model.SuccessMessage</h3>
+            <div class="row">
+                <!-- Place Bingo Here-->
+                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+                    @if (Model.IsPlaying)
+                    {
+                        <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                            <div class="col">
+                                <div class="form-check">
+                                    <label>Word Explanation: @Model.QuestionExplanation</label>
+                                    <input class="form-control" type="text" placeholder="Answer" id="ans">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <button id="btnSubmitAns" hidden="hidden" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndWordPuzzleGame", "Admin", new { answer = "__ans__" })'
+                                            .replace('__ans__', document.getElementById('ans').value)">
+                                        Automatic Submission (Don't click me)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                                window.setTimeout(function () {
+                                    document.getElementById("btnSubmitAns").click();
+                                }, 10000)
+                        </script>
+                    }
+                    else
+                    {
+                        <div class="m-b--35 font-bold">Staking Amount</div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Amount" id="amtStake">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("WordPuzzle", "Admin", new { isPlaying = true, stakeAmt = "__amtStake__" })'
+                            .replace('__amtStake__', document.getElementById('amtStake').value)">
+                            Start Game
+                        </button>
+                    }
+
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                    <div class="statistic-right-area notika-shadow mg-tb-30 sm-res-mg-t-0">
+                        <div class="past-day-statis">
+                            <h2>Rules Of The Game</h2>
+                            <ul>
+                                <li>-Input Stake Amount</li>
+                                <li>-Click On Start Game</li>
+                                <li>-A short explanation will be displayed on your screen to describe the exact word your to input.</li>
+                                <li>-Input word that best fits the explanation</li>
+                                <li>-Answer is submitted automattically within 10 seconds</li>
+                                <li>-The system grades your answer, if your correct, you get 20% interest of your stake amount in addition to the amount staked.</li>
+                                <li>-The money is added to your withdrawable balance</li>
+                                <li>-Minimum Withdrawable is 3,000 Naira</li>
+                                <li>-You can play as much as you want and keep cashing out</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Sale Statistic area-->
+    <!-- Start Footer area-->
+    <div class="footer-copyright-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="footer-copy-right">
+                        <p>© 2020 E-GAMES HUB. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Footer area-->
+    <script src="~/assets/admin/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/assets/admin/js/bootstrap.min.js"></script>
+    <script src="~/assets/admin/js/wow.min.js"></script>
+    <script src="~/assets/admin/js/jquery-price-slider.js"></script>
+    <script src="~/assets/admin/js/owl.carousel.min.js"></script>
+    <script src="~/assets/admin/js/jquery.scrollUp.min.js"></script>
+    <script src="~/assets/admin/js/meanmenu/jquery.meanmenu.js"></script>
+    <script src="~/assets/admin/js/counterup/jquery.counterup.min.js"></script>
+    <script src="~/assets/admin/js/counterup/waypoints.min.js"></script>
+    <script src="~/assets/admin/js/counterup/counterup-active.js"></script>
+    <script src="~/assets/admin/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/assets/admin/js/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="~/assets/admin/js/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/assets/admin/js/jvectormap/jvectormap-active.js"></script>
+    <script src="~/assets/admin/js/sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/assets/admin/js/sparkline/sparkline-active.js"></script>
+    <script src="~/assets/admin/js/flot/jquery.flot.js"></script>
+    <script src="~/assets/admin/js/flot/jquery.flot.resize.js"></script>
+    <script src="~/assets/admin/js/flot/curvedLines.js"></script>
+    <script src="~/assets/admin/js/flot/flot-active.js"></script>
+    <script src="~/assets/admin/js/knob/jquery.knob.js"></script>
+    <script src="~/assets/admin/js/knob/jquery.appear.js"></script>
+    <script src="~/assets/admin/js/knob/knob-active.js"></script>
+    <script src="~/assets/admin/js/wave/waves.min.js"></script>
+    <script src="~/assets/admin/js/wave/wave-active.js"></script>
+    <script src="~/assets/admin/js/todo/jquery.todo.js"></script>
+    <script src="~/assets/admin/js/plugins.js"></script>
+    <script src="~/assets/admin/js/chat/moment.min.js"></script>
+    <script src="~/assets/admin/js/chat/jquery.chat.js"></script>
+    <script src="~/assets/admin/js/main.js"></script>
+    @*<script src="~/assets/admin/js/tawk-chat.js"></script>*@
+</body>
+
+</html> 

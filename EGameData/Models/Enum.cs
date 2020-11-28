@@ -8,7 +8,8 @@ namespace EGamesData.Models
     {
         ColorBingo,
         GuessingGame,
-        BrainGame
+        BrainGame,
+        WordPuzzle
     }
 
     public enum BrainGameCategory

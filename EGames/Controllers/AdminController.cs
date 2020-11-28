@@ -19,14 +19,16 @@ namespace EGames.Controllers
         private readonly IBingoService _bingoService;
         private readonly INotificationService _notificationService;
         private readonly IBrainGameQuestionService _brainGameQuestionService;
+        private readonly IWordPuzzleService _wordPuzzleService;
 
-        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService)
+        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService, IWordPuzzleService wordPuzzleService)
         {
             _logger = logger;
             _userService = userService;
             _notificationService = notificationService;
             _bingoService = bingoService;
             _brainGameQuestionService = brainGameQuestionService;
+            _wordPuzzleService = wordPuzzleService;
         }
 
         public IActionResult Index()
@@ -155,6 +157,72 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "User " + data.EmailAddress + " Funded Successfully with " + data.Amount + " Naira.");
             return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        public IActionResult WordPuzzle(bool isPlaying = false, string stakeAmt = null)
+        {
+            string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
+            string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
+            string _successMessage = HttpContext.Session.GetString("DashboardSuccessMsg");
+
+            //Check Authentication
+            string userId = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(userId), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            AdminWordPuzzleViewModel vm = new AdminWordPuzzleViewModel()
+            {
+                IsAdmin = loggedUser.isAdmin,
+                DisplayMessage = _displayMessage,
+                SuccessMessage = _successMessage,
+                ErrorMessage = _errorMessage,
+                IsPlaying = false
+            };
+
+            if (isPlaying)
+            {
+                if (String.IsNullOrWhiteSpace(stakeAmt))
+                {
+                    vm.ErrorMessage = "Error, No Amount has been staked.";
+                    vm.DisplayMessage = "Error, No Amount has been staked.";
+                    return View(vm);
+                }
+
+                double amountStaked = 0;
+                try
+                {
+                    amountStaked = Convert.ToDouble(stakeAmt);
+                }
+                catch
+                {
+                    vm.ErrorMessage = "Error, Invalid Stake Amount.";
+                    vm.DisplayMessage = "Error, Invalid Stake Amount.";
+                    return View(vm);
+                }
+
+                WordPuzzle wordPuzzleGame = _wordPuzzleService.StartGame(loggedUser.Id, amountStaked, out string message);
+                if(wordPuzzleGame == null)
+                {
+                    vm.ErrorMessage = message;
+                    vm.DisplayMessage = message;
+                    return View(vm);
+                }
+
+                vm.IsPlaying = true;
+                vm.QuestionExplanation = wordPuzzleGame.Explanation;
+                vm.SuccessMessage = "Word Puzzle Game Started, You have 10 seconds to input the word and win cash prize.";
+                HttpContext.Session.SetString("WordPuzzleID", wordPuzzleGame.Id.ToString());
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", String.Empty);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            return View(vm);
         }
 
         public IActionResult BrainGame(bool isPlaying = false, string stakeAmt = null, bool movieChk = false, bool footballChk = false, bool musicChk = false, bool marvelMovieChk = false, int percentage = 0)
@@ -397,6 +465,59 @@ namespace EGames.Controllers
         }
 
         [HttpPost]
+        public IActionResult AddWordPuzzleQuestion(AdminPanelViewModel data)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!loggedUser.isAdmin)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Not Authorized");
+                HttpContext.Session.SetString("DashboardErrMsg", "Not Authorized");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (String.IsNullOrWhiteSpace(data.Question))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Explanation Is Required");
+                HttpContext.Session.SetString("DashboardErrMsg", "Explanation Is Required");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("AdminPanel", "Admin");
+            }
+
+            if (String.IsNullOrWhiteSpace(data.Answer))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Answer to question Is Required");
+                HttpContext.Session.SetString("DashboardErrMsg", "Answer to question Is Required");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("AdminPanel", "Admin");
+            }
+
+            bool isAdded = _wordPuzzleService.AddWordPuzzle(loggedUser.Id, data.Question, data.Answer, out string message);
+            if (!isAdded)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("AdminPanel", "Admin");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Word Puzzle Question added successfully");
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Word Puzzle Question added successfully");
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        [HttpPost]
         public IActionResult AddBrainQuestion(AdminPanelViewModel data)
         {
             //Check Authentication
@@ -588,6 +709,45 @@ namespace EGames.Controllers
             return RedirectToAction("AdminPanel", "Admin");
         }
 
+        public IActionResult RemoveWordPuzzleQuestion(long wordPuzzleQuestionId)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (wordPuzzleQuestionId <= 0)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Word Puzzle Game Question ID.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Word Puzzle Game Question ID.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
+            else
+            {
+                bool isWordPuzzleQuestionRemoved = _wordPuzzleService.RemoveWordPuzzle(wordPuzzleQuestionId, out string message);
+                if (isWordPuzzleQuestionRemoved)
+                {
+                    HttpContext.Session.SetString("DisplayMessage", "Word Puzzle Game Question Removed Successfully.");
+                    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", "Word Puzzle Game Question Removed Successfully.");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("DisplayMessage", message);
+                    HttpContext.Session.SetString("DashboardErrMsg", message);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                }
+            }
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
         public IActionResult RemoveBrainGameQuestion(long brainGameQuestionId)
         {
             //Check Authentication
@@ -693,6 +853,47 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Color Bingo Game Started Successfully");
             return RedirectToAction("ColorBingo", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult EndWordPuzzleGame(string answer = null)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+            string wordPuzzle = HttpContext.Session.GetString("WordPuzzleID");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (String.IsNullOrWhiteSpace(wordPuzzle))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Error, Unable to retrieve word puzzle question. Please retry!, don't worry you were not debited.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Error, Unable to retrieve word puzzle question. Please retry!, don't worry you were not debited.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("WordPuzzle", "Admin");
+            }
+
+            long wordPuzzleId = Convert.ToInt64(wordPuzzle);
+            bool isGameEnded = _wordPuzzleService.EndGame(loggedUser.Id, wordPuzzleId, answer, out string message);
+            if (!isGameEnded)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("WordPuzzleID", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("WordPuzzle", "Admin");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Word Puzzle Game Ended Successfully |" + message);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("WordPuzzleID", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Word Puzzle Game Ended Successfully |" + message);
+            return RedirectToAction("WordPuzzle", "Admin");
         }
 
         [HttpGet]
