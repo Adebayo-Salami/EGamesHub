@@ -401,6 +401,12 @@
                             </div>
                             <div class="form-check">
                                 <label class="switch">
+                                    <input type="checkbox" onchange="showWordPuzzleQuestionList(this)">
+                                    <span class="slider round"></span>Show Word Puzzle Question List
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="switch">
                                     <input type="checkbox" onchange="showAgentListList(this)">
                                     <span class="slider round"></span>Show Agent List
                                 </label>
@@ -666,6 +672,15 @@
             }
             else {
                 $("#rowAgentList").hide();
+            }
+        }
+
+        function showWordPuzzleQuestionList(control) {
+            if (control.checked == true) {
+                $("#rowWordPuzzleQuestionList").show();
+            }
+            else {
+                $("#rowWordPuzzleQuestionList").hide();
             }
         }
     </script>

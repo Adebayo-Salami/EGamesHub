@@ -356,7 +356,8 @@ namespace EGames.Controllers
                 AvailableBrainGameQuestions = _brainGameQuestionService.GetAllBrainGameQuestions(),
                 TotalUsersRegistered = _userService.TotalUserRegistered(),
                 UsersPendingPayout = _userService.GetAllUsersPendingWIthdrawal(),
-                AgentList = new Dictionary<User, int>()
+                AgentList = new Dictionary<User, int>(),
+                AvailableWordPuzzleQuestions = _wordPuzzleService.GetWordPuzzles()
             };
 
             List<User> agents = _userService.GetAgentsDetails();
