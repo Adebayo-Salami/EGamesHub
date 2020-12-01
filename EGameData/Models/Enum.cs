@@ -19,4 +19,10 @@ namespace EGamesData.Models
         MarvelMovies,
         DCMovies
     }
+
+    public enum ChallangeStatus
+    {
+        Accepted,
+        Declined
+    }
 }

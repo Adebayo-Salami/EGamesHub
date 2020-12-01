@@ -42,6 +42,7 @@ namespace EGames
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IBrainGameQuestionService, BrainGameQuestionService>();
             services.AddScoped<IWordPuzzleService, WordPuzzleService>();
+            services.AddScoped<IChallengeService, ChallengeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
