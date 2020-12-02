@@ -38,5 +38,11 @@ namespace EGames.Models
         public bool IsGameHost { get; set; }
         public bool IsUserChallenged { get; set; }
         public GameType? GameType { get; set; }
+        public bool IsUserAuthenticated { get; set; }
+        public double stakeAmount { get; set; }
+        public double AmountToBeWon { get; set; }
+        public string gameCategory { get; set; }
+        public string GameHost { get; set; }
+        public string ChallengeName { get; set; }
     }
 }

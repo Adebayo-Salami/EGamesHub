@@ -147,19 +147,159 @@
                     <br />
                     @if (Model.IsChallengeValid)
                     {
-                        @if (Model.IsGameStarted)
+                        @if (Model.IsUserAuthenticated)
                         {
-                            @if (!Model.IsChallengedJoined)
+                            @if (Model.IsGameStarted)
                             {
-                                @if (Model.IsUserChallenged)
+                                @if (!Model.IsChallengedJoined)
                                 {
-                                    <p><b>Your yet to join Game, Kindly go back to your challenge list and click on the play game button. ;-) don't worry your coming back here.</b></p>
+                                    @if (Model.IsUserChallenged)
+                                    {
+                                        <p><b>Your yet to join Game, Kindly go back to your challenge list and click on the play game button. ;-) don't worry your coming back here.</b></p>
+                                        <br />
+                                        <p>Game Challenge Details</p>
+                                        <ul>
+                                            <li>Challenge Name: @Model.ChallengeName</li>
+                                            <li>Stake Amount: @Model.stakeAmount Naira</li>
+                                            <li>Prize Amount: @Model.AmountToBeWon Naira</li>
+                                            <li>Game Type: @Model.GameType.ToString()</li>
+                                            @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                            {
+                                                <li>Game Category: @Model.gameCategory</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else if (Model.IsGameHost)
+                                    {
+                                        <p><b>User challenged is yet to start Game, Kindly hold on for user to join game. ;-) Enjoy your game, have fun and win the prize money.</b></p>
+                                        <br />
+                                        <p>Game Challenge Details</p>
+                                        <ul>
+                                            <li>Challenge Name: @Model.ChallengeName</li>
+                                            <li>Stake Amount: @Model.stakeAmount Naira</li>
+                                            <li>Prize Amount: @Model.AmountToBeWon Naira</li>
+                                            <li>Game Type: @Model.GameType.ToString()</li>
+                                            @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                            {
+                                                <li>Game Category: @Model.gameCategory</li>
+                                            }
+                                        </ul>
+                                        <br />
+                                        <p style="color:red; font-size:medium">Note: Page reloads automatically after every 2 seconds so as to check when the user joins the game </p>
+                                        <script>
+                                            window.setTimeout(function () {
+                                                window.location.reload();
+                                            }, 2000);
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Your Not Mean't To Be Here!!</b></p>
+                                    }
                                 }
-                                else if (Model.IsGameHost)
+                                else
                                 {
-                                    <p><b>User challenged is yet to start Game, Kindly hold on for user to join game. ;-) Enjoy your game, have fun and win the prize money.</b></p>
+                                    @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                    {
+                                        <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <p><b>Please, Kindly note the following;</b></p>
+                                                    <ul>
+                                                        <li>Game will last for only 30 seconds and starts counting immeduately the game host starts the game.</li>
+                                                        <li>You can click on the submit button if you finish before the given time, as the time used also counts to determine the winnner in a case where there is a draws (at least 2 points gotten)</li>
+                                                        <li>The user with the highest points gets the prize money</li>
+                                                        <li>In a case where there is a solid draw, both users are refunded back with 30% of the amount staked.</li>
+                                                        <li>Please, do not leave this page until game has ended!! You automatically forfiet the game if you do</li>
+                                                        <li>Best of luck. ;-) Enjoy your game</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <label>Question 1: @Model.Question1.Question</label>
+                                                    <input class="form-control" type="text" placeholder="Answer" id="ans1">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <label>Question 2: @Model.Question2.Question</label>
+                                                    <input class="form-control" type="text" placeholder="Answer" id="ans2">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <label>Question 3: @Model.Question3.Question</label>
+                                                    <input class="form-control" type="text" placeholder="Answer" id="ans3">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <label>Question 4: @Model.Question4.Question</label>
+                                                    <input class="form-control" type="text" placeholder="Answer" id="ans4">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <label>Question 5: @Model.Question5.Question</label>
+                                                    <input class="form-control" type="text" placeholder="Answer" id="ans5">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <button id="btnSubmitAns" hidden="hidden" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndChallengeGame", "Admin", new { answer1 = "__ans1__", answer2 = "__ans2__", answer3 = "__ans3__", answer4 = "__ans4__", answer5 = "__ans5__" })'
+                                            .replace('__ans1__', document.getElementById('ans1').value)
+                                            .replace('__ans2__', document.getElementById('ans2').value)
+                                            .replace('__ans3__', document.getElementById('ans3').value)
+                                            .replace('__ans4__', document.getElementById('ans4').value)
+                                            .replace('__ans5__', document.getElementById('ans5').value)">
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Sorry, The game type selected is still in production phase, Kindly try the brain game challenge. ;-) don't worry we are working on it.</b></p>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                @if (Model.IsGameHost)
+                                {
+                                    <p><b>Your yet to start Game, Kindly go back to your challenge list and click on the play game button. ;-) don't worry your coming back here.</b></p>
                                     <br />
-                                    <p style="color:red; font-size:medium">Note: Page reloads automatically after every 2 seconds so as to check when the user joins the game </p>
+                                    <p>Game Challenge Details</p>
+                                    <ul>
+                                        <li>Challenge Name: @Model.ChallengeName</li>
+                                        <li>Stake Amount: @Model.stakeAmount Naira</li>
+                                        <li>Prize Amount: @Model.AmountToBeWon Naira</li>
+                                        <li>Game Type: @Model.GameType.ToString()</li>
+                                        @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                        {
+                                            <li>Game Category: @Model.gameCategory</li>
+                                        }
+                                    </ul>
+                                }
+                                else if (Model.IsUserChallenged)
+                                {
+                                    <p><b>Game Host is yet to start Game, Kindly hold on for game host to start game. ;-) Enjoy your game, have fun and win the prize money.</b></p>
+                                    <br />
+                                    <p>Game Challenge Details</p>
+                                    <ul>
+                                        <li>Challenge Name: @Model.ChallengeName</li>
+                                        <li>Stake Amount: @Model.stakeAmount Naira</li>
+                                        <li>Prize Amount: @Model.AmountToBeWon Naira</li>
+                                        <li>Game Type: @Model.GameType.ToString()</li>
+                                        @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                        {
+                                            <li>Game Category: @Model.gameCategory</li>
+                                        }
+                                    </ul>
+                                    <br />
+                                    <p style="color:red; font-size:medium">Note: Page reloads automatically after every 2 seconds so as to check when the game host starts the game </p>
                                     <script>
                                         window.setTimeout(function () {
                                             window.location.reload();
@@ -171,117 +311,48 @@
                                     <p><b>Your Not Mean't To Be Here!!</b></p>
                                 }
                             }
-                            else
-                            {
-                                @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
-                                {
-                                    <div class="sale-statistic-inner notika-shadow mg-tb-30">
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <p><b>Please, Kindly note the following;</b></p>
-                                                <ul>
-                                                    <li>Game will last for only 30 seconds and starts counting immeduately the game host starts the game.</li>
-                                                    <li>You can click on the submit button if you finish before the given time, as the time used also counts to determine the winnner in a case where there is a draws (at least 2 points gotten)</li>
-                                                    <li>The user with the highest points gets the prize money</li>
-                                                    <li>In a case where there is a solid draw, both users are refunded back with 30% of the amount staked.</li>
-                                                    <li>Please, do not leave this page until game has ended!! You automatically forfiet the game if you do</li>
-                                                    <li>Best of luck. ;-) Enjoy your game</li>
-                                                </ul>
-                                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <h1 style="text-align:center; font-size:medium; font-style:italic">Welcome To The Challengers Realm, Where users battle against each other to win the challenge prize</h1>
+                                <br />
+                                <p>Please Kindly provide login credentials to accept or decline challenge (Note by logging, you've automatically accepted challenge and will be taken straight to the challengers realm)</p>
+                                <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <label>Username:</label>
+                                            <input class="form-control" type="text" placeholder="Username" id="username">
                                         </div>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <label>Question 1: @Model.Question1.Question</label>
-                                                <input class="form-control" type="text" placeholder="Answer" id="ans1">
-                                            </div>
+                                        <div class="form-check">
+                                            <label>Username:</label>
+                                            <input class="form-control" type="password" placeholder="Password" id="password">
                                         </div>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <label>Question 2: @Model.Question2.Question</label>
-                                                <input class="form-control" type="text" placeholder="Answer" id="ans2">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <label>Question 3: @Model.Question3.Question</label>
-                                                <input class="form-control" type="text" placeholder="Answer" id="ans3">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <label>Question 4: @Model.Question4.Question</label>
-                                                <input class="form-control" type="text" placeholder="Answer" id="ans4">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <label>Question 5: @Model.Question5.Question</label>
-                                                <input class="form-control" type="text" placeholder="Answer" id="ans5">
-                                            </div>
+                                        <div class="form-check">
+                                            <label>Challenge ID:</label>
+                                            <input class="form-control" type="text" placeholder="Challenge ID" id="challengeId" disabled="disabled" value="@Model.ChallengeId">
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <button id="btnSubmitAns" hidden="hidden" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("EndChallengeGame", "Admin", new { answer1 = "__ans1__", answer2 = "__ans2__", answer3 = "__ans3__", answer4 = "__ans4__", answer5 = "__ans5__" })'
-                                            .replace('__ans1__', document.getElementById('ans1').value)
-                                            .replace('__ans2__', document.getElementById('ans2').value)
-                                            .replace('__ans3__', document.getElementById('ans3').value)
-                                            .replace('__ans4__', document.getElementById('ans4').value)
-                                            .replace('__ans5__', document.getElementById('ans5').value)">
-                                                    Submit
+                                                <button id="btnSubmit" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("ChallengersRealm", "Admin", new { challengeID = "__ans1__", username = "__ans2__", password = "__ans3__", isOutsider = true })'
+                                                    .replace('__ans1__', document.getElementById('username').value)
+                                                    .replace('__ans2__', document.getElementById('password').value)
+                                                    .replace('__ans3__', document.getElementById('challengeId').value)">
+                                                    Authenticate
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    @if (Model.IsGameHost)
-                                    {
-                                        <script>
-                                            window.setTimeout(function () {
-                                                document.getElementById("btnSubmitAns").click();
-                                            }, 30000)
-                                        </script>
-                                    }
-                                    else
-                                    {
-                                        <script>
-                                            window.setTimeout(function () {
-                                                document.getElementById("btnSubmitAns").click();
-                                            }, 32000)
-                                        </script>
-                                    }
+                                </div>
+                            </div>
+                            <script>
 
-                                }
-                                else
-                                {
-                                    <p><b>Sorry, The game type selected is still in production phase, Kindly try the brain game challenge. ;-) don't worry we are working on it.</b></p>
-                                }
-                            }
-                        }
-                        else
-                        {
-                            @if (Model.IsGameHost)
-                            {
-                                <p><b>Your yet to start Game, Kindly go back to your challenge list and click on the play game button. ;-) don't worry your coming back here.</b></p>
-                            }
-                            else if (Model.IsUserChallenged)
-                            {
-                                <p><b>Game Host is yet to start Game, Kindly hold on for game host to start game. ;-) Enjoy your game, have fun and win the prize money.</b></p>
-                                <br />
-                                <p style="color:red; font-size:medium">Note: Page reloads automatically after every 2 seconds so as to check when the game host starts the game </p>
-                                <script>
-                                    window.setTimeout(function () {
-                                        window.location.reload();
-                                    }, 2000);
-                                </script>
-                            }
-                            else
-                            {
-                                <p><b>Your Not Mean't To Be Here!!</b></p>
-                            }
+                            </script>
                         }
                     }
                     else
                     {
-                        <h3 style="color:orangered; font-size:medium">Sorry, Challenge Is Invalid, Please go back to your challenge list and click on the play or join game button for the challenge you wish to play.</h3>
+                        <h3 style="color:orangered; font-size:medium">Sorry, Challenge Is Invalid, Please go back to your challenge list and click on the play or join game button for the challenge you wish to play or get the correct challenge link.</h3>
                     }
                 </div>
             </div>

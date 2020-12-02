@@ -677,7 +677,7 @@ namespace EGames.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-        public IActionResult ChallengersRealm(long challengeID = 0)
+        public IActionResult ChallengersRealm(long challengeID = 0, string username = null, string password = null, bool isOutsider = false)
         {
             string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
             string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
@@ -688,10 +688,59 @@ namespace EGames.Controllers
             string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
 
             bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if(!userLogged && !String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password))
+            {
+                //Perform Authentication
+                User UserLoggedIn = _userService.Login(username, password, out string msg);
+                if(UserLoggedIn != null)
+                {
+                    //Setting Authentication Session
+                    HttpContext.Session.SetString("AuthorizationToken", UserLoggedIn.AuthenticationToken);
+                    HttpContext.Session.SetString("UserID", UserLoggedIn.Id.ToString());
+                }
+
+                //Check Authntication again
+                Id = HttpContext.Session.GetString("UserID");
+                authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+                userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User logged);
+                if(logged != null)
+                {
+                    loggedUser = logged;
+                }
+            }
+
             if (!userLogged)
             {
-                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
-                return RedirectToAction("Index", "Home");
+                ChallengersRealmViewModel authVm = new ChallengersRealmViewModel();
+                Challenge getChallenge = _challengeService.GetChallengeByID(challengeID, out string msg);
+                if(getChallenge == null)
+                {
+                    authVm.IsChallengeValid = false;
+                    return View(authVm);
+                }
+
+                authVm.ChallengeId = challengeID;
+                authVm.ChallengeName = getChallenge.ChallengeName;
+                authVm.stakeAmount = getChallenge.AmountToStaked;
+                authVm.AmountToBeWon = getChallenge.AmountToBeWon;
+                authVm.GameType = getChallenge.GameType;
+                authVm.gameCategory = (getChallenge.BrainGameCategory == null) ? String.Empty : getChallenge.BrainGameCategory.ToString();
+                authVm.IsUserAuthenticated = userLogged;
+                authVm.DisplayMessage = "User is not authenticated";
+                authVm.ErrorMessage = "User is not authenticated";
+                return View(authVm);
+            }
+
+            if (isOutsider)
+            {
+                Challenge getChallenge = _challengeService.GetChallengeByID(challengeID, out string ml);
+                if(getChallenge != null)
+                {
+                    if (getChallenge.GameHost.Id == loggedUser.Id || getChallenge.UserChallenged.Id == loggedUser.Id)
+                    {
+                        _challengeService.AcceptOrDeclineChallenge(challengeID, loggedUser.Id, true, out string mge);
+                    }
+                }
             }
 
             ChallengersRealmViewModel vm = new ChallengersRealmViewModel()
@@ -724,6 +773,7 @@ namespace EGames.Controllers
             }
 
             vm.GameType = challenge.GameType;
+            vm.IsUserAuthenticated = userLogged;
 
             HttpContext.Session.SetString("ChallengeID", challengeID.ToString());
             if (challenge.GameType == GameType.BrainGame)
@@ -745,6 +795,10 @@ namespace EGames.Controllers
                 vm.Question3 = challenge.BrainGameQuestion3;
                 vm.Question4 = challenge.BrainGameQuestion4;
                 vm.Question5 = challenge.BrainGameQuestion5;
+                vm.stakeAmount = challenge.AmountToStaked;
+                vm.AmountToBeWon = challenge.AmountToBeWon;
+                vm.gameCategory = challenge.BrainGameCategory.ToString();
+                vm.ChallengeName = challenge.ChallengeName;
             }
             else
             {
