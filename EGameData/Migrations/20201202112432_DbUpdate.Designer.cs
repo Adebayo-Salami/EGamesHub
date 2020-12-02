@@ -4,14 +4,16 @@ using EGamesData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EGamesData.Migrations
 {
     [DbContext(typeof(EGamesContext))]
-    partial class EGamesContextModelSnapshot : ModelSnapshot
+    [Migration("20201202112432_DbUpdate")]
+    partial class DbUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,9 +81,6 @@ namespace EGamesData.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<double>("AmountToBeWon")
-                        .HasColumnType("float");
-
                     b.Property<double>("AmountToStaked")
                         .HasColumnType("float");
 
@@ -121,12 +120,6 @@ namespace EGamesData.Migrations
                     b.Property<int?>("GameHostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GameHostPoints")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GameSummary")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("GameType")
                         .HasColumnType("int");
 
@@ -136,25 +129,10 @@ namespace EGamesData.Migrations
                     b.Property<bool>("IsChallengeStarted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsGameHostDone")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUserChallengedDone")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsUserJoined")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("TimeGameHostEnded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TimeUserChallengeEnded")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("UserChallengedId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserChallengedPoints")
                         .HasColumnType("int");
 
                     b.Property<int?>("WinningUserId")

@@ -20,8 +20,9 @@ namespace EGames.Controllers
         private readonly INotificationService _notificationService;
         private readonly IBrainGameQuestionService _brainGameQuestionService;
         private readonly IWordPuzzleService _wordPuzzleService;
+        private readonly IChallengeService _challengeService;
 
-        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService, IWordPuzzleService wordPuzzleService)
+        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService, IWordPuzzleService wordPuzzleService, IChallengeService challengeService)
         {
             _logger = logger;
             _userService = userService;
@@ -29,6 +30,7 @@ namespace EGames.Controllers
             _bingoService = bingoService;
             _brainGameQuestionService = brainGameQuestionService;
             _wordPuzzleService = wordPuzzleService;
+            _challengeService = challengeService;
         }
 
         public IActionResult Index()
@@ -65,7 +67,8 @@ namespace EGames.Controllers
                 ErrorMessage = _errorMessage,
                 getAllNotifications = new List<Notification>(),
                 getAllGameHistories = new List<GameHistory>(),
-                AgentCode = String.Empty
+                AgentCode = String.Empty,
+                getAllChallenges = _challengeService.GetListOfUserChallenges(loggedUser.Id),
             };
 
             //Fetch all notifications
@@ -610,6 +613,90 @@ namespace EGames.Controllers
         }
 
         [HttpPost]
+        public IActionResult CreateNewChallenge(AdminDashboardViewModel data)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (String.IsNullOrWhiteSpace(data.UserChallengedEmailAddress))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "User Challenged Email Address Is Required.");
+                HttpContext.Session.SetString("DashboardErrMsg", "User Challenged Email Address Is Required");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (String.IsNullOrWhiteSpace(data.ChallengeName))
+            {
+                HttpContext.Session.SetString("DisplayMessage", "User Challenged Name Is Required.");
+                HttpContext.Session.SetString("DashboardErrMsg", "User Challenged Name Is Required");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (data.StakeAmount < 500)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Stake Amount cannot be less than 500 Naira for a game challenge");
+                HttpContext.Session.SetString("DashboardErrMsg", "Stake Amount cannot be less than 500 Naira for a game challenge");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            try
+            {
+                double testAmt = Convert.ToDouble(data.StakeAmount);
+            }
+            catch
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Stake Amount");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Stake Amount");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            bool isCreated = _challengeService.CreateChallenge(loggedUser.Id, data.UserChallengedEmailAddress, data.StakeAmount, data.ChallengeName, data.GameType, data.BrainGameCategory, out string message);
+            if (!isCreated)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Challenge sent successfully!...Hold for user to accept challenge.");
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Challenge Sent Successfully!...Hold for user to accept challenge.");
+            return RedirectToAction("Index", "Admin");
+        }
+
+        public IActionResult ChallengersRealm(long challengeID = 0, long userId = 0)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Kindly Be Patient, We are stil setting up challengers realm.");
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Kindly Be Patient, We are stil setting up challengers realm.");
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpPost]
         public IActionResult MakeAgent(AdminDashboardViewModel data)
         {
             //Check Authentication
@@ -786,6 +873,45 @@ namespace EGames.Controllers
             }
 
             return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        public IActionResult AcceptDeclineChallenge(long challengeID, bool IsAccepted)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (challengeID <= 0)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Challenge ID.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Challenge ID.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
+            else
+            {
+                bool isAcceptedOrDeclined = _challengeService.AcceptOrDeclineChallenge(challengeID, loggedUser.Id, IsAccepted, out string message);
+                if (isAcceptedOrDeclined)
+                {
+                    HttpContext.Session.SetString("DisplayMessage", "Operation Successful: " + message);
+                    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", "Operation Successful: " + message);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("DisplayMessage", "Operation Failed: " + message);
+                    HttpContext.Session.SetString("DashboardErrMsg", "Operation Failed: " + message);
+                    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                }
+            }
+
+            return RedirectToAction("Index", "Admin");
         }
 
         public IActionResult RemoveNotification(long notificationID)

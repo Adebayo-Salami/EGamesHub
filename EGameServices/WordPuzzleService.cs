@@ -231,8 +231,19 @@ namespace EGamesServices
                     return result;
                 }
 
+                TransactionHistory transactionHistory = new TransactionHistory()
+                {
+                    UserFunded = user,
+                    FundedBy = user,
+                    AmountFunded = -stakeAmount,
+                    DateFunded = DateTime.Now,
+                    Narration = "Debiting User account " + user.EmailAddress + " with " + stakeAmount + " for Word Puzzle Staking.",
+                    TransactionType = TransactionType.Debit
+                };
+
                 user.Balance = user.Balance - stakeAmount;
                 user.AmtUsedToPlayWordPuzzle = stakeAmount;
+                _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(user);
                 _context.SaveChanges();
                 result = wordPuzzles.OrderBy(s => new Random().Next()).Take(1).FirstOrDefault();

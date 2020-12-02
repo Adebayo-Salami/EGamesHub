@@ -87,3 +87,4 @@ C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\Razor\Views\Admin\BrainGame.cshtml.g.cs
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AdminPanel.cshtml.g.cs
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\Razor\Views\Admin\WordPuzzle.cshtml.g.cs
+C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGames\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ChallengersRealm.cshtml.g.cs

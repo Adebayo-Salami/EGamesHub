@@ -23,6 +23,13 @@ namespace EGamesData.Models
     public enum ChallangeStatus
     {
         Accepted,
-        Declined
+        Declined,
+        Pending
+    }
+
+    public enum TransactionType
+    {
+        Credit,
+        Debit
     }
 }

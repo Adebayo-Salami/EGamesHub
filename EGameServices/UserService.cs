@@ -321,7 +321,8 @@ namespace EGamesServices
                     FundedBy = fundedBy,
                     AmountFunded = amount,
                     DateFunded = DateTime.Now,
-                    Narration = "Funding User " + userFunded.EmailAddress + " with " + amount + " by " + fundedBy.EmailAddress
+                    Narration = "Funding User " + userFunded.EmailAddress + " with " + amount + " by " + fundedBy.EmailAddress,
+                    TransactionType = TransactionType.Credit
                 };
                 _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(userFunded);

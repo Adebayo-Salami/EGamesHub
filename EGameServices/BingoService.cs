@@ -79,9 +79,10 @@ namespace EGamesServices
                 {
                     UserFunded = user,
                     FundedBy = user,
-                    AmountFunded = -amount,
+                    AmountFunded = amount,
                     DateFunded = DateTime.Now,
-                    Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking."
+                    Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking.",
+                    TransactionType = TransactionType.Debit
                 };
                 GameHistory gameHistory = new GameHistory()
                 {

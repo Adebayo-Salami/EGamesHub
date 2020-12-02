@@ -149,6 +149,48 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalCreateChallenge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Challenge A Friend</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form method="post" asp-action="CreateNewChallenge" asp-controller="Admin">
+                            <h2 class="sr-only">Challenge A Friend</h2>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="ChallengeName" placeholder="Name of Challenge" asp-for="ChallengeName">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="UserChallengedEmailAddress" placeholder="Email Of User Challanged" asp-for="UserChallengedEmailAddress">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="StakeAmount" placeholder="Stake Amount" asp-for="StakeAmount">
+                            </div>
+                            <div class="form-group">
+                                @*<label>Select Game Type:</label>*@
+                                @Html.DropDownListFor(m => m.GameType, new SelectList(Enum.GetValues(typeof(EGamesData.Models.GameType))), "Select Game Type", new { onchange = "callChangeFunc(this)" })
+                            </div>
+                            <div class="form-group" hidden="hidden" id="ddlBrainGameCategory">
+                                @*<label>Select Brain Game Category:</label>*@
+                                @Html.DropDownListFor(m => m.BrainGameCategory, new SelectList(Enum.GetValues(typeof(EGamesData.Models.BrainGameCategory))), "Select Category")
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sent Challenge Request</button></div>
+                        </form>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Mobile Menu end -->
         <!-- Main Menu area start-->
         <div class="main-menu-area mg-tb-40">
@@ -284,11 +326,22 @@
                                         </label>
                                     </div>
                                     <br />
+                                    <div class="form-check">
+                                        <label class="switch">
+                                            <input type="checkbox" onchange="showChallengeList(this)">
+                                            <span class="slider round"></span>Show Challenge List
+                                        </label>
+                                    </div>
+                                    <br />
+                                    <div class="form-check">
+                                        <button id="btnChallenge" class="btn btn-primary" type="button" onclick="GetAddChallengePartial()">Challenge A Friend To A Game</button>
+                                    </div>
+                                    <br />
                                     @if (Model.IsAgent)
                                     {
                                         <h2>Congrats! Your An Agent</h2>
-                                        <h3>Total Users Referred: @Model.TotalUsersReferredByAgent</h3>
-                                        <h3>Agent Unique Code: @Model.AgentCode</h3>
+                                        <p>Total Users Referred: @Model.TotalUsersReferredByAgent</p>
+                                        <p>Agent Unique Code: @Model.AgentCode</p>
                                     }
                                 </div>
                             </div>
@@ -460,6 +513,131 @@
                 </div>
             </div>
         </div>
+        <div class="notika-email-post-area">
+            <div class="container">
+                <div class="row" id="rowChallengeList" hidden="hidden">
+                    <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
+                        <div class="recent-post-ctn">
+                            <div class="recent-post-title">
+                                <h2>Challenge List</h2>
+                                <p>Total Challenges Pending: @Model.getAllChallenges.Where(x => x.ChallengeStatus == EGamesData.Models.ChallangeStatus.Pending).ToList().Count()</p>
+                                <p>Total Challenges Received: @Model.getAllChallenges.Where(x => x.UserChallenged.EmailAddress == Model.Username).Count()</p>
+                                <p>Total Challenges Sent: @Model.getAllChallenges.Where(x => x.GameHost.EmailAddress == Model.Username).Count()</p>
+                            </div>
+                        </div>
+                        <div class="recent-post-items">
+                            <div class="recent-post-signle rct-pt-mg-wp">
+                                <div class="body table-responsive">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Date Created</th>
+                                                <th>Challenge Name</th>
+                                                <th>Game Host</th>
+                                                <th>User Challenged</th>
+                                                <th>Stake Amount</th>
+                                                <th>Game Type</th>
+                                                <th>Prize To Be Won</th>
+                                                <th></th>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var challenge in Model.getAllChallenges)
+                                            {
+                                            <tr>
+                                                <td>@challenge.DateCreated</td>
+                                                <td>@challenge.ChallengeName</td>
+                                                <td>@challenge.GameHost.EmailAddress</td>
+                                                <td>@challenge.UserChallenged.EmailAddress</td>
+                                                <td>@challenge.AmountToStaked Naira</td>
+                                                <td>@challenge.GameType.ToString()</td>
+                                                <td>@Model.GetChallengeWinningPrize(challenge.AmountToStaked) Naira</td>
+                                                @if (challenge.ChallengeStatus == EGamesData.Models.ChallangeStatus.Pending)
+                                                {
+                                                    if (challenge.UserChallenged.EmailAddress == Model.Username)
+                                                    {
+                                                        <td><button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("AcceptDeclineChallenge", "Admin", new { challengeID = challenge.Id, IsAccepted = true })'">Accept</button></td>
+                                                        <td><button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("AcceptDeclineChallenge", "Admin", new { challengeID = challenge.Id, IsAccepted = false })'">Decline</button></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@challenge.ChallengeStatus.ToString()</td>
+                                                    }
+                                                }
+                                                else if (challenge.ChallengeStatus == EGamesData.Models.ChallangeStatus.Accepted)
+                                                {
+                                                    <td>@challenge.ChallengeStatus.ToString()</td>
+                                                    @if (challenge.IsChallengeEnded)
+                                                    {
+                                                        @if (challenge.WinningUser != null)
+                                                        {
+                                                            <td>Challenge Ended (User @challenge.WinningUser.EmailAddress won!)</td>
+                                                            <td>Game Summary-- @challenge.GameSummary</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>Game Played (Awaiting Results)</td>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (challenge.GameHost.EmailAddress == Model.Username)
+                                                        {
+                                                            @if (challenge.IsGameHostDone)
+                                                            {
+                                                                @if (challenge.WinningUser != null)
+                                                                {
+                                                                    <td>Challenge Ended (User @challenge.WinningUser.EmailAddress won!)</td>
+                                                                    <td>Game Summary-- @challenge.GameSummary</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Game Played (Awaiting Results)</td>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id, userId = challenge.GameHost.Id })'">Start Game</button></td>
+                                                            }
+                                                        }
+                                                        else if (challenge.UserChallenged.EmailAddress == Model.Username)
+                                                        {
+                                                            @if (challenge.IsUserChallengedDone)
+                                                            {
+                                                                @if (challenge.WinningUser != null)
+                                                                {
+                                                                    <td>Challenge Ended (User @challenge.WinningUser.EmailAddress won!)</td>
+                                                                    <td>Game Summary-- @challenge.GameSummary</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Game Played (Awaiting Results)</td>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id, userId = challenge.UserChallenged.Id })'">Join Game</button></td>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <td>@challenge.ChallengeStatus.ToString()</td>
+                                                }
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Email Statistic area-->
         <!-- Start Footer area-->
         <div class="footer-copyright-area">
@@ -496,6 +674,28 @@
                 else {
                     $("#rowGameHistory").hide();
                 }
+            }
+
+            function showChallengeList(control) {
+                if (control.checked == true) {
+                    $("#rowChallengeList").show();
+                }
+                else {
+                    $("#rowChallengeList").hide();
+                }
+            }
+
+            function callChangeFunc(control) {
+                if (control.value == "BrainGame") {
+                    $("#ddlBrainGameCategory").show();
+                }
+                else {
+                    $("#ddlBrainGameCategory").hide();
+                }
+            }
+
+            function GetAddChallengePartial() {
+                $("#modalCreateChallenge").modal("show");
             }
         </script>
         <!-- End Footer area-->

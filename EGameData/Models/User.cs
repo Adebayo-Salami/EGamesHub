@@ -29,6 +29,7 @@ namespace EGamesData.Models
         public Bingo BingoProfile { get; set; }
         public double AmtUsedToPlayBrainGame { get; set; }
         public double AmtUsedToPlayWordPuzzle { get; set; }
+        public double AmtUsedToPlayChallenge { get; set; }
         public string ReferralCode { get; set; }
         public string AgentCode { get; set; }
     }

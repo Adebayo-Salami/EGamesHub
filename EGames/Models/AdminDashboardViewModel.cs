@@ -26,8 +26,19 @@ namespace EGames.Models
         public string Message { get; set; }
         public List<EGamesData.Models.Notification> getAllNotifications { get; set; }
         public List<EGamesData.Models.GameHistory> getAllGameHistories { get; set; }
+        public List<EGamesData.Models.Challenge> getAllChallenges { get; set; }
+        public double GetChallengeWinningPrize(double amount)
+        {
+            double amtToAdd = amount / 2;
+            return amount + amtToAdd;
+        }
         public bool IsAgent { get; set; }
         public int TotalUsersReferredByAgent { get; set; }
         public string AgentCode { get; set; }
+        public EGamesData.Models.GameType GameType { get; set; }
+        public EGamesData.Models.BrainGameCategory BrainGameCategory { get; set; }
+        public string UserChallengedEmailAddress { get; set; }
+        public double StakeAmount { get; set; }
+        public string ChallengeName { get; set; }
     }
 }

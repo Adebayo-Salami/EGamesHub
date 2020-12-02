@@ -310,8 +310,19 @@ namespace EGamesServices
                     return new List<BrainGameQuestion>();
                 }
 
+                TransactionHistory transactionHistory = new TransactionHistory()
+                {
+                    UserFunded = user,
+                    FundedBy = user,
+                    AmountFunded = -stakeAmount,
+                    DateFunded = DateTime.Now,
+                    Narration = "Debiting User account " + user.EmailAddress + " with " + stakeAmount + " for Brain Game Staking.",
+                    TransactionType = TransactionType.Debit
+                };
+
                 user.Balance = user.Balance - stakeAmount;
                 user.AmtUsedToPlayBrainGame = stakeAmount;
+                _context.TransactionHistories.Add(transactionHistory);
                 _context.Users.Update(user);
                 _context.SaveChanges();
                 result = availableBrainGameQuestions.OrderBy(s => new Random().Next()).Take(5).ToList();
