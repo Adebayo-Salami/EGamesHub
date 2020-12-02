@@ -35,5 +35,7 @@ namespace EGamesData.Models
         public DateTime TimeGameHostEnded { get; set; }
         public DateTime TimeUserChallengeEnded { get; set; }
         public string GameSummary { get; set; }
+        public bool GameHostSaysGameIsOngoing { get; set; }
+        public bool UserChallengedSaysGameIsOngoing { get; set; }
     }
 }

@@ -600,7 +600,7 @@ namespace EGamesServices
                     if(challenge.GameHost.Id == userId)
                     {
                         //Check if user left during game play
-                        if (challenge.IsChallengeStarted)
+                        if (challenge.IsChallengeStarted && challenge.IsUserJoined && challenge.GameHostSaysGameIsOngoing && challenge.UserChallengedSaysGameIsOngoing)
                         {
                             List<string> answers = new List<string>();
                             EndChallenge(challengeId, answers, userId, out string mmg);
@@ -616,6 +616,10 @@ namespace EGamesServices
                                 return result;
                             }
 
+                            if (challenge.IsUserJoined)
+                            {
+                                challenge.GameHostSaysGameIsOngoing = true;
+                            }
                             List<BrainGameQuestion> selectedBrainGameQuestions = avalilableBrainGameQuestions.OrderBy(s => new Random().Next()).Take(5).ToList();
                             challenge.BrainGameQuestion1 = selectedBrainGameQuestions[0];
                             challenge.BrainGameQuestion2 = selectedBrainGameQuestions[1];
@@ -638,7 +642,7 @@ namespace EGamesServices
                         }
                         else
                         {
-                            if (result.IsChallengeStarted && result.IsUserJoined)
+                            if (result.IsChallengeStarted && result.IsUserJoined && challenge.GameHostSaysGameIsOngoing && challenge.UserChallengedSaysGameIsOngoing)
                             {
                                 List<string> answers = new List<string>();
                                 EndChallenge(challengeId, answers, userId, out string mmg);
@@ -647,6 +651,10 @@ namespace EGamesServices
                             }
                             else
                             {
+                                if (result.IsChallengeStarted)
+                                {
+                                    result.UserChallengedSaysGameIsOngoing = true;
+                                }
                                 result.IsUserJoined = true;
                                 _context.Challenges.Update(result);
                                 _context.SaveChanges();
