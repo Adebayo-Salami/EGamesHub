@@ -677,8 +677,12 @@ namespace EGames.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-        public IActionResult ChallengersRealm(long challengeID = 0, long userId = 0)
+        public IActionResult ChallengersRealm(long challengeID = 0)
         {
+            string _displayMessage = HttpContext.Session.GetString("DisplayMessage");
+            string _errorMessage = HttpContext.Session.GetString("DashboardErrMsg");
+            string _successMessage = HttpContext.Session.GetString("DashboardSuccessMsg");
+
             //Check Authentication
             string Id = HttpContext.Session.GetString("UserID");
             string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
@@ -690,10 +694,64 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            HttpContext.Session.SetString("DisplayMessage", "Kindly Be Patient, We are stil setting up challengers realm.");
-            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-            HttpContext.Session.SetString("DashboardSuccessMsg", "Kindly Be Patient, We are stil setting up challengers realm.");
-            return RedirectToAction("Index", "Admin");
+            ChallengersRealmViewModel vm = new ChallengersRealmViewModel()
+            {
+                DisplayMessage = _displayMessage,
+                ErrorMessage = _errorMessage,
+                SuccessMessage = _successMessage,
+                IsChallengeValid = true,
+                Username = loggedUser.EmailAddress,
+                IsGameHost = false,
+                IsUserChallenged = false,
+                GameType = null
+            };
+
+            if (challengeID <= 0)
+            {
+                vm.ErrorMessage = "Error, Invalid Challenge Data Passed.";
+                vm.DisplayMessage = "Error, Invalid Challenge Data Passed.";
+                vm.IsChallengeValid = false;
+                return View(vm);
+            }
+
+            Challenge challenge = _challengeService.PlayChallenge(challengeID, loggedUser.Id, out string message);
+            if (challenge == null)
+            {
+                vm.ErrorMessage = "Error, Challenge Does not exists. | " + message;
+                vm.DisplayMessage = "Error, Challenge Does not exists. | " + message;
+                vm.IsChallengeValid = false;
+                return View(vm);
+            }
+
+            vm.GameType = challenge.GameType;
+
+            HttpContext.Session.SetString("ChallengeID", challengeID.ToString());
+            if (challenge.GameType == GameType.BrainGame)
+            {
+                vm.IsGameHost = (challenge.GameHost == loggedUser) ? true : false;
+                vm.IsUserChallenged = (challenge.UserChallenged == loggedUser) ? true : false;
+                vm.IsGameStarted = challenge.IsChallengeStarted;
+                vm.IsGameEnded = challenge.IsChallengeEnded;
+                vm.IsChallengedJoined = challenge.IsUserJoined;
+                vm.UserWon = (challenge.WinningUser != null) ? challenge.WinningUser.EmailAddress : "Awaiting Results";
+                vm.UserLost = (challenge.WinningUser == null) ? "Awaiting Results" : (challenge.GameHost == challenge.WinningUser) ? challenge.UserChallenged.EmailAddress : challenge.GameHost.EmailAddress;
+                vm.AmountWon = challenge.AmountToBeWon;
+                vm.ChallengedPoints = challenge.UserChallengedPoints;
+                vm.HostPoints = challenge.GameHostPoints;
+                vm.HostFinishedGame = challenge.TimeGameHostEnded;
+                vm.ChallengedFinishedGame = challenge.TimeUserChallengeEnded;
+                vm.Question1 = challenge.BrainGameQuestion1;
+                vm.Question2 = challenge.BrainGameQuestion2;
+                vm.Question3 = challenge.BrainGameQuestion3;
+                vm.Question4 = challenge.BrainGameQuestion4;
+                vm.Question5 = challenge.BrainGameQuestion5;
+            }
+            else
+            {
+                //Still In Implementation Phase
+            }
+
+            return View(vm);
         }
 
         [HttpPost]
@@ -1021,6 +1079,47 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("WordPuzzleID", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Word Puzzle Game Ended Successfully |" + message);
             return RedirectToAction("WordPuzzle", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult EndChallengeGame(string answer1 = null, string answer2 = null, string answer3 = null, string answer4 = null, string answer5 = null)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+            long challengeID = Convert.ToInt64(HttpContext.Session.GetString("ChallengeID"));
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            List<string> answers = new List<string>()
+            {
+                answer1,
+                answer2,
+                answer3,
+                answer4,
+                answer5
+            };
+
+            bool IsChallengeEnded = _challengeService.EndChallenge(challengeID, answers, loggedUser.Id, out string message);
+            if (!IsChallengeEnded)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("BrainQuestionIDs", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("ChallengersRealm", "Admin", new { challengeID = challengeID });
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Challenge Game Ended Successfully |" + message);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("ChallengeID", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Challenge Game Ended Successfully |" + message);
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]

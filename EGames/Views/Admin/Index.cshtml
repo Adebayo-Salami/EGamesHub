@@ -599,7 +599,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id, userId = challenge.GameHost.Id })'">Start Game</button></td>
+                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id })'">Start Game</button></td>
                                                             }
                                                         }
                                                         else if (challenge.UserChallenged.EmailAddress == Model.Username)
@@ -618,7 +618,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id, userId = challenge.UserChallenged.Id })'">Join Game</button></td>
+                                                                <td><button class="btn btn-success" type="button" onclick="location.href='@Url.Action("ChallengersRealm", "Admin", new { challengeID = challenge.Id })'">Join Game</button></td>
                                                             }
                                                         }
                                                     }

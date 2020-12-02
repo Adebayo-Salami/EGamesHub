@@ -405,15 +405,35 @@ namespace EGamesServices
                             challenge.WinningUser = challenge.GameHost;
                             challenge.GameHost.WithdrawableAmount = challenge.GameHost.WithdrawableAmount + challenge.AmountToBeWon;
                             challenge.GameSummary = "Game Host Won!";
+                            HostWon = true;
                         }
                         else if(challenge.UserChallengedPoints > challenge.GameHostPoints)
                         {
                             challenge.WinningUser = challenge.UserChallenged;
                             challenge.UserChallenged.WithdrawableAmount = challenge.UserChallenged.WithdrawableAmount + challenge.AmountToBeWon;
                             challenge.GameSummary = "User Challenged Won!";
+                            HostWon = true;
+                        }
+                        else if((challenge.UserChallengedPoints == challenge.GameHostPoints) && challenge.GameHostPoints > 2 && challenge.TimeGameHostEnded != challenge.TimeUserChallengeEnded)
+                        {
+                            if(challenge.TimeGameHostEnded < challenge.TimeUserChallengeEnded)
+                            {
+                                challenge.WinningUser = challenge.GameHost;
+                                challenge.GameHost.WithdrawableAmount = challenge.GameHost.WithdrawableAmount + challenge.AmountToBeWon;
+                                challenge.GameSummary = "Game Host Won Due to time frame!";
+                                HostWon = true;
+                            }
+                            else
+                            {
+                                challenge.WinningUser = challenge.UserChallenged;
+                                challenge.UserChallenged.WithdrawableAmount = challenge.UserChallenged.WithdrawableAmount + challenge.AmountToBeWon;
+                                challenge.GameSummary = "User Challenged Won Due to time frame!";
+                                HostWon = true;
+                            }
                         }
                         else
                         {
+                            IsDraw = true;
                             challenge.GameSummary = "Game Ended In A Draw! (Both participants get a 30% refund of the amount staked)";
                             challenge.GameHost.Balance = challenge.GameHost.Balance + (0.3 * challenge.AmountToStaked);
                             challenge.UserChallenged.Balance = challenge.UserChallenged.Balance + (0.3 * challenge.AmountToStaked);
@@ -484,6 +504,47 @@ namespace EGamesServices
             return result;
         }
 
+        public Challenge GetChallengeByID(long challengeId, out string message)
+        {
+            Challenge result = null;
+            message = String.Empty;
+
+            try
+            {
+                if(challengeId <= 0)
+                {
+                    message = "Invalid User ID";
+                    return result;
+                }
+
+                Challenge challenge = _context.Challenges
+                    .Include(x => x.GameHost)
+                    .Include(x => x.UserChallenged)
+                    .Include(x => x.WinningUser)
+                    .Include(x => x.BrainGameQuestion1)
+                    .Include(x => x.BrainGameQuestion2)
+                    .Include(x => x.BrainGameQuestion3)
+                    .Include(x => x.BrainGameQuestion4)
+                    .Include(x => x.BrainGameQuestion5)
+                    .FirstOrDefault(x => x.Id == challengeId);
+
+                if(challenge == null)
+                {
+                    message = "Error, No Challenge with this ID exists";
+                    return result;
+                }
+
+                result = challenge;
+            }
+            catch(Exception error)
+            {
+                message = error.Message;
+                result = null;
+            }
+
+            return result;
+        }
+
         public List<Challenge> GetListOfUserChallenges(long userId)
         {
             List<Challenge> result = new List<Challenge>();
@@ -516,7 +577,7 @@ namespace EGamesServices
                     return result;
                 }
 
-                Challenge challenge = _context.Challenges.Include(x => x.GameHost).Include(x => x.UserChallenged).FirstOrDefault(x => x.Id == userId);
+                Challenge challenge = _context.Challenges.Include(x => x.GameHost).Include(x => x.UserChallenged).FirstOrDefault(x => x.Id == challengeId);
                 if(challenge == null)
                 {
                     message = "No Challenge with this ID exists";
@@ -538,30 +599,59 @@ namespace EGamesServices
 
                     if(challenge.GameHost.Id == userId)
                     {
-                        List<BrainGameQuestion> avalilableBrainGameQuestions = _context.BrainGameQuestions.Where(x => x.BrainGameCategory == challenge.BrainGameCategory).ToList();
-                        if (avalilableBrainGameQuestions.Count() < 5)
+                        //Check if user left during game play
+                        if (challenge.IsChallengeStarted)
                         {
-                            message = "Apologies, Brain Game Questions are still being configured. Try again later";
-                            return result;
+                            List<string> answers = new List<string>();
+                            EndChallenge(challengeId, answers, userId, out string mmg);
+                            result = null;
+                            message = "User Left while game is ongoing and has automatically forfeited the game. || " + mmg;
+                        }
+                        else
+                        {
+                            List<BrainGameQuestion> avalilableBrainGameQuestions = _context.BrainGameQuestions.Where(x => x.BrainGameCategory == challenge.BrainGameCategory).ToList();
+                            if (avalilableBrainGameQuestions.Count() < 5)
+                            {
+                                message = "Apologies, Brain Game Questions are still being configured. Try again later";
+                                return result;
+                            }
+
+                            List<BrainGameQuestion> selectedBrainGameQuestions = avalilableBrainGameQuestions.OrderBy(s => new Random().Next()).Take(5).ToList();
+                            challenge.BrainGameQuestion1 = selectedBrainGameQuestions[0];
+                            challenge.BrainGameQuestion2 = selectedBrainGameQuestions[1];
+                            challenge.BrainGameQuestion3 = selectedBrainGameQuestions[2];
+                            challenge.BrainGameQuestion4 = selectedBrainGameQuestions[3];
+                            challenge.BrainGameQuestion5 = selectedBrainGameQuestions[4];
+                            challenge.IsChallengeStarted = true;
+                            _context.Challenges.Update(challenge);
+                            _context.SaveChanges();
+                            result = challenge;
                         }
 
-                        List<BrainGameQuestion> selectedBrainGameQuestions = avalilableBrainGameQuestions.OrderBy(s => new Random().Next()).Take(5).ToList();
-                        challenge.BrainGameQuestion1 = selectedBrainGameQuestions[0];
-                        challenge.BrainGameQuestion2 = selectedBrainGameQuestions[1];
-                        challenge.BrainGameQuestion3 = selectedBrainGameQuestions[2];
-                        challenge.BrainGameQuestion4 = selectedBrainGameQuestions[3];
-                        challenge.BrainGameQuestion5 = selectedBrainGameQuestions[4];
-                        challenge.IsChallengeStarted = true;
-                        _context.Challenges.Update(challenge);
-                        _context.SaveChanges();
-                        result = challenge;
                     }
                     else
                     {
-                        challenge.IsUserJoined = true;
-                        _context.Challenges.Update(challenge);
-                        _context.SaveChanges();
-                        result = challenge;
+                        result = GetChallengeByID(challengeId, out string dontNeed);
+                        if(result == null)
+                        {
+                            message = dontNeed;
+                        }
+                        else
+                        {
+                            if (result.IsChallengeStarted && result.IsUserJoined)
+                            {
+                                List<string> answers = new List<string>();
+                                EndChallenge(challengeId, answers, userId, out string mmg);
+                                result = null;
+                                message = "User Left while game is ongoing and has automatically forfeited the game. || " + mmg;
+                            }
+                            else
+                            {
+                                result.IsUserJoined = true;
+                                _context.Challenges.Update(result);
+                                _context.SaveChanges();
+                            }
+                        }
                     }
 
                 }

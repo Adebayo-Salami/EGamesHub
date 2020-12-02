@@ -7,6 +7,7 @@ namespace EGamesData.Interfaces
 {
     public interface IChallengeService
     {
+        Challenge GetChallengeByID(long challengeId, out string message);
         bool CreateChallenge(long userId, string challengedEmail, double amountToStake, string challengeName, GameType gameType, BrainGameCategory brainGameCategory, out string message);
         bool AcceptOrDeclineChallenge(long challengeId, long userId, bool isAccepted, out string message);
         Challenge PlayChallenge(long challengeId, long userId, out string message);
