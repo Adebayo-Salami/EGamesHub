@@ -716,9 +716,12 @@ namespace EGames.Controllers
                 if(getChallenge == null)
                 {
                     authVm.IsChallengeValid = false;
+                    authVm.DisplayMessage = "Challenge is not valid";
+                    authVm.ErrorMessage = "Challenge is not valid";
                     return View(authVm);
                 }
 
+                authVm.IsChallengeValid = true;
                 authVm.ChallengeId = challengeID;
                 authVm.ChallengeName = getChallenge.ChallengeName;
                 authVm.stakeAmount = getChallenge.AmountToStaked;
@@ -736,10 +739,14 @@ namespace EGames.Controllers
                 Challenge getChallenge = _challengeService.GetChallengeByID(challengeID, out string ml);
                 if(getChallenge != null)
                 {
-                    if (getChallenge.GameHost.Id == loggedUser.Id || getChallenge.UserChallenged.Id == loggedUser.Id)
+                    if (getChallenge.UserChallenged.Id == loggedUser.Id)
                     {
                         _challengeService.AcceptOrDeclineChallenge(challengeID, loggedUser.Id, true, out string mge);
                     }
+                    //else if(getChallenge.GameHost.Id == loggedUser.Id)
+                    //{
+                    //    _challengeService.PlayChallenge(challengeID, loggedUser.Id, out string mge);
+                    //}
                 }
             }
 
@@ -774,6 +781,7 @@ namespace EGames.Controllers
 
             vm.GameType = challenge.GameType;
             vm.IsUserAuthenticated = userLogged;
+            //https://localhost:44374/Admin/ChallengersRealm?challengeID=9&isOutsider=true
 
             HttpContext.Session.SetString("ChallengeID", challengeID.ToString());
             if (challenge.GameType == GameType.BrainGame)

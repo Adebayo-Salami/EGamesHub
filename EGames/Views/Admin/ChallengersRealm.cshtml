@@ -317,6 +317,18 @@
                             <div class="row">
                                 <h1 style="text-align:center; font-size:medium; font-style:italic">Welcome To The Challengers Realm, Where users battle against each other to win the challenge prize</h1>
                                 <br />
+                                <p>Game Challenge Details</p>
+                                <ul>
+                                    <li>Challenge Name: @Model.ChallengeName</li>
+                                    <li>Stake Amount: @Model.stakeAmount Naira</li>
+                                    <li>Prize Amount: @Model.AmountToBeWon Naira</li>
+                                    <li>Game Type: @Model.GameType.ToString()</li>
+                                    @if (Model.GameType == EGamesData.Models.GameType.BrainGame)
+                                    {
+                                        <li>Game Category: @Model.gameCategory</li>
+                                    }
+                                </ul>
+                                <br />
                                 <p>Please Kindly provide login credentials to accept or decline challenge (Note by logging, you've automatically accepted challenge and will be taken straight to the challengers realm)</p>
                                 <div class="sale-statistic-inner notika-shadow mg-tb-30">
                                     <div class="col">
@@ -330,14 +342,14 @@
                                         </div>
                                         <div class="form-check">
                                             <label>Challenge ID:</label>
-                                            <input class="form-control" type="text" placeholder="Challenge ID" id="challengeId" disabled="disabled" value="@Model.ChallengeId">
+                                            <input class="form-control" type="password" placeholder="Challenge ID" id="challengeId" disabled="disabled" value="@Model.ChallengeId">
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
                                                 <button id="btnSubmit" type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("ChallengersRealm", "Admin", new { challengeID = "__ans1__", username = "__ans2__", password = "__ans3__", isOutsider = true })'
-                                                    .replace('__ans1__', document.getElementById('username').value)
-                                                    .replace('__ans2__', document.getElementById('password').value)
-                                                    .replace('__ans3__', document.getElementById('challengeId').value)">
+                                                    .replace('__ans1__', document.getElementById('challengeId').value)
+                                                    .replace('__ans2__', document.getElementById('username').value)
+                                                    .replace('__ans3__', document.getElementById('password').value)">
                                                     Authenticate
                                                 </button>
                                             </div>

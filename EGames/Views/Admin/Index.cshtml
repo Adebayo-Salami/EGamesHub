@@ -541,6 +541,7 @@
                                                 <th></th>
                                                 <td></td>
                                                 <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -554,6 +555,7 @@
                                                 <td>@challenge.AmountToStaked Naira</td>
                                                 <td>@challenge.GameType.ToString()</td>
                                                 <td>@Model.GetChallengeWinningPrize(challenge.AmountToStaked) Naira</td>
+                                                <td>https://egameshub.ng/Admin/ChallengersRealm?challengeID=@challenge.Id&isOutsider=true</td>
                                                 @if (challenge.ChallengeStatus == EGamesData.Models.ChallangeStatus.Pending)
                                                 {
                                                     if (challenge.UserChallenged.EmailAddress == Model.Username)
