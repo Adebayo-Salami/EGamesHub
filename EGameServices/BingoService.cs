@@ -25,7 +25,7 @@ namespace EGamesServices
             _configuration = configuration;
         }
 
-        public bool EndGame(long userId, double amount, int selectedColorKey, out string message)
+        public bool EndGame(long userId, double amount, int selectedColorKey, bool useSubscription, out string message)
         {
             bool result = false;
             message = String.Empty;
@@ -57,7 +57,17 @@ namespace EGamesServices
                     return false;
                 }
 
-                if(user.Balance < amount)
+                bool allowedFromSubscription = false;
+                if (user.BingoProfile.IsSubscribed && amount <= user.BingoProfile.SubscriptionAmount && useSubscription)
+                {
+                    allowedFromSubscription = true;
+                    user.BingoProfile.SubscriptionTrials = user.BingoProfile.SubscriptionTrials - 1;
+
+                    user.BingoProfile.IsSubscribed = (user.BingoProfile.SubscriptionTrials > 0);
+                    user.BingoProfile.SubscriptionAmount = (user.BingoProfile.SubscriptionTrials > 0) ? user.BingoProfile.SubscriptionAmount : 0;
+                }
+
+                if (user.Balance < amount && !allowedFromSubscription)
                 {
                     message = "Insufficient balance in account to stake " + amount;
                     return false;
@@ -72,18 +82,22 @@ namespace EGamesServices
 
                 string selectedColor = availableOpt[selectedColorKey];
 
-                user.Balance = user.Balance - amount;
+                user.Balance = (allowedFromSubscription) ? user.Balance : (user.Balance - amount);
                 string winingColor = availableOpt.OrderBy(s => new Random().Next()).First();
                 bool userWon = (selectedColor.ToLower() == winingColor.ToLower()) ? true : false;
-                TransactionHistory transactionHistory = new TransactionHistory()
+                if (!allowedFromSubscription)
                 {
-                    UserFunded = user,
-                    FundedBy = user,
-                    AmountFunded = amount,
-                    DateFunded = DateTime.Now,
-                    Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking.",
-                    TransactionType = TransactionType.Debit
-                };
+                    TransactionHistory transactionHistory = new TransactionHistory()
+                    {
+                        UserFunded = user,
+                        FundedBy = user,
+                        AmountFunded = amount,
+                        DateFunded = DateTime.Now,
+                        Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking.",
+                        TransactionType = TransactionType.Debit
+                    };
+                    _context.TransactionHistories.Add(transactionHistory);
+                }
                 GameHistory gameHistory = new GameHistory()
                 {
                     User = user,
@@ -103,7 +117,7 @@ namespace EGamesServices
                 user.TotalGamesPlayed = user.TotalGamesPlayed + 1;
                 user.WithdrawableAmount = !userWon ? user.WithdrawableAmount : ((0.3 * amount) + amount) + user.WithdrawableAmount;
                 _context.GameHistories.Add(gameHistory);
-                _context.TransactionHistories.Add(transactionHistory);
+                
                 _context.Users.Update(user);
                 _context.Bingos.Update(user.BingoProfile);
                 _context.SaveChanges();
@@ -170,6 +184,87 @@ namespace EGamesServices
             catch (Exception err)
             {
                 message = err.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool SubscribeToBingoSubscription(long userId, double amount, out string message)
+        {
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if (userId <= 0)
+                {
+                    message = "Invalid User ID";
+                    return result;
+                }
+
+                if (amount <= 0)
+                {
+                    message = "Subscription amount must be greater than zero.";
+                    return result;
+                }
+
+                List<double> AvailableSubscriptions = new List<double>()
+                {
+                    2000,
+                    5000,
+                    7500,
+                    10000
+                };
+
+                if (!AvailableSubscriptions.Any(x => x == amount))
+                {
+                    message = "Apologies, The available subscription amounts are [" + string.Join(" Naira,", AvailableSubscriptions) + "]";
+                    return result;
+                }
+
+                User user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.Id == userId);
+                if(user == null)
+                {
+                    message = "No User with the specified ID exists.";
+                    return result;
+                }
+
+                if(user.BingoProfile == null)
+                {
+                    message = "Error, User does not have a bigingo profile";
+                    return result;
+                }
+
+                if(user.Balance < amount)
+                {
+                    message = "Insifficient funds to subscribe to selected Subscription Plan.";
+                    return result;
+                }
+
+                user.Balance = user.Balance - amount;
+                TransactionHistory transactionHistory = new TransactionHistory()
+                {
+                    FundedBy = user,
+                    AmountFunded = amount,
+                    DateFunded = DateTime.Now,
+                    Narration = "Debit For Bingo Subscription Plan",
+                    TransactionType = TransactionType.Debit,
+                    UserFunded = user
+                };
+
+                user.BingoProfile.IsSubscribed = true;
+                user.BingoProfile.SubscriptionTrials = 6;
+                user.BingoProfile.SubscriptionAmount = amount;
+                _context.Bingos.Update(user.BingoProfile);
+                _context.Users.Update(user);
+                _context.TransactionHistories.Add(transactionHistory);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception error)
+            {
+                message = error.Message;
                 result = false;
             }
 

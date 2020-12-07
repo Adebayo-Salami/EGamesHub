@@ -350,6 +350,12 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            if (!loggedUser.isAdmin)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Apologies, User is unauthorized to access that page.");
+                return RedirectToAction("Index", "Home");
+            }
+
             AdminPanelViewModel vm = new AdminPanelViewModel()
             {
                 IsAdmin = loggedUser.isAdmin,
@@ -409,7 +415,10 @@ namespace EGames.Controllers
                 isWithdrawing = loggedUser.IsWithdrawing,
                 IsPlaying = loggedUser.BingoProfile.IsPlaying,
                 SuccessMessage = _successMessage,
-                ErrorMessage = _errorMessage
+                ErrorMessage = _errorMessage,
+                SubscriptionStatus = (loggedUser.BingoProfile == null) ? false : loggedUser.BingoProfile.IsSubscribed,
+                SubscriptionAmount = (loggedUser.BingoProfile == null) ? 0 : loggedUser.BingoProfile.SubscriptionAmount,
+                SubscriptionTrialsLeft = (loggedUser.BingoProfile == null) ? 0 : loggedUser.BingoProfile.SubscriptionTrials
             };
 
             //Fetch all notifications
@@ -519,6 +528,39 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Word Puzzle Question added successfully");
             return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        [HttpPost]
+        public IActionResult SubscribeBingo(AdminColorBingoViewModel data)
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            double amount = (data.SelectedSubscriptionPlan == SubscriptionPlan.TwoThousandNaira_Plan) ? 2000
+                : (data.SelectedSubscriptionPlan == SubscriptionPlan.FiveThousandNaira_Plan) ? 5000
+                : (data.SelectedSubscriptionPlan == SubscriptionPlan.SevenThousandFiveHunderedNaira_Plan) ? 7500
+                : 10000;
+            bool isSubscribed = _bingoService.SubscribeToBingoSubscription(loggedUser.Id, amount, out string message);
+            if (!isSubscribed)
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("ColorBingo", "Admin");
+            }
+
+            HttpContext.Session.SetString("DisplayMessage", "Subscription Plan Purchased Successfully!");
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Subscription Plan Purchased Successfully!");
+            return RedirectToAction("ColorBingo", "Admin");
         }
 
         [HttpPost]
@@ -1227,7 +1269,7 @@ namespace EGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult EndColorBingoGame(string amount, bool firstColorCheckBox, bool secondColorCheckBox)
+        public IActionResult EndColorBingoGame(string amount, bool firstColorCheckBox, bool secondColorCheckBox, bool useSubsciption = false)
         {
             //Check Authentication
             string Id = HttpContext.Session.GetString("UserID");
@@ -1270,7 +1312,7 @@ namespace EGames.Controllers
             }
 
             int key = firstColorCheckBox ? 0 : 1;
-            bool isEnded = _bingoService.EndGame(loggedUser.Id, amt, key, out string message);
+            bool isEnded = _bingoService.EndGame(loggedUser.Id, amt, key, useSubsciption, out string message);
             if (!isEnded)
             {
                 HttpContext.Session.SetString("DisplayMessage", message);

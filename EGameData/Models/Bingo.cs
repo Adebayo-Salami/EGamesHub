@@ -12,5 +12,8 @@ namespace EGamesData.Models
         public string SelectedColor { get; set; }
         public string AvailableOptions { get; set; }
         public bool IsPlaying { get; set; }
+        public bool IsSubscribed { get; set; }
+        public int SubscriptionTrials { get; set; }
+        public double SubscriptionAmount { get; set; }
     }
 }

@@ -27,6 +27,10 @@ namespace EGames.Models
         public bool IsPlaying { get; set; }
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
+        public bool SubscriptionStatus { get; set; }
+        public double SubscriptionAmount { get; set; }
+        public int SubscriptionTrialsLeft { get; set; }
+        public SubscriptionPlan SelectedSubscriptionPlan { get; set; }
     }
 
     public enum ColorBomb
@@ -34,5 +38,13 @@ namespace EGames.Models
         FirstColor,
         SecondColor,
         ThirdColor
+    }
+
+    public enum SubscriptionPlan
+    {
+        TwoThousandNaira_Plan,
+        FiveThousandNaira_Plan,
+        SevenThousandFiveHunderedNaira_Plan,
+        TenThousandNaira_Plan,
     }
 }
