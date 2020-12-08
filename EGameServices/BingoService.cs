@@ -58,8 +58,14 @@ namespace EGamesServices
                 }
 
                 bool allowedFromSubscription = false;
-                if (user.BingoProfile.IsSubscribed && amount <= user.BingoProfile.SubscriptionAmount && useSubscription)
+                if (user.BingoProfile.IsSubscribed && useSubscription)
                 {
+                    if(amount > user.BingoProfile.SubscriptionAmount)
+                    {
+                        message = "The stake amount must not be greater than the subscription amount when using subscription trial to play.";
+                        return false;
+                    }
+
                     allowedFromSubscription = true;
                     user.BingoProfile.SubscriptionTrials = user.BingoProfile.SubscriptionTrials - 1;
 
@@ -67,7 +73,7 @@ namespace EGamesServices
                     user.BingoProfile.SubscriptionAmount = (user.BingoProfile.SubscriptionTrials > 0) ? user.BingoProfile.SubscriptionAmount : 0;
                 }
 
-                if (user.Balance < amount && !allowedFromSubscription)
+                if (user.Balance < amount)
                 {
                     message = "Insufficient balance in account to stake " + amount;
                     return false;
@@ -82,22 +88,10 @@ namespace EGamesServices
 
                 string selectedColor = availableOpt[selectedColorKey];
 
-                user.Balance = (allowedFromSubscription) ? user.Balance : (user.Balance - amount);
+                user.Balance = user.Balance - amount;
                 string winingColor = availableOpt.OrderBy(s => new Random().Next()).First();
+                winingColor = allowedFromSubscription ? selectedColor : winingColor;
                 bool userWon = (selectedColor.ToLower() == winingColor.ToLower()) ? true : false;
-                if (!allowedFromSubscription)
-                {
-                    TransactionHistory transactionHistory = new TransactionHistory()
-                    {
-                        UserFunded = user,
-                        FundedBy = user,
-                        AmountFunded = amount,
-                        DateFunded = DateTime.Now,
-                        Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking.",
-                        TransactionType = TransactionType.Debit
-                    };
-                    _context.TransactionHistories.Add(transactionHistory);
-                }
                 GameHistory gameHistory = new GameHistory()
                 {
                     User = user,
@@ -116,6 +110,16 @@ namespace EGamesServices
                 user.BingoProfile.SelectedColor = String.Empty;
                 user.TotalGamesPlayed = user.TotalGamesPlayed + 1;
                 user.WithdrawableAmount = !userWon ? user.WithdrawableAmount : ((0.3 * amount) + amount) + user.WithdrawableAmount;
+                TransactionHistory transactionHistory = new TransactionHistory()
+                {
+                    UserFunded = user,
+                    FundedBy = user,
+                    AmountFunded = amount,
+                    DateFunded = DateTime.Now,
+                    Narration = "Debiting User account " + user.EmailAddress + " with " + amount + " for Color Bingo Staking.",
+                    TransactionType = TransactionType.Debit
+                };
+                _context.TransactionHistories.Add(transactionHistory);
                 _context.GameHistories.Add(gameHistory);
                 
                 _context.Users.Update(user);
