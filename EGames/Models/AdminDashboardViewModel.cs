@@ -40,5 +40,6 @@ namespace EGames.Models
         public string UserChallengedEmailAddress { get; set; }
         public double StakeAmount { get; set; }
         public string ChallengeName { get; set; }
+        public List<EGamesData.Models.Withdrawal> LatestWithdrawalRecords { get; set; }
     }
 }

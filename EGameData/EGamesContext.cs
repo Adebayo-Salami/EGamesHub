@@ -15,5 +15,6 @@ namespace EGamesData
         public DbSet<BrainGameQuestion> BrainGameQuestions { get; set; }
         public DbSet<WordPuzzle> WordPuzzles { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
+        public DbSet<Withdrawal> Withdrawals { get; set; }
     }
 }

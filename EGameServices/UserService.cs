@@ -417,6 +417,14 @@ namespace EGamesServices
                     return false;
                 }
 
+                Withdrawal withdrawalRecord = new Withdrawal()
+                {
+                    Amount = user.PendingWithdrawalAmount,
+                    DateOfWithdrawal = DateTime.Now,
+                    NameOfWithdrawee = user.EmailAddress.Split('@')[0],
+                    User = user
+                };
+                _context.Withdrawals.Add(withdrawalRecord);
                 user.TotalAmountWon = user.TotalAmountWon + user.PendingWithdrawalAmount;
                 user.PendingWithdrawalAmount = 0;
                 user.IsWithdrawing = false;
@@ -562,6 +570,11 @@ namespace EGamesServices
                 randomString.Append(chars[random.Next(chars.Length)]);
 
             return randomString.ToString();
+        }
+
+        public List<Withdrawal> GetWithdrawalRecords()
+        {
+            return _context.Withdrawals.Include(x => x.User).OrderByDescending(x => x.Id).Take(10).ToList();
         }
     }
 }

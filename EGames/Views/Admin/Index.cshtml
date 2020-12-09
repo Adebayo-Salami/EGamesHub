@@ -343,6 +343,14 @@
                                         <p>Total Users Referred: @Model.TotalUsersReferredByAgent</p>
                                         <p>Agent Unique Code: @Model.AgentCode</p>
                                     }
+                                    <br />
+                                    <p><b>Top 10 Latest Withdrawals</b></p>
+                                    <ol>
+                                        @foreach(var withdrawal in Model.LatestWithdrawalRecords)
+                                        {
+                                            <li><b>@withdrawal.NameOfWithdrawee :- @withdrawal.Amount Naira (@withdrawal.DateOfWithdrawal)</b></li>
+                                        }
+                                    </ol>
                                 </div>
                             </div>
                             @*<div id="curved-line-chart" class="flot-chart-sts flot-chart"></div>*@

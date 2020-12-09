@@ -69,6 +69,7 @@ namespace EGames.Controllers
                 getAllGameHistories = new List<GameHistory>(),
                 AgentCode = String.Empty,
                 getAllChallenges = _challengeService.GetListOfUserChallenges(loggedUser.Id),
+                LatestWithdrawalRecords = _userService.GetWithdrawalRecords()
             };
 
             //Fetch all notifications

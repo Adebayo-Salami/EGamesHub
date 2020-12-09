@@ -23,5 +23,6 @@ namespace EGamesData.Interfaces
         int GetTotalUsersReferred(string agentCode);
         List<User> GetAgentsDetails();
         bool MakeUserAnAgent(string emailAddress, out string message);
+        List<Withdrawal> GetWithdrawalRecords();
     }
 }
