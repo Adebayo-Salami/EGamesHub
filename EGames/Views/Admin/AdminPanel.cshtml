@@ -464,7 +464,7 @@
                                             <td>@user.EmailAddress</td>
                                             <td>@user.AccountNumber</td>
                                             <td>@user.BankName</td>
-                                            <td>@user.PendingWithdrawalAmount</td>
+                                            <td>@user.PendingWithdrawalAmount (50 Naira fee Included)</td>
                                             @if (Model.IsAdmin)
                                                 {
                                             <td><input type="button" value="Paid" onclick="location.href='@Url.Action("UserPaid", "Admin", new { userId = user.Id })'" /></td>
