@@ -371,6 +371,7 @@ namespace EGamesServices
                 }
 
                 user.PendingWithdrawalAmount = user.WithdrawableAmount;
+                user.WithdrawalPlaced = DateTime.Now;
                 user.WithdrawableAmount = 0;
                 user.IsWithdrawing = true;
                 _context.Users.Update(user);
@@ -388,7 +389,7 @@ namespace EGamesServices
 
         public List<User> GetAllUsersPendingWIthdrawal()
         {
-            return _context.Users.Include(x => x.BingoProfile).Where(x => x.IsWithdrawing == true).ToList();
+            return _context.Users.Include(x => x.BingoProfile).Where(x => x.IsWithdrawing == true).OrderBy(x => x.WithdrawalPlaced).ToList();
         }
 
         public bool IsPaid(long userId, out string message)

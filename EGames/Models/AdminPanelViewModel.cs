@@ -22,5 +22,17 @@ namespace EGames.Models
         public List<EGamesData.Models.User> UsersPendingPayout { get; set; }
         public Dictionary<EGamesData.Models.User, int> AgentList { get; set; }
         public List<EGamesData.Models.WordPuzzle> AvailableWordPuzzleQuestions { get; set; }
+        public int GetDurationHours(DateTime dateWithdrawalPlaced)
+        {
+            int result = 0;
+
+            try
+            {
+                TimeSpan getHrsUsed = DateTime.Now - dateWithdrawalPlaced;
+                result = (int)Math.Ceiling(getHrsUsed.TotalHours);
+            } catch { }
+
+            return result;
+        }
     }
 }

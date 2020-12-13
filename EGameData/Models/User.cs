@@ -32,5 +32,6 @@ namespace EGamesData.Models
         public double AmtUsedToPlayChallenge { get; set; }
         public string ReferralCode { get; set; }
         public string AgentCode { get; set; }
+        public DateTime WithdrawalPlaced { get; set; }
     }
 }
