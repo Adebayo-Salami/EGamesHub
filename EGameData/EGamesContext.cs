@@ -16,5 +16,6 @@ namespace EGamesData
         public DbSet<WordPuzzle> WordPuzzles { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
         public DbSet<Withdrawal> Withdrawals { get; set; }
+        public DbSet<Promo> Promos { get; set; }
     }
 }

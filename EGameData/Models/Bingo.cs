@@ -15,5 +15,6 @@ namespace EGamesData.Models
         public bool IsSubscribed { get; set; }
         public int SubscriptionTrials { get; set; }
         public double SubscriptionAmount { get; set; }
+        public int PromoTrial { get; set; }
     }
 }

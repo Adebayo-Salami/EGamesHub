@@ -73,6 +73,17 @@ namespace EGamesServices
                     user.BingoProfile.SubscriptionAmount = (user.BingoProfile.SubscriptionTrials > 0) ? user.BingoProfile.SubscriptionAmount : 0;
                 }
 
+                bool isSundaySpecialPromoEnabled = new PromoService(_configuration, _context).GetPromoStatus(_configuration["PromoUniqueCodes:SpecialSunday"], out string msg);
+                if (isSundaySpecialPromoEnabled)
+                {
+                    if(user.BingoProfile.PromoTrial <= 2 && amount <= 10000)
+                    {
+                        allowedFromSubscription = true;
+                        user.BingoProfile.PromoTrial = user.BingoProfile.PromoTrial + 1;
+                    }
+                }
+                
+
                 if (user.Balance < amount)
                 {
                     message = "Insufficient balance in account to stake " + amount;

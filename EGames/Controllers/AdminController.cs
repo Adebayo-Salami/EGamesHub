@@ -21,8 +21,9 @@ namespace EGames.Controllers
         private readonly IBrainGameQuestionService _brainGameQuestionService;
         private readonly IWordPuzzleService _wordPuzzleService;
         private readonly IChallengeService _challengeService;
+        private readonly IPromoService _promoService;
 
-        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService, IWordPuzzleService wordPuzzleService, IChallengeService challengeService)
+        public AdminController(ILogger<HomeController> logger, IUserService userService, IBingoService bingoService, INotificationService notificationService, IBrainGameQuestionService brainGameQuestionService, IWordPuzzleService wordPuzzleService, IChallengeService challengeService, IPromoService promoService)
         {
             _logger = logger;
             _userService = userService;
@@ -31,6 +32,7 @@ namespace EGames.Controllers
             _brainGameQuestionService = brainGameQuestionService;
             _wordPuzzleService = wordPuzzleService;
             _challengeService = challengeService;
+            _promoService = promoService;
         }
 
         public IActionResult Index()
@@ -367,7 +369,8 @@ namespace EGames.Controllers
                 TotalUsersRegistered = _userService.TotalUserRegistered(),
                 UsersPendingPayout = _userService.GetAllUsersPendingWIthdrawal(),
                 AgentList = new Dictionary<User, int>(),
-                AvailableWordPuzzleQuestions = _wordPuzzleService.GetWordPuzzles()
+                AvailableWordPuzzleQuestions = _wordPuzzleService.GetWordPuzzles(),
+                SundaySpecialPromo = _promoService.GetPromoStatus("SundayValor123", out string msg),
             };
 
             List<User> agents = _userService.GetAgentsDetails();
@@ -1225,6 +1228,36 @@ namespace EGames.Controllers
             HttpContext.Session.SetString("ChallengeID", String.Empty);
             HttpContext.Session.SetString("DashboardSuccessMsg", "Challenge Game Ended Successfully |" + message);
             return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult SwitchSpecialSundayPromoStatus()
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!loggedUser.isAdmin)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Error, User Not Authorized To Perform Action.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Error, User Not Authorized To Perform Action.");
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            _promoService.SwitchPromoStatus("SundayValor123", loggedUser.Id, out string message);
+
+            HttpContext.Session.SetString("DisplayMessage", message);
+            HttpContext.Session.SetString("DashboardSuccessMsg", message);
+            HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            return RedirectToAction("AdminPanel", "Admin");
         }
 
         [HttpGet]

@@ -32,4 +32,10 @@ namespace EGamesData.Models
         Credit,
         Debit
     }
+
+    public enum PromoStatus
+    {
+        Disabled,
+        Enabled
+    }
 }

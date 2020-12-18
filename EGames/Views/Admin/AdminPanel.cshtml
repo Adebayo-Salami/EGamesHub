@@ -411,6 +411,10 @@
                                     <span class="slider round"></span>Show Agent List
                                 </label>
                             </div>
+                            <br />
+                            <ul>
+                                <li>Special Sunday Promo: <input type="checkbox" class="form-check-input" checked="@Model.SundaySpecialPromo" onclick="location.href='@Url.Action("SwitchSpecialSundayPromoStatus", "Admin")'"></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
