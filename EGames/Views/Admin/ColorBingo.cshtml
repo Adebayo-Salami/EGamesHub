@@ -272,6 +272,12 @@
                             <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("StartColorBingoGame", "Admin")'">Start Game</button>
                         }
 
+                        <br /><br />
+                        <h4>Special Sunday Promo (Happening Every Sunday)</h4>
+                        <ul>
+                            <li>Status: @Model.SpecialSundayPromoStatus.ToString()</li>
+                            <li>Description: @Model.SpecialSundayPromoDescription</li>
+                        </ul>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
                         <div class="statistic-right-area notika-shadow mg-tb-30 sm-res-mg-t-0">

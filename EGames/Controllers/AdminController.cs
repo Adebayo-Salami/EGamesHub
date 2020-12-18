@@ -422,7 +422,9 @@ namespace EGames.Controllers
                 ErrorMessage = _errorMessage,
                 SubscriptionStatus = (loggedUser.BingoProfile == null) ? false : loggedUser.BingoProfile.IsSubscribed,
                 SubscriptionAmount = (loggedUser.BingoProfile == null) ? 0 : loggedUser.BingoProfile.SubscriptionAmount,
-                SubscriptionTrialsLeft = (loggedUser.BingoProfile == null) ? 0 : loggedUser.BingoProfile.SubscriptionTrials
+                SubscriptionTrialsLeft = (loggedUser.BingoProfile == null) ? 0 : loggedUser.BingoProfile.SubscriptionTrials,
+                SpecialSundayPromoStatus = PromoStatus.Disabled,
+                SpecialSundayPromoDescription = String.Empty
             };
 
             //Fetch all notifications
@@ -444,6 +446,14 @@ namespace EGames.Controllers
                     vm.SecondColor = availableOptions[1];
                     //vm.ThirdColor = availableOptions[2];
                 }
+            }
+
+            //Get Promo Details
+            Promo specialSundayPromo = _promoService.GetPromo("SundayValor123", out string msg);
+            if(specialSundayPromo != null)
+            {
+                vm.SpecialSundayPromoStatus = specialSundayPromo.Status;
+                vm.SpecialSundayPromoDescription = specialSundayPromo.Description;
             }
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);

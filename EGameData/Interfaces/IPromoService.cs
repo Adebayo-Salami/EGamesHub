@@ -8,5 +8,6 @@ namespace EGamesData.Interfaces
     {
         bool GetPromoStatus(string promoUniqueCode, out string message);
         bool SwitchPromoStatus(string promoUniqueCode, long userId, out string message);
+        Models.Promo GetPromo(string promoUniqueCode, out string message);
     }
 }

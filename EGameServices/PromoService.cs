@@ -25,6 +25,37 @@ namespace EGamesServices
             _configuration = configuration;
         }
 
+        public Promo GetPromo(string promoUniqueCode, out string message)
+        {
+            Promo result = null;
+            message = String.Empty;
+
+            try
+            {
+                if (String.IsNullOrWhiteSpace(promoUniqueCode))
+                {
+                    message = "Promo Unique Code Is Requiredd";
+                    return result;
+                }
+
+                Promo promo = _context.Promos.Include(x => x.UserWhoEnabledLast).FirstOrDefault(x => x.UniquePromoCode == promoUniqueCode);
+                if(promo == null)
+                {
+                    message = "No Promo With this Code Exists";
+                    return result;
+                }
+
+                result = promo;
+            }
+            catch(Exception error)
+            {
+                message = error.Message;
+                result = null;
+            }
+
+            return result;
+        }
+
         public bool GetPromoStatus(string promoUniqueCode, out string message)
         {
             bool result = false;

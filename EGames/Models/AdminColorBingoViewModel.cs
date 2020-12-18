@@ -31,6 +31,8 @@ namespace EGames.Models
         public double SubscriptionAmount { get; set; }
         public int SubscriptionTrialsLeft { get; set; }
         public SubscriptionPlan SelectedSubscriptionPlan { get; set; }
+        public EGamesData.Models.PromoStatus SpecialSundayPromoStatus { get; set; }
+        public string SpecialSundayPromoDescription { get; set; }
     }
 
     public enum ColorBomb
