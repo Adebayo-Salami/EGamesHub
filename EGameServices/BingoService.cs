@@ -76,7 +76,7 @@ namespace EGamesServices
                 bool isSundaySpecialPromoEnabled = new PromoService(_configuration, _context).GetPromoStatus(_configuration["PromoUniqueCodes:SpecialSunday"], out string msg);
                 if (isSundaySpecialPromoEnabled)
                 {
-                    if(user.BingoProfile.PromoTrial <= 2 && amount <= 10000)
+                    if(user.BingoProfile.PromoTrial <= 2 && amount >= 10000)
                     {
                         allowedFromSubscription = true;
                         user.BingoProfile.PromoTrial = user.BingoProfile.PromoTrial + 1;
