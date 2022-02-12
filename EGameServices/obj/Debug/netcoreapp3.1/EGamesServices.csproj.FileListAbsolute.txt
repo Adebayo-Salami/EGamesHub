@@ -10,3 +10,15 @@ C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\ob
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CopyComplete
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.dll
 C:\Users\personal\OneDrive\Documents\Applications\EGames\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.pdb
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.deps.json
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.dll
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesServices.pdb
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesData.dll
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\bin\Debug\netcoreapp3.1\EGamesData.pdb
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.AssemblyReference.cache
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.AssemblyInfoInputs.cache
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.AssemblyInfo.cs
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CoreCompileInputs.cache
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.csproj.CopyComplete
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.dll
+C:\Users\INFORMATION TECH\Documents\CustomSoftwareApplications\EGames\EGameServices\obj\Debug\netcoreapp3.1\EGamesServices.pdb
