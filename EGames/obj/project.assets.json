@@ -6209,25 +6209,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\personal\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\INFORMATION TECH\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
+      "projectUniqueName": "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGames\\EGames.csproj",
       "projectName": "EGames",
-      "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\EGames.csproj",
-      "packagesPath": "C:\\Users\\personal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGames\\obj\\",
+      "projectPath": "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGames\\EGames.csproj",
+      "packagesPath": "C:\\Users\\INFORMATION TECH\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGames\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\personal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\INFORMATION TECH\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -6240,11 +6235,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj": {
-              "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameData\\EGamesData.csproj"
+            "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGameData\\EGamesData.csproj": {
+              "projectPath": "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGameData\\EGamesData.csproj"
             },
-            "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj": {
-              "projectPath": "C:\\Users\\personal\\OneDrive\\Documents\\Applications\\EGames\\EGames\\EGameServices\\EGamesServices.csproj"
+            "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGameServices\\EGamesServices.csproj": {
+              "projectPath": "C:\\Users\\INFORMATION TECH\\Documents\\CustomSoftwareApplications\\EGames\\EGameServices\\EGamesServices.csproj"
             }
           }
         }
@@ -6292,6 +6287,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.18, 3.1.18]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -6300,7 +6301,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }
