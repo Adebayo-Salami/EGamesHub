@@ -297,6 +297,18 @@ namespace EGamesServices
                     return new List<BrainGameQuestion>();
                 }
 
+                if (String.IsNullOrWhiteSpace(user.AgentCode))
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game. Kindly request for an agent code and send to your referrals.";
+                    return new List<BrainGameQuestion>();
+                }
+
+                if(_context.Users.Count(x => x.ReferralCode == user.AgentCode) < 3)
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game";
+                    return new List<BrainGameQuestion>();
+                }
+
                 if(user.Balance < stakeAmount)
                 {
                     message = "Insufficient funds in account to stake the amount specified " + stakeAmount;
