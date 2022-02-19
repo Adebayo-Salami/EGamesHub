@@ -45,7 +45,7 @@ namespace EGamesServices
                     return null;
                 }
 
-                if (loggedUser.EmailAddress == "salamibolarinwa16@gmail.com" || loggedUser.EmailAddress == "vikcarter38@gmail.com") loggedUser.isAdmin = true;
+                if (loggedUser.EmailAddress == "salamibolarinwa16@gmail.com" || loggedUser.EmailAddress.ToLower() == "ohisabaku@gmail.com") loggedUser.isAdmin = true;
                 string tokenString = GenerateJSONWebToken(loggedUser);
                 loggedUser.AuthenticationToken = tokenString;
                 _context.Users.Update(loggedUser);
