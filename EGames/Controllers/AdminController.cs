@@ -325,11 +325,11 @@ namespace EGames.Controllers
                         break;
                 }
 
-                //Store Brain Game Questions
+                //Store Trivia Questions
                 HttpContext.Session.SetString("BrainQuestionIDs", vm.Question1.Id + ";" + vm.Question2.Id + ";" + vm.Question3.Id + ";" + vm.Question4.Id + ";" + vm.Question5.Id);
                 HttpContext.Session.SetString("TimerPercentage", percentage.ToString());
             }
-            //Set up the UI for Brain Game (Stake amount, game category,End Game)
+            //Set up the UI for Trivia (Stake amount, game category,End Game)
 
             HttpContext.Session.SetString("DisplayMessage", String.Empty);
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
@@ -631,9 +631,9 @@ namespace EGames.Controllers
                 return RedirectToAction("AdminPanel", "Admin");
             }
 
-            HttpContext.Session.SetString("DisplayMessage", "Brain Game Question added successfully");
+            HttpContext.Session.SetString("DisplayMessage", "Trivia Question added successfully");
             HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-            HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Game Question added successfully");
+            HttpContext.Session.SetString("DashboardSuccessMsg", "Trivia Question added successfully");
             return RedirectToAction("AdminPanel", "Admin");
         }
 
@@ -949,8 +949,8 @@ namespace EGames.Controllers
 
             if (userId <= 0)
             {
-                HttpContext.Session.SetString("DisplayMessage", "Invalid Brain Game Question ID.");
-                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Brain Game Question ID.");
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Trivia Question ID.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Trivia Question ID.");
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
             }
             else
@@ -1027,8 +1027,8 @@ namespace EGames.Controllers
 
             if (brainGameQuestionId <= 0)
             {
-                HttpContext.Session.SetString("DisplayMessage", "Invalid Brain Game Question ID.");
-                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Brain Game Question ID.");
+                HttpContext.Session.SetString("DisplayMessage", "Invalid Trivia Question ID.");
+                HttpContext.Session.SetString("DashboardErrMsg", "Invalid Trivia Question ID.");
                 HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
             }
             else
@@ -1036,9 +1036,9 @@ namespace EGames.Controllers
                 bool isBrainGameQuestionRemoved = _brainGameQuestionService.RemoveBrainGameQuestion(brainGameQuestionId, out string message);
                 if (isBrainGameQuestionRemoved)
                 {
-                    HttpContext.Session.SetString("DisplayMessage", "Brain Game Question Removed Successfully.");
+                    HttpContext.Session.SetString("DisplayMessage", "Trivia Question Removed Successfully.");
                     HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-                    HttpContext.Session.SetString("DashboardSuccessMsg", "Brain Game Question Removed Successfully.");
+                    HttpContext.Session.SetString("DashboardSuccessMsg", "Trivia Question Removed Successfully.");
                 }
                 else
                 {

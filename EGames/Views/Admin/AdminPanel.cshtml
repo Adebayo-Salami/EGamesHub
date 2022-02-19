@@ -89,7 +89,7 @@
                                     <a data-toggle="collapse" data-target="#demoevent" href="#">Games</a>
                                     <ul id="demoevent" class="collapse dropdown-header-top">
                                         <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
-                                        <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
+                                        <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Trivia</a></li>
                                         <li><a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a></li>
                                     </ul>
                                 </li>
@@ -330,7 +330,7 @@
                                     <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
                                 </li>
                                 <li>
-                                    <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
+                                    <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Trivia</a>
                                 </li>
                                 <li>
                                     <a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a>
@@ -488,7 +488,7 @@
                 <div class="recent-post-wrapper notika-shadow sm-res-mg-t-30 tb-res-ds-n dk-res-ds">
                     <div class="recent-post-ctn">
                         <div class="recent-post-title">
-                            <h2>Brain Game Questions</h2>
+                            <h2>Trivia Questions</h2>
                             <p>Total DC Movie Questions @Model.AvailableBrainGameQuestions.Where(x => x.BrainGameCategory == EGamesData.Models.BrainGameCategory.DCMovies).Count()</p>
                             <p>Total Marvel Movie Questions @Model.AvailableBrainGameQuestions.Where(x => x.BrainGameCategory == EGamesData.Models.BrainGameCategory.MarvelMovies).Count()</p>
                             <p>Total Football Questions @Model.AvailableBrainGameQuestions.Where(x => x.BrainGameCategory == EGamesData.Models.BrainGameCategory.Football).Count()</p>

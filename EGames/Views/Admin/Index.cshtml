@@ -91,7 +91,7 @@
                                         <a data-toggle="collapse" data-target="#demoevent" href="#">Games</a>
                                         <ul id="demoevent" class="collapse dropdown-header-top">
                                             <li><a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a></li>
-                                            <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a></li>
+                                            <li><a asp-area="" asp-controller="Admin" asp-action="BrainGame">Trivia</a></li>
                                             <li><a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a></li>
                                         </ul>
                                     </li>
@@ -178,7 +178,7 @@
                                 @Html.DropDownListFor(m => m.GameType, new SelectList(Enum.GetValues(typeof(EGamesData.Models.GameType))), "Select Game Type", new { onchange = "callChangeFunc(this)" })
                             </div>
                             <div class="form-group" hidden="hidden" id="ddlBrainGameCategory">
-                                @*<label>Select Brain Game Category:</label>*@
+                                @*<label>Select Trivia Category:</label>*@
                                 @Html.DropDownListFor(m => m.BrainGameCategory, new SelectList(Enum.GetValues(typeof(EGamesData.Models.BrainGameCategory))), "Select Category")
                             </div>
                             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sent Challenge Request</button></div>
@@ -236,7 +236,7 @@
                                         <a asp-area="" asp-controller="Admin" asp-action="ColorBingo">Color Bingo</a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Brain Game</a>
+                                        <a asp-area="" asp-controller="Admin" asp-action="BrainGame">Trivia</a>
                                     </li>
                                     <li>
                                         <a asp-area="" asp-controller="Admin" asp-action="WordPuzzle">Word Puzzle</a>

@@ -188,7 +188,7 @@ namespace EGamesServices
 
                 if(gameType != GameType.BrainGame)
                 {
-                    message = "Apologies, Other Game Types challenges are still in development, Please try the brain Game Challnge";
+                    message = "Apologies, Other Game Types challenges are still in development, Please try the Trivia Challnge";
                     return result;
                 }
 
@@ -593,7 +593,7 @@ namespace EGamesServices
                 {
                     if(challenge.BrainGameCategory == null)
                     {
-                        message = "Error, No Category was configured for the selected Brain Game Challenge";
+                        message = "Error, No Category was configured for the selected Trivia Challenge";
                         return result;
                     }
 
@@ -612,7 +612,7 @@ namespace EGamesServices
                             List<BrainGameQuestion> avalilableBrainGameQuestions = _context.BrainGameQuestions.Where(x => x.BrainGameCategory == challenge.BrainGameCategory).ToList();
                             if (avalilableBrainGameQuestions.Count() < 5)
                             {
-                                message = "Apologies, Brain Game Questions are still being configured. Try again later";
+                                message = "Apologies, Trivia Questions are still being configured. Try again later";
                                 return result;
                             }
 
@@ -665,7 +665,7 @@ namespace EGamesServices
                 }
                 else
                 {
-                    message = "Apologies, Other Game Types challenges are still in development, Please try the brain Game Challnge";
+                    message = "Apologies, Other Game Types challenges are still in development, Please try the Trivia Challnge";
                     return result;
                 }
             }

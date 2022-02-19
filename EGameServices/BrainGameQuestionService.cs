@@ -52,7 +52,7 @@ namespace EGamesServices
 
                 _context.BrainGameQuestions.Add(brainGameQuestion);
                 _context.SaveChanges();
-                message = "Brain Game question added successfully.";
+                message = "Trivia question added successfully.";
                 result = true;
             }
             catch(Exception error)
@@ -110,7 +110,7 @@ namespace EGamesServices
 
                 if(user.AmtUsedToPlayBrainGame <= 0)
                 {
-                    message = "Error, No stake has been made for this Brain Game";
+                    message = "Error, No stake has been made for this Trivia";
                     return false;
                 }
 
@@ -247,14 +247,14 @@ namespace EGamesServices
             {
                 if (brainGameQuestionId <= 0)
                 {
-                    message = "Invalid Brain Game Question ID";
+                    message = "Invalid Trivia Question ID";
                     return false;
                 }
 
                 BrainGameQuestion brainGameQuestion = _context.BrainGameQuestions.FirstOrDefault(x => x.Id == brainGameQuestionId);
                 if (brainGameQuestion == null)
                 {
-                    message = "Brain Game Question does not exists";
+                    message = "Trivia Question does not exists";
                     return false;
                 }
 
@@ -286,7 +286,7 @@ namespace EGamesServices
 
                 if(stakeAmount < 500)
                 {
-                    message = "Error, minimum stake amount for the brain game question is 500";
+                    message = "Error, minimum stake amount for the Trivia question is 500";
                     return new List<BrainGameQuestion>();
                 }
 
@@ -316,7 +316,7 @@ namespace EGamesServices
                     FundedBy = user,
                     AmountFunded = -stakeAmount,
                     DateFunded = DateTime.Now,
-                    Narration = "Debiting User account " + user.EmailAddress + " with " + stakeAmount + " for Brain Game Staking.",
+                    Narration = "Debiting User account " + user.EmailAddress + " with " + stakeAmount + " for Trivia Staking.",
                     TransactionType = TransactionType.Debit
                 };
 
@@ -345,25 +345,25 @@ namespace EGamesServices
             {
                 if(brainGameQuestionId <= 0)
                 {
-                    message = "Invalid Brain Game Question";
+                    message = "Invalid Trivia Question";
                     return false;
                 }
 
                 if (String.IsNullOrWhiteSpace(question)){
-                    message = "Brain Game Question Is Required";
+                    message = "Trivia Question Is Required";
                     return false;
                 }
 
                 if (String.IsNullOrWhiteSpace(answers))
                 {
-                    message = "Brain Game Answers Is Required";
+                    message = "Trivia Answers Is Required";
                     return false;
                 }
 
                 BrainGameQuestion brainGameQuestion = _context.BrainGameQuestions.FirstOrDefault(x => x.Id == brainGameQuestionId);
                 if(brainGameQuestion == null)
                 {
-                    message = "Error, Brain Game Question does not exist.";
+                    message = "Error, Trivia Question does not exist.";
                     return false;
                 }
 
