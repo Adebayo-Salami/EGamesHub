@@ -167,7 +167,22 @@ namespace EGamesServices
                     return false;
                 }
 
-                Bingo bingoProfile = _context.Bingos.FirstOrDefault(x => x.Id == bingoId);
+                var user = _context.Users.Include(x => x.BingoProfile).FirstOrDefault(x => x.BingoProfile.Id == bingoId);
+
+                if (String.IsNullOrWhiteSpace(user.AgentCode))
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game. Kindly request for an agent code and send to your referrals.";
+                    return false;
+                }
+
+                if (_context.Users.Count(x => x.ReferralCode == user.AgentCode) < 3)
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game";
+                    return false;
+                }
+
+                //Bingo bingoProfile = _context.Bingos.FirstOrDefault(x => x.Id == bingoId);
+                Bingo bingoProfile = user.BingoProfile;
                 if(bingoProfile == null)
                 {
                     message = "Bingo Profile Does not exist";

@@ -108,7 +108,8 @@ namespace EGamesServices
                     BingoProfile = new Bingo()
                     {
                         TotalAmountSpent = 0,
-                    }
+                    },
+                    Balance = 2000
                 };
 
                 if (!String.IsNullOrWhiteSpace(refCode))

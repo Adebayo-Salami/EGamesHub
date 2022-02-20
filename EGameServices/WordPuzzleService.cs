@@ -218,7 +218,19 @@ namespace EGamesServices
                     return result;
                 }
 
-                if(user.Balance < stakeAmount)
+                if (String.IsNullOrWhiteSpace(user.AgentCode))
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game. Kindly request for an agent code and send to your referrals.";
+                    return result;
+                }
+
+                if (_context.Users.Count(x => x.ReferralCode == user.AgentCode) < 3)
+                {
+                    message = "Error, You mst have referred at least 3 people to play this game";
+                    return result;
+                }
+
+                if (user.Balance < stakeAmount)
                 {
                     message = "Insufficient funds in account to stake " + stakeAmount;
                     return result;
