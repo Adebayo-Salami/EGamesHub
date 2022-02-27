@@ -579,5 +579,15 @@ namespace EGamesServices
         {
             return _context.Withdrawals.Include(x => x.User).OrderByDescending(x => x.Id).Take(10).ToList();
         }
+
+        public bool FundAllUsers2k(out string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MakeNoAgentUsersBecomeAgent(out string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
