@@ -258,7 +258,7 @@
                             <div class="website-traffic-ctn">
                                 <h2><span class="counter">@Model.Balance</span> Naira</h2>
                                 <p>Balance</p>
-                                <button id="btnFundAccount" class="btn btn-info" type="button" onclick="GetFundAccountPartial()">Fund Account</button>
+                                <button id="btnFundAccount" class="btn btn-info" type="button" onclick="GetFundAccountPartial()" disabled="disabled">Fund Account</button>
                             </div>
                             <div class="sparkline-bar-stats1">9,4,8,6,5,6,4,8,3,5,9,5</div>
                         </div>
@@ -292,7 +292,7 @@
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Withdraw", "Admin")'">Withdraw</button>
+                                    <button type="button" disabled="disabled" class="btn btn-primary" onclick="location.href = '@Url.Action("Withdraw", "Admin")'">Withdraw</button>
                                 }
                                 <p>Pending Withdrawal: @Model.PendingWithdrawal</p>
                             </div>
@@ -335,6 +335,10 @@
                                     <br />
                                     <div class="form-check">
                                         <button id="btnChallenge" class="btn btn-primary" type="button" onclick="GetAddChallengePartial()">Challenge A Friend To A Game</button>
+                                    </div>
+                                    <br />
+                                    <div class="form-check">
+                                        <h5>Kindly Join our telegram channel to stay up to date -> https://t.me/egames_hub</h5>
                                     </div>
                                     <br />
                                     @if (Model.IsAgent)

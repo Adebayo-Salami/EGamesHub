@@ -973,6 +973,52 @@ namespace EGames.Controllers
             return RedirectToAction("AdminPanel", "Admin");
         }
 
+        public IActionResult FundAllUsers2k()
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            //bool isUserPaid = _userService.IsPaid(userId, out string message);
+            //if (isUserPaid)
+            //{
+            //    HttpContext.Session.SetString("DisplayMessage", "User updated to paid.");
+            //    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+            //    HttpContext.Session.SetString("DashboardSuccessMsg", "User updated to paid.");
+            //}
+            //else
+            //{
+            //    HttpContext.Session.SetString("DisplayMessage", message);
+            //    HttpContext.Session.SetString("DashboardErrMsg", message);
+            //    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            //}
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
+        public IActionResult MakeNewUsersAgent()
+        {
+            //Check Authentication
+            string Id = HttpContext.Session.GetString("UserID");
+            string authenticationToken = HttpContext.Session.GetString("AuthorizationToken");
+
+            bool userLogged = _userService.CheckUserAuthentication(Convert.ToInt64(Id), authenticationToken, out User loggedUser);
+            if (!userLogged)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("AdminPanel", "Admin");
+        }
+
         public IActionResult RemoveWordPuzzleQuestion(long wordPuzzleQuestionId)
         {
             //Check Authentication
