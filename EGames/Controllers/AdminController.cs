@@ -986,7 +986,7 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isUserPaid = _userService.FundAllUsers2k(out string message);
+            bool isUserPaid = _userService.FundAllUsers2k(loggedUser, out string message);
             if (isUserPaid)
             {
                 HttpContext.Session.SetString("DisplayMessage", "All Users account Have Been successfully funded with 2k.");

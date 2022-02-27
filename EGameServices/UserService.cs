@@ -580,14 +580,87 @@ namespace EGamesServices
             return _context.Withdrawals.Include(x => x.User).OrderByDescending(x => x.Id).Take(10).ToList();
         }
 
-        public bool FundAllUsers2k(out string message)
+        public bool FundAllUsers2k(User fundedBy, out string message)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                if (fundedBy == null)
+                {
+                    message = "User funding the account is null";
+                    return false;
+                }
+
+                if(!fundedBy.isAdmin)
+                {
+                    message = "Only admins can do this action.";
+                    return false;
+                }
+
+                var allUsers = _context.Users.ToList();
+                var allTransactions = new List<TransactionHistory>();
+                foreach (var user in allUsers)
+                {
+                    user.Balance += 200;
+                    TransactionHistory transactionHistory = new TransactionHistory()
+                    {
+                        UserFunded = user,
+                        FundedBy = fundedBy,
+                        AmountFunded = 2000,
+                        DateFunded = DateTime.Now,
+                        Narration = "Funding User " + user.EmailAddress + " with " + 2000 + " by " + fundedBy.EmailAddress,
+                        TransactionType = TransactionType.Credit
+                    };
+                    allTransactions.Add(transactionHistory);
+                }
+                _context.TransactionHistories.AddRange(allTransactions);
+                _context.Users.UpdateRange(allUsers);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception err)
+            {
+                message = err.Message;
+                result = false;
+            }
+
+            return result;
         }
 
         public bool MakeNoAgentUsersBecomeAgent(out string message)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            message = String.Empty;
+
+            try
+            {
+                var allUsers = _context.Users.Where(x => String.IsNullOrWhiteSpace(x.AgentCode)).ToList();
+                List<string> newAgentCodes = new List<string>();
+                foreach (var user in allUsers)
+                {
+                    string agentCode;
+                    do
+                    {
+                        agentCode = Random("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+                    }
+                    while (_context.Users.FirstOrDefault(x => x.AgentCode == agentCode) != null && !newAgentCodes.Contains(agentCode));
+
+                    user.AgentCode = agentCode;
+                    newAgentCodes.Add(agentCode);
+                }
+                _context.Users.UpdateRange(allUsers);
+                _context.SaveChanges();
+                result = true;
+            }
+            catch (Exception error)
+            {
+                message = error.Message;
+                result = false;
+            }
+
+            return result;
         }
     }
 }
