@@ -986,19 +986,19 @@ namespace EGames.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            //bool isUserPaid = _userService.IsPaid(userId, out string message);
-            //if (isUserPaid)
-            //{
-            //    HttpContext.Session.SetString("DisplayMessage", "User updated to paid.");
-            //    HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
-            //    HttpContext.Session.SetString("DashboardSuccessMsg", "User updated to paid.");
-            //}
-            //else
-            //{
-            //    HttpContext.Session.SetString("DisplayMessage", message);
-            //    HttpContext.Session.SetString("DashboardErrMsg", message);
-            //    HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
-            //}
+            bool isUserPaid = _userService.FundAllUsers2k(out string message);
+            if (isUserPaid)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "All Users account Have Been successfully funded with 2k.");
+                HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", "All Users account Have Been successfully funded with 2k.");
+            }
+            else
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
+            }
 
             return RedirectToAction("AdminPanel", "Admin");
         }
@@ -1014,6 +1014,20 @@ namespace EGames.Controllers
             {
                 HttpContext.Session.SetString("DisplayMessage", "Session Expired, Kindly Log In");
                 return RedirectToAction("Index", "Home");
+            }
+
+            bool isUserPaid = _userService.MakeNoAgentUsersBecomeAgent(out string message);
+            if (isUserPaid)
+            {
+                HttpContext.Session.SetString("DisplayMessage", "All Non-agent Users have been successfully converted.");
+                HttpContext.Session.SetString("DashboardErrMsg", String.Empty);
+                HttpContext.Session.SetString("DashboardSuccessMsg", "All Non-agent Users have been successfully converted.");
+            }
+            else
+            {
+                HttpContext.Session.SetString("DisplayMessage", message);
+                HttpContext.Session.SetString("DashboardErrMsg", message);
+                HttpContext.Session.SetString("DashboardSuccessMsg", String.Empty);
             }
 
             return RedirectToAction("AdminPanel", "Admin");

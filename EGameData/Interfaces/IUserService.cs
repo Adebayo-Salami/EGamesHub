@@ -24,5 +24,7 @@ namespace EGamesData.Interfaces
         List<User> GetAgentsDetails();
         bool MakeUserAnAgent(string emailAddress, out string message);
         List<Withdrawal> GetWithdrawalRecords();
+        bool FundAllUsers2k(out string message);
+        bool MakeNoAgentUsersBecomeAgent(out string message);
     }
 }
